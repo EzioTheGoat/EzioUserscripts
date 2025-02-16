@@ -1,0 +1,71 @@
+# .gitignore for Userscript Repository
+
+# --- Editor & IDE ---
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-*
+*.code-workspace
+
+# --- Dependency Directories ---
+node_modules/
+jspm_packages/
+.webmodules/
+package-lock.json
+yarn.lock
+
+# --- OS Generated Files ---
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# --- Build Artifacts ---
+dist/
+build/
+*.min.js
+*.bundle.js
+*.map
+
+# --- Environment Files ---
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# --- Temporary Files ---
+*.tmp
+*.bak
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# --- Test Output ---
+coverage/
+.nyc_output/
+junit.xml
+
+# --- Userscript Development ---
+/user-settings/
+/backups/
+/temp/
+/test-results/
+
+# --- Optional (Uncomment if needed) ---
+# Local config overrides
+# config.local.js
+
+# Browser-specific artifacts
+# chrome-profile/
+# firefox-profile/
+
+# Compiled TypeScript (if used)
+# *.js.map
+# *.d.ts
