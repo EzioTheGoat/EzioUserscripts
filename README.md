@@ -4,8 +4,46 @@
   <img src="https://img.shields.io/badge/Supports-Chrome-4285F4?logo=google-chrome&logoColor=white&style=for-the-badge">
   <img src="https://img.shields.io/badge/Supports-Firefox-FF7139?logo=firefox-browser&logoColor=white&style=for-the-badge">
   <br>
-  <sub>Requires <a href="https://violentmonkey.github.io/">ViolentMonkey</a> or compatible userscript manager</sub>
+  <sub style="font-size: 0.9em;">Requires <a href="https://violentmonkey.github.io/">ViolentMonkey</a> or a compatible userscript manager</sub>
 </div>
+
+<br>
+
+<!-- ===================================== HEADER / INFO ====================================== -->
+<div align="center">
+  <!--<hr style="width: 80%; border: 1px solid #30363d; margin: 2rem auto; box-shadow: 0 2px 4px rgba(0,0,0,0.1)">-->
+  <p style="font-size: 1.1em; font-weight: 500;">Enhance your browsing experience with curated userscripts</p>
+</div>
+<!-- ==================================== END HEADER / INFO =================================== -->
+
+<br>
+
+<!-- ===================================== FOOTER ====================================== -->
+<div align="center">
+  <div style="display: flex; gap: 1.5rem; justify-content: center; align-items: center; margin: 1.5rem 0;">
+    <a href="https://github.com/EzioTheGoat">
+      <img src="https://img.shields.io/badge/MAINTAINED%20BY-EZIO%20AUDITORE-181717?style=for-the-badge&logo=github">
+    </a>
+    <img src="https://img.shields.io/badge/BUILT%20WITH-❤️%20%26%20☕-FF006E?style=for-the-badge&logo=heart&logoColor=white&labelColor=6F4E37">
+  </div>
+
+  <div style="display: flex; gap: 1.5rem; justify-content: center; margin-bottom: 1.5rem;">
+    <a href="https://ko-fi.com/ezio_auditore">
+      <img src="https://img.shields.io/badge/SUPPORT%20THIS%20PROJECT-00B9FE?style=for-the-badge&logo=kofi&logoColor=white">
+    </a>
+  </div>
+
+  <div style="margin-top: 1rem;">
+    <img src="https://img.shields.io/badge/LICENSE-MIT-97CA00?style=for-the-badge&logo=open-source-initiative">
+    <img src="https://img.shields.io/badge/STATUS-ACTIVE%20DEVELOPMENT-6CC644?style=for-the-badge">
+  </div>
+
+  <div style="margin-top: 1.5rem;">
+    <sub style="font-size: 0.85em;">🛠️ Crafted with passion and maintained with care</sub>
+  </div>
+</div>
+<!-- ==================================== END FOOTER =================================== -->
+
 
 <br>
 
@@ -194,34 +232,3 @@ https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/filters/custo
 
 🐞 **Found an issue?**  
 [Open a GitHub Issue](https://github.com/EzioTheGoat/EzioUserscripts/issues)
-
-<!-- ===================================== FOOTER ====================================== -->
-<br>
-<br>
-
-<div align="center">
-  <hr style="width: 60%; border: 1px solid #30363d; margin: 2rem auto; box-shadow: 0 2px 4px rgba(0,0,0,0.1)">
-  
-  <div style="display: flex; gap: 1.5rem; justify-content: center; align-items: center; margin: 1.5rem 0;">
-    <a href="https://github.com/EzioTheGoat">
-      <img src="https://img.shields.io/badge/MAINTAINED%20BY-EZIO%20AUDITORE-181717?style=for-the-badge&logo=github">
-    </a>
-    <img src="https://img.shields.io/badge/BUILT%20WITH-❤️%20%26%20☕-FF006E?style=for-the-badge&logo=heart&logoColor=white&labelColor=6F4E37">
-  </div>
-
-  <div style="display: flex; gap: 1.5rem; justify-content: center; margin-bottom: 1.5rem;">
-    <a href="https://ko-fi.com/ezio_auditore">
-      <img src="https://img.shields.io/badge/SUPPORT%20THIS%20PROJECT-00B9FE?style=for-the-badge&logo=kofi&logoColor=white">
-    </a>
-  </div>
-
-  <div style="margin-top: 1rem;">
-    <img src="https://img.shields.io/badge/LICENSE-MIT-97CA00?style=for-the-badge&logo=open-source-initiative">
-    <img src="https://img.shields.io/badge/STATUS-ACTIVE%20DEVELOPMENT-6CC644?style=for-the-badge">
-  </div>
-
-  <div style="margin-top: 1.5rem;">
-    <sub>🛠️ Crafted with passion and maintained with care</sub>
-  </div>
-</div>
-<!-- ==================================== END FOOTER =================================== -->
