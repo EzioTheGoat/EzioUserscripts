@@ -7,6 +7,46 @@
   <sub>Requires <a href="https://violentmonkey.github.io/">ViolentMonkey</a> or compatible userscript manager</sub>
 </div>
 
+<br>
+
+**Before we start, if you're a Brave user, please check out the following configuration:**
+
+# 🦁🛡️ Brave Browser Configuration
+
+<details>
+<summary><strong>Essential Setup for Arabseed & Cimanow (click to expand ▼)</strong></summary>
+
+### 1. Required Tools 🛠️
+
+[![User Agent Switcher](https://img.shields.io/badge/Install_UA_Switcher-4285F4?style=flat-square&logo=brave&logoColor=white)](https://chromewebstore.google.com/detail/user-agent-switcher-and-m/bhchdcejhohfmigjafbampogmaanbfkg)
+
+### 2. Filter Subscription 🔗
+
+Add this to Brave's custom filters:
+
+```bash
+https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/filters/custom-filters-brave.txt
+```
+
+### 3. Configuration Steps ⚙️
+
+1. Open `brave://adblock`
+2. Paste the filter URL in **Custom filter lists**
+3. Set User Agent Switcher to mimic Chrome:
+   ```text
+   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36
+   ```
+
+### 4. Verify & Report 📝
+
+[Report New Blocks](https://github.com/EzioTheGoat/EzioUserscripts/issues/new?template=blocked-site.md) if you encounter:
+
+- Browser detection warnings
+- Script blocking issues
+- Unexpected redirects
+
+</details>
+
 ## 🛠 Featured Scripts
 
 <table>
@@ -72,38 +112,6 @@
     </td>
   </tr>
 </table>
-
----
-
-# 🦁🛡️ Brave Browser Configuration
-
-<details>
-<summary><strong>Essential Setup for Arabseed & Cimanow (click to expand ▼)</strong></summary>
-
-### 1. Required Tools 🛠️
-[![User Agent Switcher](https://img.shields.io/badge/Install_UA_Switcher-4285F4?style=flat-square&logo=brave&logoColor=white)](https://chromewebstore.google.com/detail/user-agent-switcher-and-m/bhchdcejhohfmigjafbampogmaanbfkg)
-
-### 2. Filter Subscription 🔗
-Add this to Brave's custom filters:
-~~~bash
-https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/filters/custom-filters-brave.txt
-~~~
-
-### 3. Configuration Steps ⚙️
-1. Open `brave://adblock`
-2. Paste the filter URL in **Custom filter lists**
-3. Set User Agent Switcher to mimic Chrome:
-   ~~~text
-   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36
-   ~~~
-
-### 4. Verify & Report 📝
-[Report New Blocks](https://github.com/EzioTheGoat/EzioUserscripts/issues/new?template=blocked-site.md) if you encounter:
-- Browser detection warnings
-- Script blocking issues
-- Unexpected redirects
-
-</details>
 
 ---
 
