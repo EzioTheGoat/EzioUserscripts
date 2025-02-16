@@ -1,0 +1,790 @@
+! =============================================================================
+! Title: Brave Custom Filter List
+! =============================================================================
+! Description:  
+!   This custom uBlock Origin filter list is designed to improve your browsing
+!   experience on ArabSeed-related sites by:
+!     1. Dynamically blocking the download button on “bare” URLs 
+!        (i.e. URLs containing "?r=") unless the URL has the required extra
+!        normalization parameters.
+!     2. Removing unwanted elements such as "clickme" buttons, ad overlays,
+!        and promotional download buttons.
+!
+! Version:      1.2.3
+! Last Updated: 2025-02-17
+! Author:       Ezio Auditore
+! License:      MIT License
+! Homepage:     https://github.com/EzioTheGoat/EzioUserscripts/filters
+! =============================================================================
+
+! =============================================================================
+! SECTION I: Global Brave Fix Script
+! -----------------------------------------------------------------------------
+! ArabSeed
+m.gamehub.cam##+js(brave-fix)  
+adding.quest##+js(brave-fix)  
+zplay.gamezone.cam##+js(brave-fix)  
+gamestation.cam##+js(brave-fix)  
+gplay.gameplanet.cam##+js(brave-fix)  
+tplay.techplanet.cam##+js(brave-fix)  
+eplay2.gameplanet.cam##+js(brave-fix)  
+plg7.reviewpalace.net##+js(brave-fix)  
+tplay2.techplanet.cam##+js(brave-fix)  
+migration.cam##+js(brave-fix)  
+m.hegra.cam##+js(brave-fix)  
+m.regenzi.site##+js(brave-fix)  
+m.monafes.site##+js(brave-fix)  
+m.reviewpalace.net##+js(brave-fix)  
+m.techland.live##+js(brave-fix)  
+forgee.xyz##+js(brave-fix)  
+m.gameshop4u.com##+js(brave-fix)  
+m.forgee.xyz##+js(brave-fix)  
+kalosha.site##+js(brave-fix)  
+reviewpalace.net##+js(brave-fix)  
+jurbana.site##+js(brave-fix)
+gamevault.cam##+js(brave-fix)
+hawsa.site##+js(brave-fix)
+safary.site##+js(brave-fix)
+logenzi.site##+js(brave-fix)
+maftou7.site##+js(brave-fix)
+mar3a.site##+js(brave-fix)
+be7alat.site##+js(brave-fix)
+mastaba.site##+js(brave-fix)
+gamezone.cam##+js(brave-fix)
+robou3.site##+js(brave-fix)
+dl4all.online##+js(brave-fix)
+cheapou.site##+js(brave-fix)
+hegry.site##+js(brave-fix)
+playarena.cam##+js(brave-fix)
+moshakes.site##+js(brave-fix)
+joyarcade.cam##+js(brave-fix)
+gameflare.cam##+js(brave-fix)
+shallal.site##+js(brave-fix)
+marcmello.site##+js(brave-fix)
+mal3oub.site##+js(brave-fix)
+shabory.site##+js(brave-fix)
+marshoush.site##+js(brave-fix)
+ka3boly.site##+js(brave-fix)
+
+! CimaNow
+cimanow.cc##+js(brave-fix)
+vip.cimanowinc.com##+js(brave-fix)
+rs.cimanowinc.com##+js(brave-fix)
+bs.cimanow.cc##+js(brave-fix)
+
+! =============================================================================
+! SECTION II: DYNAMIC BLOCKING OF DOWNLOAD BUTTON ON BARE URLs
+! -----------------------------------------------------------------------------
+! Description:
+!   The download button is assumed to be an <a> element with id "btn" (or having
+!   a class such as "downloadbtn"). These rules hide the button on any page where
+!   the URL contains "?r=" (indicating a bare URL) unless the URL already includes
+!   the required extra normalization parameters.
+!
+! Available Sites and Their Required Extra Parameters:
+!   - m.gamehub.cam        : requires &t=1&gfs=1&tfs=1
+!   - adding.quest         : requires &t=1
+!   - zplay.gamezone.cam   : requires &t=1&gfs=1&tfs=1
+!   - gamestation.cam      : requires &t=1&gfs=1&tfs=1
+!   - gplay.gameplanet.cam : requires &t=1
+!   - tplay.techplanet.cam : requires &t=1
+!   - eplay2.gameplanet.cam: requires &t=1
+!   - plg7.reviewpalace.net: requires &t=1
+!   - tplay2.techplanet.cam: requires &t=1
+!   - migration.cam        : requires &t=1
+!   - m.hegra.cam          : requires &t=1
+!   - m.regenzi.site       : requires &t=1
+!   - m.monafes.site       : requires &t=1&mon=1
+!   - m.reviewpalace.net   : requires &t=1&tuh=1
+!   - m.techland.live      : requires &t=1&etu=1
+!   - forgee.xyz           : requires &mon=1 (and on mobile: &monz=1)
+!   - m.gameshop4u.com     : requires &t=1
+!   - m.forgee.xyz         : requires &mon=1 and (on mobile) &monz=1
+!   - kalosha.site         : requires gmz=1
+!   - reviewpalace.net      : requires gmz=1
+!   - jurbana.site         : requires gmz=1
+!   - gamevault.cam         : requires &tfs=1
+!   - hawsa.site         : requires &tfs=1
+!   - safary.site         : requires &tfs=1
+!   - logenzi.site         : requires &tfs=1
+!   - maftou7.site         : requires &tfs=1
+!   - mar3a.site         : requires &tfs=1
+!   - be7alat.site        : requires &tfs=1
+!   - mastaba.site         : requires &tfs=1
+!   - gamezone.cam         : requires &tfs=1
+!   - robou3.site        : requires &tfs=1
+!   - dl4all.online         : requires &tfs=1
+!   - cheapou.site         : requires &tfs=1
+!   - playarena.cam         : requires &tfs=1
+!   - moshakes.site        : requires &tfs=1
+!   - gameflare.cam         : requires &tfs=1
+!   - joyarcade.cam         : requires &tfs=1
+!   - hegry.site         : requires &tfs=1
+!   - shallal.site         : requires &tfs=1
+!   - marcmello.site       : requires &tfs=1
+!   - mal3oub.site        : requires &tfs=1
+!   - shabory.site         : requires &tfs=1
+!   - marshoush.site        : requires &tfs=1
+!   - ka3boly.site         : requires &tfs=1
+!   - muhager.site         : requires &tfs=1
+! -----------------------------------------------------------------------------
+
+! =============================================================================
+! SECTION III: SITE-SPECIFIC AD & CONTENT BLOCKING RULES
+! -----------------------------------------------------------------------------
+! Description:
+!   The rules in this section target unwanted elements on ArabSeed-related
+!   sites such as "clickme" buttons, ad overlays, and promotional download
+!   buttons. Many rules use the "upward" operator (:upward()) to remove the
+!   parent element that contains unwanted ads or overlays. In addition, for
+!   each site the dynamic download‑button blocker is applied if the URL is “bare.”
+! -----------------------------------------------------------------------------
+
+! ============================================================
+! m.gamehub.cam
+! ------------------------------------------------------------
+m.gamehub.cam###clickme > .btn-collab.hover-top.btn
+m.gamehub.cam##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&t=1"])):upward(.Adabove)
+m.gamehub.cam##.visible-block
+m.gamehub.cam##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+m.gamehub.cam##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+m.gamehub.cam##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+m.gamehub.cam##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+m.gamehub.cam##.desktop-button
+m.gamehub.cam##a#btn[href*="?r="]:not([href*="&t=1&gfs=1&tfs=1"])
+m.gamehub.cam##a#btn[href^="https://m.gamehub.cam/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! adding.quest
+! ------------------------------------------------------------
+adding.quest###clickme > .btn-collab.hover-top.btn
+adding.quest##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&t=1"])):upward(.Adabove)
+adding.quest##.visible-block
+adding.quest##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+adding.quest##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+adding.quest##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+adding.quest##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+adding.quest##.desktop-button
+adding.quest##a#btn[href*="?r="]:not([href*="&t=1"])
+adding.quest##a#btn[href^="https://adding.quest/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! zplay.gamezone.cam
+! ------------------------------------------------------------
+zplay.gamezone.cam###clickme > .btn-collab.hover-top.btn
+zplay.gamezone.cam##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&t=1"])):upward(.Adabove)
+zplay.gamezone.cam##.visible-block
+zplay.gamezone.cam##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+zplay.gamezone.cam##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+zplay.gamezone.cam##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+zplay.gamezone.cam##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+zplay.gamezone.cam##.desktop-button
+zplay.gamezone.cam##a#btn[href*="?r="]:not([href*="&t=1&gfs=1&tfs=1"])
+zplay.gamezone.cam##a#btn[href^="https://zplay.gamezone.cam/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! gamestation.cam
+! ------------------------------------------------------------
+gamestation.cam###clickme > .btn-collab.hover-top.btn
+gamestation.cam##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&t=1"])):upward(.Adabove)
+gamestation.cam##.visible-block
+gamestation.cam##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+gamestation.cam##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+gamestation.cam##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+gamestation.cam##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+gamestation.cam##.desktop-button
+gamestation.cam##a#btn[href*="?r="]:not([href*="&t=1&gfs=1&tfs=1"])
+gamestation.cam##a#btn[href^="https://gamestation.cam/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! gplay.gameplanet.cam
+! ------------------------------------------------------------
+gplay.gameplanet.cam###clickme > .btn-collab.hover-top.btn
+gplay.gameplanet.cam##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&t=1"])):upward(.Adabove)
+gplay.gameplanet.cam##.visible-block
+gplay.gameplanet.cam##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+gplay.gameplanet.cam##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+gplay.gameplanet.cam##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+gplay.gameplanet.cam##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+gplay.gameplanet.cam##.desktop-button
+gplay.gameplanet.cam##a#btn[href*="?r="]:not([href*="&t=1"])
+gplay.gameplanet.cam##a#btn[href^="https://gplay.gameplanet.cam/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! tplay.techplanet.cam
+! ------------------------------------------------------------
+tplay.techplanet.cam###clickme > .btn-collab.hover-top.btn
+tplay.techplanet.cam##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&t=1"])):upward(.Adabove)
+tplay.techplanet.cam##.visible-block
+tplay.techplanet.cam##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+tplay.techplanet.cam##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+tplay.techplanet.cam##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+tplay.techplanet.cam##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+tplay.techplanet.cam##.desktop-button
+tplay.techplanet.cam##a#btn[href*="?r="]:not([href*="&t=1"])
+tplay.techplanet.cam##a#btn[href^="https://tplay.techplanet.cam/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! eplay2.gameplanet.cam
+! ------------------------------------------------------------
+eplay2.gameplanet.cam###clickme > .btn-collab.hover-top.btn
+eplay2.gameplanet.cam##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&t=1"])):upward(.Adabove)
+eplay2.gameplanet.cam##.visible-block
+eplay2.gameplanet.cam##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+eplay2.gameplanet.cam##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+eplay2.gameplanet.cam##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+eplay2.gameplanet.cam##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+eplay2.gameplanet.cam##.desktop-button
+eplay2.gameplanet.cam##a#btn[href*="?r="]:not([href*="&t=1"])
+eplay2.gameplanet.cam##a#btn[href^="https://eplay2.gameplanet.cam/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! plg7.reviewpalace.net
+! ------------------------------------------------------------
+plg7.reviewpalace.net###clickme > .btn-collab.hover-top.btn
+plg7.reviewpalace.net##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&t=1"])):upward(.Adabove)
+plg7.reviewpalace.net##.visible-block
+plg7.reviewpalace.net##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+plg7.reviewpalace.net##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+plg7.reviewpalace.net##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+plg7.reviewpalace.net##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+plg7.reviewpalace.net##.desktop-button
+plg7.reviewpalace.net##a#btn[href*="?r="]:not([href*="&t=1"])
+plg7.reviewpalace.net##a#btn[href^="https://plg7.reviewpalace.net/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! tplay2.techplanet.cam
+! ------------------------------------------------------------
+tplay2.techplanet.cam###clickme > .btn-collab.hover-top.btn
+tplay2.techplanet.cam##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&t=1"])):upward(.Adabove)
+tplay2.techplanet.cam##.visible-block
+tplay2.techplanet.cam##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+tplay2.techplanet.cam##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+tplay2.techplanet.cam##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+tplay2.techplanet.cam##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+tplay2.techplanet.cam##.desktop-button
+tplay2.techplanet.cam##a#btn[href*="?r="]:not([href*="&t=1"])
+tplay2.techplanet.cam##a#btn[href^="https://tplay2.techplanet.cam/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! migration.cam
+! ------------------------------------------------------------
+migration.cam###clickme > .btn-collab.hover-top.btn
+migration.cam##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&t=1"])):upward(.Adabove)
+migration.cam##.visible-block
+migration.cam##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+migration.cam##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+migration.cam##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+migration.cam##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+migration.cam##.desktop-button
+migration.cam##a#btn[href*="?r="]:not([href*="&t=1"])
+migration.cam##a#btn[href^="https://migration.cam/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! m.hegra.cam
+! ------------------------------------------------------------
+m.hegra.cam###clickme > .btn-collab.hover-top.btn
+m.hegra.cam##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&t=1"])):upward(.Adabove)
+m.hegra.cam##.visible-block
+m.hegra.cam##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+m.hegra.cam##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+m.hegra.cam##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+m.hegra.cam##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+m.hegra.cam##.desktop-button
+m.hegra.cam##a#btn[href*="?r="]:not([href*="&t=1"])
+m.hegra.cam##a#btn[href^="https://m.hegra.cam/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! m.regenzi.site
+! ------------------------------------------------------------
+m.regenzi.site###clickme > .btn-collab.hover-top.btn
+m.regenzi.site##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&t=1"])):upward(.Adabove)
+m.regenzi.site##.visible-block
+m.regenzi.site##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+m.regenzi.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+m.regenzi.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+m.regenzi.site##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+m.regenzi.site##.desktop-button
+m.regenzi.site##a#btn[href*="?r="]:not([href*="&t=1"])
+m.regenzi.site##a#btn[href^="https://m.regenzi.site/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! m.monafes.site
+! ------------------------------------------------------------
+m.monafes.site###clickme > .btn-collab.hover-top.btn
+m.monafes.site##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&t=1"])):upward(.Adabove)
+m.monafes.site##.visible-block
+m.monafes.site##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+m.monafes.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+m.monafes.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+m.monafes.site##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+m.monafes.site##.desktop-button
+m.monafes.site##a#btn[href*="?r="]:not([href*="&t=1&mon=1"])
+m.monafes.site##a#btn[href^="https://m.monafes.site/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! m.reviewpalace.net
+! ------------------------------------------------------------
+m.reviewpalace.net###clickme > .btn-collab.hover-top.btn
+m.reviewpalace.net##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&t=1"])):upward(.Adabove)
+m.reviewpalace.net##.visible-block
+m.reviewpalace.net##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+m.reviewpalace.net##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+m.reviewpalace.net##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+m.reviewpalace.net##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+m.reviewpalace.net##.desktop-button
+m.reviewpalace.net##a#btn[href*="?r="]:not([href*="&t=1&tuh=1"])
+m.reviewpalace.net##a#btn[href^="https://m.reviewpalace.net/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! m.techland.live
+! ------------------------------------------------------------
+m.techland.live###clickme > .btn-collab.hover-top.btn
+m.techland.live##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&t=1"])):upward(.Adabove)
+m.techland.live##.visible-block
+m.techland.live##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+m.techland.live##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+m.techland.live##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+m.techland.live##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+m.techland.live##.desktop-button
+m.techland.live##a#btn[href*="?r="]:not([href*="&t=1&etu=1"])
+m.techland.live##a#btn[href^="https://m.techland.live/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! forgee.xyz
+! ------------------------------------------------------------
+forgee.xyz###clickme > .btn-collab.hover-top.btn
+forgee.xyz##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&t=1"])):upward(.Adabove)
+forgee.xyz##.visible-block
+forgee.xyz##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+forgee.xyz##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+forgee.xyz##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+forgee.xyz##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+forgee.xyz##.desktop-button
+||forgee.xyz/css/btn_close.gif$image
+forgee.xyz##a#btn[href*="?r="]:not([href*="&mon=1"][href*="&monz=1"])
+forgee.xyz##a#btn[href^="https://forgee.xyz/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! m.gameshop4u.com
+! ------------------------------------------------------------
+m.gameshop4u.com###clickme > .btn-collab.hover-top.btn
+m.gameshop4u.com##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&t=1"])):upward(.Adabove)
+m.gameshop4u.com##.visible-block
+m.gameshop4u.com##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+m.gameshop4u.com##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+m.gameshop4u.com##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+m.gameshop4u.com##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+m.gameshop4u.com##.desktop-button
+m.gameshop4u.com##a#btn[href*="?r="]:not([href*="&t=1"])
+m.gameshop4u.com##a#btn[href^="https://m.gameshop4u.com/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! m.forgee.xyz
+! ------------------------------------------------------------
+m.forgee.xyz###clickme > .btn-collab.hover-top.btn
+m.forgee.xyz##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&t=1"])):upward(.Adabove)
+m.forgee.xyz##.visible-block
+m.forgee.xyz##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+m.forgee.xyz##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+m.forgee.xyz##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+m.forgee.xyz##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+m.forgee.xyz##.desktop-button
+m.forgee.xyz##a#btn[href*="?r="]:not([href*="&mon=1"][href*="&monz=1"])
+m.forgee.xyz##a#btn[href^="https://m.forgee.xyz/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! kalosha.site
+! ------------------------------------------------------------
+kalosha.site###clickme > .btn-collab.hover-top.btn
+kalosha.site##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&t=1"])):upward(.Adabove)
+kalosha.site##.visible-block
+kalosha.site##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+kalosha.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+kalosha.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+kalosha.site##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+kalosha.site##.desktop-button
+kalosha.site##a#btn[href*="?r="]:not([href*="gmz=1"])
+kalosha.site##a#btn[href^="https://kalosha.site/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! reviewpalace.net
+! ------------------------------------------------------------
+reviewpalace.net###clickme > .btn-collab.hover-top.btn
+reviewpalace.net##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&t=1"])):upward(.Adabove)
+reviewpalace.net##.visible-block
+reviewpalace.net##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+reviewpalace.net##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+reviewpalace.net##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+reviewpalace.net##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+reviewpalace.net##.desktop-button
+reviewpalace.net##a#btn[href*="?pst="]:not([href*="gmz=1"])
+reviewpalace.net##a#btn[href^="https://reviewpalace.net/"][href*='?pst='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! jurbana.site
+! ------------------------------------------------------------
+jurbana.site###clickme > .btn-collab.hover-top.btn
+jurbana.site##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&t=1"])):upward(.Adabove)
+jurbana.site##.visible-block
+jurbana.site##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+jurbana.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+jurbana.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+jurbana.site##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+jurbana.site##.desktop-button
+jurbana.site##a#btn[href*="?r="]:not([href*="gmz=1"])
+jurbana.site##a#btn[href^="https://jurbana.site/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! gamevault.cam
+! ------------------------------------------------------------
+gamevault.cam###clickme > .btn-collab.hover-top.btn
+gamevault.cam##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&tfs=1"])):upward(.Adabove)
+gamevault.cam##.visible-block
+gamevault.cam##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+gamevault.cam##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+gamevault.cam##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+gamevault.cam##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+gamevault.cam##.desktop-button
+gamevault.cam##a#btn[href*="?r="]:not([href*="&tfs=1"])
+gamevault.cam##a#btn[href^="https://gamevault.cam/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! hawsa.site
+! ------------------------------------------------------------
+hawsa.site###clickme > .btn-collab.hover-top.btn
+hawsa.site##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&tfs=1"])):upward(.Adabove)
+hawsa.site##.visible-block
+hawsa.site##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+hawsa.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+hawsa.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+hawsa.site##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+hawsa.site##.desktop-button
+hawsa.site##a#btn[href*="?r="]:not([href*="&tfs=1"])
+hawsa.site##a#btn[href^="https://hawsa.site/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! safary.site
+! ------------------------------------------------------------
+safary.site###clickme > .btn-collab.hover-top.btn
+safary.site##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&tfs=1"])):upward(.Adabove)
+safary.site##.visible-block
+safary.site##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+safary.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+safary.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+safary.site##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+safary.site##.desktop-button
+safary.site##a#btn[href*="?r="]:not([href*="&tfs=1"])
+safary.site##a#btn[href^="https://safary.site/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! logenzi.site
+! ------------------------------------------------------------
+logenzi.site###clickme > .btn-collab.hover-top.btn
+logenzi.site##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&tfs=1"])):upward(.Adabove)
+logenzi.site##.visible-block
+logenzi.site##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+logenzi.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+logenzi.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+logenzi.site##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+logenzi.site##.desktop-button
+logenzi.site##a#btn[href*="?r="]:not([href*="&tfs=1"])
+logenzi.site##a#btn[href^="https://logenzi.site/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! maftou7.site
+! ------------------------------------------------------------
+maftou7.site###clickme > .btn-collab.hover-top.btn
+maftou7.site##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&tfs=1"])):upward(.Adabove)
+maftou7.site##.visible-block
+maftou7.site##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+maftou7.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+maftou7.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+maftou7.site##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+maftou7.site##.desktop-button
+maftou7.site##a#btn[href*="?r="]:not([href*="&tfs=1"])
+maftou7.site##a#btn[href^="https://maftou7.site/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! mar3a.site
+! ------------------------------------------------------------
+mar3a.site###clickme > .btn-collab.hover-top.btn
+mar3a.site##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&tfs=1"])):upward(.Adabove)
+mar3a.site##.visible-block
+mar3a.site##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+mar3a.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+mar3a.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+mar3a.site##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+mar3a.site##.desktop-button
+mar3a.site##a#btn[href*="?r="]:not([href*="&tfs=1"])
+mar3a.site##a#btn[href^="https://mar3a.site/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! be7alat.site
+! ------------------------------------------------------------
+be7alat.site###clickme > .btn-collab.hover-top.btn
+be7alat.site##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&tfs=1"])):upward(.Adabove)
+be7alat.site##.visible-block
+be7alat.site##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+be7alat.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+be7alat.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+be7alat.site##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+be7alat.site##.desktop-button
+be7alat.site##a#btn[href*="?r="]:not([href*="&tfs=1"])
+be7alat.site##a#btn[href^="https://be7alat.site/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! mastaba.site
+! ------------------------------------------------------------
+mastaba.site###clickme > .btn-collab.hover-top.btn
+mastaba.site##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&tfs=1"])):upward(.Adabove)
+mastaba.site##.visible-block
+mastaba.site##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+mastaba.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+mastaba.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+mastaba.site##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+mastaba.site##.desktop-button
+mastaba.site##a#btn[href*="?r="]:not([href*="&tfs=1"])
+mastaba.site##a#btn[href^="https://mastaba.site/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! gamezone.cam
+! ------------------------------------------------------------
+gamezone.cam###clickme > .btn-collab.hover-top.btn
+gamezone.cam##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&tfs=1"])):upward(.Adabove)
+gamezone.cam##.visible-block
+gamezone.cam##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+gamezone.cam##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+gamezone.cam##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+gamezone.cam##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+gamezone.cam##.desktop-button
+gamezone.cam##a#btn[href*="?r="]:not([href*="&tfs=1"])
+gamezone.cam##a#btn[href^="https://gamezone.cam/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! robou3.site
+! ------------------------------------------------------------
+robou3.site###clickme > .btn-collab.hover-top.btn
+robou3.site##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&tfs=1"])):upward(.Adabove)
+robou3.site##.visible-block
+robou3.site##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+robou3.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+robou3.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+robou3.site##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+robou3.site##.desktop-button
+robou3.site##a#btn[href*="?r="]:not([href*="&tfs=1"])
+robou3.site##a#btn[href^="https://robou3.site/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! dl4all.online
+! ------------------------------------------------------------
+dl4all.online###clickme > .btn-collab.hover-top.btn
+dl4all.online##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&tfs=1"])):upward(.Adabove)
+dl4all.online##.visible-block
+dl4all.online##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+dl4all.online##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+dl4all.online##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+dl4all.online##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+dl4all.online##.desktop-button
+dl4all.online##a#btn[href*="?r="]:not([href*="&tfs=1"])
+dl4all.online##a#btn[href^="https://dl4all.online/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! cheapou.site
+! ------------------------------------------------------------
+cheapou.site###clickme > .btn-collab.hover-top.btn
+cheapou.site##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&tfs=1"])):upward(.Adabove)
+cheapou.site##.visible-block
+cheapou.site##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+cheapou.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+cheapou.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+cheapou.site##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+cheapou.site##.desktop-button
+cheapou.site##a#btn[href*="?r="]:not([href*="&tfs=1"])
+cheapou.site##a#btn[href^="https://cheapou.site/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! playarena.cam
+! ------------------------------------------------------------
+playarena.cam###clickme > .btn-collab.hover-top.btn
+playarena.cam##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&tfs=1"])):upward(.Adabove)
+playarena.cam##.visible-block
+playarena.cam##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+playarena.cam##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+playarena.cam##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+playarena.cam##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+playarena.cam##.desktop-button
+playarena.cam##a#btn[href*="?r="]:not([href*="&tfs=1"])
+playarena.cam##a#btn[href^="https://playarena.cam/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! moshakes.site
+! ------------------------------------------------------------
+moshakes.site###clickme > .btn-collab.hover-top.btn
+moshakes.site##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&tfs=1"])):upward(.Adabove)
+moshakes.site##.visible-block
+moshakes.site##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+moshakes.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+moshakes.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+moshakes.site##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+moshakes.site##.desktop-button
+moshakes.site##a#btn[href*="?r="]:not([href*="&tfs=1"])
+moshakes.site##a#btn[href^="https://moshakes.site/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! gameflare.cam
+! ------------------------------------------------------------
+gameflare.cam###clickme > .btn-collab.hover-top.btn
+gameflare.cam##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&tfs=1"])):upward(.Adabove)
+gameflare.cam##.visible-block
+gameflare.cam##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+gameflare.cam##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+gameflare.cam##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+gameflare.cam##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+gameflare.cam##.desktop-button
+gameflare.cam##a#btn[href*="?r="]:not([href*="&tfs=1"])
+gameflare.cam##a#btn[href^="https://gameflare.cam/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! joyarcade.cam
+! ------------------------------------------------------------
+joyarcade.cam###clickme > .btn-collab.hover-top.btn
+joyarcade.cam##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&tfs=1"])):upward(.Adabove)
+joyarcade.cam##.visible-block
+joyarcade.cam##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+joyarcade.cam##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+joyarcade.cam##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+joyarcade.cam##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+joyarcade.cam##.desktop-button
+joyarcade.cam##a#btn[href*="?r="]:not([href*="&tfs=1"])
+joyarcade.cam##a#btn[href^="https://joyarcade.cam/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! hegry.site
+! ------------------------------------------------------------
+hegry.site###clickme > .btn-collab.hover-top.btn
+hegry.site##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&tfs=1"])):upward(.Adabove)
+hegry.site##.visible-block
+hegry.site##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+hegry.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+hegry.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+hegry.site##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+hegry.site##.desktop-button
+hegry.site##a#btn[href*="?r="]:not([href*="&tfs=1"])
+hegry.site##a#btn[href^="https://hegry.site/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! shallal.site
+! ------------------------------------------------------------
+shallal.site###clickme > .btn-collab.hover-top.btn
+shallal.site##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&tfs=1"])):upward(.Adabove)
+shallal.site##.visible-block
+shallal.site##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+shallal.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+shallal.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+shallal.site##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+shallal.site##.desktop-button
+shallal.site##a#btn[href*="?r="]:not([href*="&tfs=1"])
+shallal.site##a#btn[href^="https://shallal.site/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! marcmello.site
+! ------------------------------------------------------------
+marcmello.site###clickme > .btn-collab.hover-top.btn
+marcmello.site##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&tfs=1"])):upward(.Adabove)
+marcmello.site##.visible-block
+marcmello.site##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+marcmello.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+marcmello.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+marcmello.site##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+marcmello.site##.desktop-button
+marcmello.site##a#btn[href*="?r="]:not([href*="&tfs=1"])
+marcmello.site##a#btn[href^="https://marcmello.site/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! mal3oub.site
+! ------------------------------------------------------------
+mal3oub.site###clickme > .btn-collab.hover-top.btn
+mal3oub.site##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&tfs=1"])):upward(.Adabove)
+mal3oub.site##.visible-block
+mal3oub.site##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+mal3oub.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+mal3oub.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+mal3oub.site##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+mal3oub.site##.desktop-button
+mal3oub.site##a#btn[href*="?r="]:not([href*="&tfs=1"])
+mal3oub.site##a#btn[href^="https://mal3oub.site/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! shabory.site
+! ------------------------------------------------------------
+shabory.site###clickme > .btn-collab.hover-top.btn
+shabory.site##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&tfs=1"])):upward(.Adabove)
+shabory.site##.visible-block
+shabory.site##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+shabory.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+shabory.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+shabory.site##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+shabory.site##.desktop-button
+shabory.site##a#btn[href*="?r="]:not([href*="&tfs=1"])
+shabory.site##a#btn[href^="https://shabory.site/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! marshoush.site
+! ------------------------------------------------------------
+marshoush.site###clickme > .btn-collab.hover-top.btn
+marshoush.site##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&tfs=1"])):upward(.Adabove)
+marshoush.site##.visible-block
+marshoush.site##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+marshoush.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+marshoush.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+marshoush.site##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+marshoush.site##.desktop-button
+marshoush.site##a#btn[href*="?r="]:not([href*="&tfs=1"])
+marshoush.site##a#btn[href^="https://marshoush.site/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! ka3boly.site
+! ------------------------------------------------------------
+ka3boly.site###clickme > .btn-collab.hover-top.btn
+ka3boly.site##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&tfs=1"])):upward(.Adabove)
+ka3boly.site##.visible-block
+ka3boly.site##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+ka3boly.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+ka3boly.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+ka3boly.site##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+ka3boly.site##.desktop-button
+ka3boly.site##a#btn[href*="?r="]:not([href*="&tfs=1"])
+ka3boly.site##a#btn[href^="https://ka3boly.site/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! ============================================================
+! muhager.site
+! ------------------------------------------------------------
+muhager.site###clickme > .btn-collab.hover-top.btn
+muhager.site##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&tfs=1"])):upward(.Adabove)
+muhager.site##.visible-block
+muhager.site##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+muhager.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+muhager.site##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+muhager.site##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+muhager.site##.desktop-button
+muhager.site##a#btn[href*="?r="]:not([href*="&tfs=1"])
+muhager.site##a#btn[href^="https://muhager.site/"][href*='?r='] > .btn-collab.hover-top.btn
+
+! =============================================================================
+! SECTION IIII: UNRELATED SITES (General Blocking)
+! -----------------------------------------------------------------------------
+! These rules apply to asd.show, asd.rest, asd.quest and cimanow to block video elements.
+! -----------------------------------------------------------------------------
+! ArabSeed
+asd.show##video
+asd.rest##video
+asd.quest##video
+
+! CimaNow
+cimanow.cc###xqeqjp
+cimanow.cc###xqeqjp1
+cimanow.cc##[src*="https://i.ibb.co/dB9fgQQ/f2-1.gif"]
+cimanow.cc##[src*="https://i.ibb.co/MMgpK0B/Phone.jpg"]
+cimanow.cc##.premium
+cimanow.cc##button
