@@ -204,6 +204,40 @@ If you encounter issues such as browser detection warnings, script blocking, or 
   </tr>
 </table>
 
+---
+
+<table>
+  <tr>
+    <td width="80" align="center">
+      <img src="https://img.icons8.com/ios-filled/64/000000/picture-in-picture.png" width="64" style="border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1)">
+    </td>
+    <td>
+      <h3>🎥 Auto-PiP Tab Switch</h3>
+      <p style="margin: 8px 0; font-size: 0.9em; color: #666;">
+        🔄 Automatically enters Picture-in-Picture (PiP) mode for videos when switching tabs, and exits PiP when returning. Works for all Chromium browsers.
+      </p>
+      <strong>Key Features:</strong><br>
+      <table>
+        <tr>
+          <td>✅ Auto-PiP on tab switch</td>
+          <td>✅ Exits PiP when returning</td>
+        </tr>
+        <tr>
+          <td>✅ Works on most video sites</td>
+          <td>✅ Skips if the video is paused</td>
+        </tr>
+      </table>
+      <div align="center">
+        <a href="https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/refs/heads/main/Auto-PiP-Tab-Switch.user.js">
+          <img src="https://img.shields.io/badge/INSTALL_SCRIPT-00B894?style=for-the-badge&logo=open-source-initiative&logoColor=white" alt="Install" style="margin-top: 12px">
+        </a>
+      </div>
+    </td>
+  </tr>
+</table>
+
+---
+
 ## 🔧 How to Install
 
 1. **Install Violentmonkey** on your browser:
