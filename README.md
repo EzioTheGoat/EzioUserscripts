@@ -295,7 +295,7 @@ If you encounter issues such as browser detection warnings, script blocking, or 
       <li>Install <a href="https://apps.apple.com/us/app/orion-browser-by-kagi/id1484498200">Orion Browser</a></li>
       <li>Enable extensions:
         <ul>
-          <li>Settings → Extensions → Enable "Violentmonkey"</li>
+          <li>Settings → Extensions → Enable "Violentmonkey" or "Tampermonkey"</li>
         </ul>
       </li>
       <li>Install scripts through Violentmonkey's interface</li>
