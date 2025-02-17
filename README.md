@@ -298,7 +298,7 @@ If you encounter issues such as browser detection warnings, script blocking, or 
           <li>Settings → Extensions → Enable "Violentmonkey" or "Tampermonkey"</li>
         </ul>
       </li>
-      <li>Install scripts through Violentmonkey's interface</li>
+      <li>Install scripts through Violentmonkey's or Tampermonkey's interface</li>
     </ol>
     <p style="font-size: 0.9em; color: #666;">
       <strong>Note:</strong> Apple restrictions may limit some functionality compared to desktop
