@@ -51,39 +51,34 @@
 
 # 🦁🛡️ Brave Browser Configuration
 
-<details>
-<summary><strong>Essential Setup for Arabseed & Cimanow (click to expand ▼)</strong></summary>
+<div style="border: 2px solid #4285F4; border-radius: 10px; padding: 20px; background-color: #f1f8ff; margin: 20px 0;">
 
-### 1. Required Tools 🛠️
+<h3 style="margin-top: 0; color: #0b72e8;">Essential Setup for Arabseed & Cimanow</h3>
+
+**1. Required Tools 🛠️**
 
 [![User Agent Switcher](https://img.shields.io/badge/Install_UA_Switcher-4285F4?style=flat-square&logo=brave&logoColor=white)](https://chromewebstore.google.com/detail/user-agent-switcher-and-m/bhchdcejhohfmigjafbampogmaanbfkg)
 
-### 2. Filter Subscription 🔗
+**2. Filter Subscription 🔗**
 
-Add this to Brave's custom filters:
+Add the following URL to Brave's custom filters:
 
-```bash
-https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/filters/custom-filters-brave.txt
-```
+<pre style="background: #e8f0fe; padding: 10px; border-radius: 5px; overflow-x: auto;">https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/filters/custom-filters-brave.txt</pre>
 
-### 3. Configuration Steps ⚙️
+**3. Configuration Steps ⚙️**
 
-1. Open `brave://adblock`
+1. Open <code>brave://adblock</code>
 2. Paste the filter URL in **Custom filter lists**
 3. Set User Agent Switcher to mimic Chrome:
-   ```text
-   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36
-   ```
 
-### 4. Verify & Report 📝
+<pre style="background: #e8f0fe; padding: 10px; border-radius: 5px; overflow-x: auto;">Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36</pre>
 
-[Report New Blocks](https://github.com/EzioTheGoat/EzioUserscripts/issues/new?template=blocked-site.md) if you encounter:
+**4. Verify & Report 📝**
 
-- Browser detection warnings
-- Script blocking issues
-- Unexpected redirects
+If you encounter issues such as browser detection warnings, script blocking, or unexpected redirects, please [report them here](https://github.com/EzioTheGoat/EzioUserscripts/issues/new?template=blocked-site.md).
 
-</details>
+</div>
+
 
 ## 🛠 Featured Scripts
 
