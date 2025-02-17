@@ -85,7 +85,7 @@ If you encounter issues such as browser detection warnings, script blocking, or 
 <table>
   <tr>
     <td width="80" align="center">
-      <img src="https://i.imgur.com/purcqbc.png" width="64" style="border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1)">
+      <img src="https://i.imgur.com/purcqbc.png" width="64" style="border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
     </td>
     <td>
       <h3>🔗 Bypass Arabseed</h3>
@@ -104,14 +104,21 @@ If you encounter issues such as browser detection warnings, script blocking, or 
           <td>✅ Download page unlock</td>
         </tr>
       </table>
-      <div align="center">
+      
+  <!-- Professional GIF Demo Section -->
+  <div align="center" style="margin: 12px 0;">
+        <img src="https://i.imgur.com/fdcEMhn.gif" alt="Arabseed Demo" style="max-width: 100%; border: 1px solid #e1e4e8; border-radius: 8px;">
+  </div>
+      
+  <div align="center">
         <a href="https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/refs/heads/main/bypass-arabseed.user.js">
-          <img src="https://img.shields.io/badge/INSTALL_SCRIPT-00B894?style=for-the-badge&logo=open-source-initiative&logoColor=white" alt="Install" style="margin-top: 12px">
+          <img src="https://img.shields.io/badge/INSTALL_SCRIPT-00B894?style=for-the-badge&logo=open-source-initiative&logoColor=white" alt="Install" style="margin-top: 12px;">
         </a>
       </div>
     </td>
   </tr>
 </table>
+
 
 ---
 
