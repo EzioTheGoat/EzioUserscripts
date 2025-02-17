@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Reddit Sidebar Toggle
 // @namespace    Violentmonkey Scripts
-// @version      1.0
+// @version      2.0
 // @description  A user script to toggle Reddit's sidebar with a button, and remember the state across pages.
 // @author       Ezio Auditore
 // @icon         https://www.redditstatic.com/desktop2x/img/favicon/android-icon-192x192.png
@@ -11,200 +11,171 @@
 // @downloadURL  https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/Reddit-Sidebar-Toggle.user.js
 // ==/UserScript==
 
+/**
+ * Reddit Sidebar Toggle Controller
+ * 
+ * This script provides persistent sidebar visibility control through:
+ * - Local storage for state preservation
+ * - Dynamic DOM injection of toggle button
+ * - MutationObserver for SPA navigation handling
+ * 
+ * Performance Considerations:
+ * - Debounced observer callback minimizes DOM interactions
+ * - CSS class targeting avoids style recalculation triggers
+ * - Single localStorage key usage reduces I/O overhead
+ */
 (function () {
-  "use strict";
+    'use strict';
 
-  // ===== Configuration =====
-  const EXPANDED_WIDTH = 270; // Sidebar width in expanded mode (px)
-  const COLLAPSED_WIDTH = 0; // When collapsed, we hide it completely (display: none)
-  const EXPANDED_BTN_LEFT = EXPANDED_WIDTH; // Position of the toggle button when expanded
-  const COLLAPSED_BTN_LEFT = 0; // Position when collapsed
-  const BTN_TOP_OFFSET = 100; // Vertical offset from top (px)
-  const DEBOUNCE_DELAY = 300; // ms
-
-  // ===== CSS Injection =====
-  const css = `
-    /* Expanded sidebar state */
-    .rpl-sidebar-expanded {
-      display: block !important;
-      width: ${EXPANDED_WIDTH}px !important;
-      position: relative !important;
-      overflow: visible !important;
-    }
-    /* Collapsed sidebar state: completely hidden */
-    .rpl-sidebar-collapsed {
-      display: none !important;
-    }
-    /* Fixed container for the toggle button */
-    #rpl-toggle-container {
-      position: fixed;
-      top: ${BTN_TOP_OFFSET}px;
-      left: ${EXPANDED_BTN_LEFT}px;
-      z-index: 10000;
-      transition: left 0.3s ease;
-    }
-    /* Toggle button style */
-    #rpl-toggle-button {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: #333;
-      color: #ccc;
-      border: 1px solid #555;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: color 0.2s, border-color 0.2s;
-    }
-    #rpl-toggle-button:hover {
-      color: #ff4500;
-      border-color: #ff4500;
-    }
-    /* Adjust container left position when sidebar is collapsed */
-    .sidebar-collapsed-container {
-      left: ${COLLAPSED_BTN_LEFT}px !important;
-    }
+    // SVG icon definitions for visual feedback
+    const eyeIcon = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+            <circle cx="12" cy="12" r="3"></circle>
+        </svg>
     `;
-  const styleEl = document.createElement("style");
-  styleEl.textContent = css;
-  document.head.appendChild(styleEl);
 
-  // ===== Persistence via localStorage =====
-  const STORAGE_KEY = "rpl-sidebar-collapsed";
-  function setCollapsedState(isCollapsed) {
-    localStorage.setItem(STORAGE_KEY, isCollapsed ? "true" : "false");
-  }
-  function getCollapsedState() {
-    return localStorage.getItem(STORAGE_KEY) === "true";
-  }
+    const eyeSlashIcon = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;">
+            <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20C5 20 1 12 1 12a21.38 21.38 0 0 1 4.94-6.94"></path>
+            <path d="M22 12c0 0-4-8-11-8a11.66 11.66 0 0 0-4 0"></path>
+            <line x1="1" y1="1" x2="23" y2="23"></line>
+        </svg>
+    `;
 
-  // ===== Utility: Debounce =====
-  function debounce(fn, delay) {
-    let timeoutID;
-    return function (...args) {
-      clearTimeout(timeoutID);
-      timeoutID = setTimeout(() => fn.apply(this, args), delay);
-    };
-  }
+    /**
+     * Toggles sidebar visibility and updates persistent state
+     * Strategy: 
+     * - Direct style manipulation avoids class conflict with Reddit's code
+     * - Synchronous localStorage update ensures state consistency
+     */
+    function toggleSidebarVisibility() {
+        const sidebar = document.querySelector('.border-r-neutral-border.s\\:border-r-sm.border-solid.border-0.m\\:block.hidden.order-first.isolate.theme-rpl.left-sidebar');
+        if (!sidebar) return;
 
-  // ===== Get the existing sidebar element =====
-  function getSidebar() {
-    // Try multiple selectors – update these as Reddit’s markup evolves.
-    return (
-      document.querySelector(
-        ".border-r-neutral-border.s\\:border-r-sm.border-solid.border-0.m\\:block.hidden.order-first.isolate.theme-rpl.left-sidebar"
-      ) ||
-      document.getElementById("left-sidebar") ||
-      document.querySelector(".flex-left-nav-container")
-    );
-  }
+        const currentState = localStorage.getItem('redditSidebarHidden') === 'true';
+        const newState = !currentState;
 
-  // ===== Create fixed container for toggle button =====
-  function createToggleContainer() {
-    let container = document.getElementById("rpl-toggle-container");
-    if (!container) {
-      container = document.createElement("div");
-      container.id = "rpl-toggle-container";
-      document.body.appendChild(container);
+        // State update pipeline
+        sidebar.style.display = newState ? 'none' : '';
+        localStorage.setItem('redditSidebarHidden', newState.toString());
+
+        // UI feedback update
+        const toggleButton = document.getElementById('redditSidebarToggleButton');
+        if (toggleButton) {
+            toggleButton.innerHTML = newState ? eyeSlashIcon : eyeIcon;
+            toggleButton.setAttribute('title', newState ? 'Show Sidebar' : 'Hide Sidebar');
+        }
     }
-    return container;
-  }
 
-  // ===== Create toggle button with SVG icons =====
-  function createToggleButton() {
-    let btn = document.getElementById("rpl-toggle-button");
-    if (!btn) {
-      btn = document.createElement("div");
-      btn.id = "rpl-toggle-button";
-      btn.addEventListener("click", toggleSidebar);
-      const container = createToggleContainer();
-      container.appendChild(btn);
+    /**
+     * Injects control button into DOM
+     * Hierarchy fallback strategy:
+     * 1. Primary header container
+     * 2. Generic <header> element
+     * 3. Document body (fallback)
+     * 
+     * Safety Features:
+     * - Duplicate button prevention
+     * - Explicit style definitions for visual consistency
+     */
+    function injectToggleButton() {
+        let headerContainer = document.querySelector('.items-center.flex.h-header-large');
+        if (!headerContainer) headerContainer = document.querySelector('header');
+        if (!headerContainer) headerContainer = document.body;
+
+        if (document.getElementById('redditSidebarToggleButton')) return;
+
+        const button = document.createElement('button');
+        button.id = 'redditSidebarToggleButton';
+        button.classList.add('ml-2', 'p-2', 'rounded', 'text-white', 'bg-reddit-orange', 
+                          'hover:bg-reddit-dark-orange', 'focus:outline-none', 
+                          'transition-colors', 'duration-300', 'relative');
+        
+        // Visual configuration
+        Object.assign(button.style, {
+            position: 'relative',
+            cursor: 'pointer',
+            marginLeft: '8px',
+            zIndex: '1000',
+            width: '36px',
+            height: '36px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+            fontSize: '18px'
+        });
+
+        button.innerHTML = eyeIcon;
+        button.setAttribute('title', 'Hide Sidebar');
+        button.addEventListener('click', toggleSidebarVisibility);
+        headerContainer.appendChild(button);
     }
-    return btn;
-  }
 
-  // ===== SVG Icons =====
-  function getCollapseIconSVG() {
-    // Material Design chevron left
-    return `<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
-        </svg>`;
-  }
-  function getExpandIconSVG() {
-    // Material Design menu icon (hamburger)
-    return `<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
-        </svg>`;
-  }
+    /**
+     * Applies initial visibility state from localStorage
+     * Cold Start Handling:
+     * - Default state (visible) when no stored value exists
+     * - Synchronous execution prevents FOUC (Flash of Unstyled Content)
+     */
+    function applyInitialState() {
+        const initialState = localStorage.getItem('redditSidebarHidden') === 'true';
+        const sidebar = document.querySelector('.border-r-neutral-border.s\\:border-r-sm.border-solid.border-0.m\\:block.hidden.order-first.isolate.theme-rpl.left-sidebar');
+        
+        if (sidebar) {
+            sidebar.style.display = initialState ? 'none' : '';
+        }
 
-  // ===== Update toggle appearance =====
-  function updateToggleAppearance(isCollapsed) {
-    const btn = createToggleButton();
-    const container = createToggleContainer();
-    if (isCollapsed) {
-      btn.innerHTML = getExpandIconSVG();
-      btn.title = "Expand Sidebar";
-      container.classList.add("sidebar-collapsed-container");
-    } else {
-      btn.innerHTML = getCollapseIconSVG();
-      btn.title = "Collapse Sidebar";
-      container.classList.remove("sidebar-collapsed-container");
+        const toggleButton = document.getElementById('redditSidebarToggleButton');
+        if (toggleButton) {
+            toggleButton.innerHTML = initialState ? eyeSlashIcon : eyeIcon;
+            toggleButton.setAttribute('title', initialState ? 'Show Sidebar' : 'Hide Sidebar');
+        }
     }
-  }
 
-  // ===== Toggle sidebar state =====
-  function toggleSidebar() {
-    const sidebar = getSidebar();
-    if (!sidebar) return;
-    const isCollapsed = sidebar.classList.contains("rpl-sidebar-collapsed");
-    if (!isCollapsed) {
-      sidebar.classList.remove("rpl-sidebar-expanded");
-      sidebar.classList.add("rpl-sidebar-collapsed");
-      setCollapsedState(true);
-      updateToggleAppearance(true);
-    } else {
-      sidebar.classList.remove("rpl-sidebar-collapsed");
-      sidebar.classList.add("rpl-sidebar-expanded");
-      setCollapsedState(false);
-      updateToggleAppearance(false);
+    /**
+     * Debounce implementation for performance-sensitive operations
+     * @param {Function} func - Target function to debounce
+     * @param {number} delay - Minimum time between executions (ms)
+     * @returns {Function} Debounced function
+     */
+    function debounce(func, delay) {
+        let timeout;
+        return function () {
+            const context = this, args = arguments;
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(context, args), delay);
+        };
     }
-  }
 
-  // ===== Apply stored state =====
-  function applySidebarState(sidebar) {
-    const isCollapsed = getCollapsedState();
-    if (isCollapsed) {
-      sidebar.classList.remove("rpl-sidebar-expanded");
-      sidebar.classList.add("rpl-sidebar-collapsed");
-    } else {
-      sidebar.classList.remove("rpl-sidebar-collapsed");
-      sidebar.classList.add("rpl-sidebar-expanded");
-    }
-    updateToggleAppearance(isCollapsed);
-  }
+    // Initialization sequence
+    (function initialize() {
+        injectToggleButton();
+        applyInitialState();
+    })();
 
-  // ===== Initialization =====
-  function init() {
-    const sidebar = getSidebar();
-    if (!sidebar) return;
-    // Ensure sidebar container has relative positioning
-    sidebar.style.position = "relative";
-    // If no state is set, default to expanded
-    if (
-      !sidebar.classList.contains("rpl-sidebar-collapsed") &&
-      !sidebar.classList.contains("rpl-sidebar-expanded")
-    ) {
-      sidebar.classList.add("rpl-sidebar-expanded");
-    }
-    applySidebarState(sidebar);
-    createToggleContainer();
-    createToggleButton();
-  }
+    /**
+     * MutationObserver Configuration
+     * Purpose: Handle Reddit's SPA navigation pattern
+     * Observation Strategy:
+     * - 300ms debounce compensates for Reddit's chunked DOM updates
+     * - Full subtree observation required for cross-route persistence
+     * 
+     * Tradeoff Note:
+     * Broad observer scope is necessary for reliable SPA handling,
+     * but may impact performance on low-end devices
+     */
+    const debouncedUpdate = debounce(() => {
+        injectToggleButton();
+        applyInitialState();
+    }, 300);
 
-  // ===== Debounced observer for dynamic DOM changes =====
-  const debouncedInit = debounce(init, DEBOUNCE_DELAY);
-  const observer = new MutationObserver(debouncedInit);
-  observer.observe(document.body, { childList: true, subtree: true });
-  window.addEventListener("load", init);
+    const observer = new MutationObserver(debouncedUpdate);
+    observer.observe(document.body, { 
+        childList: true, 
+        subtree: true 
+    });
 })();
