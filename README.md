@@ -144,9 +144,15 @@ If you encounter issues such as browser detection warnings, script blocking, or 
           <td>⚡ Error handling</td>
         </tr>
       </table>
-      <div align="center">
+
+  <!-- GIF Demo -->
+<div align="center">
+  <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmRqczNkZGs3MDR1MGlvaWp3Zm85NTF6dmZsb2JsdTBmdmw1aHNsZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/lIGezIB9FhtZD5sJZy/giphy.gif" alt="Cimanow Demo" width="600">
+</div>
+
+  <div align="center">
         <a href="https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/refs/heads/main/bypass-cimanow.user.js">
-          <img src="https://img.shields.io/badge/INSTALL_SCRIPT-00B894?style=for-the-badge&logo=open-source-initiative&logoColor=white" alt="Install" style="margin-top: 12px">
+          <img src="https://img.shields.io/badge/INSTALL_SCRIPT-00B894?style=for-the-badge&logo=open-source-initiative&logoColor=white" alt="Install" style="margin-top: 12px;">
         </a>
       </div>
     </td>
