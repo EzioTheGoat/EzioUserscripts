@@ -262,6 +262,63 @@ If you encounter issues such as browser detection warnings, script blocking, or 
 
 ---
 
+# 📱 Mobile Setup Guide
+
+<div style="border: 2px solid #FF9500; border-radius: 10px; padding: 20px; background-color: #fff4e6; margin: 20px 0;">
+
+## 🤖 Android Configuration
+
+<div style="display: flex; align-items: center; gap: 15px; margin: 15px 0;">
+  <img src="https://img.icons8.com/color/48/000000/firefox.png" width="40">
+  <div>
+    <h3 style="margin: 0;">Firefox + Extensions</h3>
+    <ol>
+      <li>Install <a href="https://play.google.com/store/apps/details?id=org.mozilla.firefox">Firefox for Android</a></li>
+      <li>Tap menu → Add-ons
+        <ul>
+          <li><a href="https://addons.mozilla.org/en-US/android/addon/ublock-origin/">uBlock Origin</a></li>
+          <li><a href="https://addons.mozilla.org/en-US/android/addon/violentmonkey/">Violentmonkey</a></li>
+        </ul>
+      </li>
+      <li>Install scripts using desktop-style install buttons</li>
+    </ol>
+  </div>
+</div>
+
+## 🍎 iOS Configuration
+
+<div style="display: flex; align-items: center; gap: 15px; margin: 15px 0;">
+  <img src="https://img.icons8.com/ios-filled/50/000000/safari--v1.png" width="40">
+  <div>
+    <h3 style="margin: 0;">Orion Browser Setup</h3>
+    <ol>
+      <li>Install <a href="https://apps.apple.com/us/app/orion-browser-by-kagi/id1484498200">Orion Browser</a></li>
+      <li>Enable extensions:
+        <ul>
+          <li>Settings → Extensions → Enable "Violentmonkey"</li>
+        </ul>
+      </li>
+      <li>Install scripts through Violentmonkey's interface</li>
+    </ol>
+    <p style="font-size: 0.9em; color: #666;">
+      <strong>Note:</strong> Apple restrictions may limit some functionality compared to desktop
+    </p>
+  </div>
+</div>
+
+</div>
+
+<div style="border-left: 4px solid #34a853; padding: 12px; margin: 20px 0; background-color: #e6f4ea;">
+  <h3>📱 Mobile Optimization Tips</h3>
+  <ul>
+    <li>Use <code>Request Desktop Site</code> for better script compatibility</li>
+    <li>Enable "Persistent" mode in Violentmonkey settings</li>
+    <li>Whitelist video sites in battery saver modes</li>
+  </ul>
+</div>
+
+---
+
 ## 🎨 Customization & Contribution
 
 🔧 **Want to improve these scripts?**
