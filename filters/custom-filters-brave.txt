@@ -144,7 +144,7 @@ bs.cimanow.cc##+js(brave-fix)
 ! m.gamehub.cam
 ! ------------------------------------------------------------
 m.gamehub.cam###clickme > .btn-collab.hover-top.btn
-m.gamehub.cam##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&t=1"])):upward(.Adabove)
+!m.gamehub.cam##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&t=1"])):upward(.Adabove)
 m.gamehub.cam##.visible-block
 m.gamehub.cam##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
 m.gamehub.cam##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
@@ -158,7 +158,7 @@ m.gamehub.cam##a#btn[href^="https://m.gamehub.cam/"][href*='?r='] > .btn-collab.
 ! adding.quest
 ! ------------------------------------------------------------
 adding.quest###clickme > .btn-collab.hover-top.btn
-adding.quest##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&t=1"])):upward(.Adabove)
+!adding.quest##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&t=1"])):upward(.Adabove)
 adding.quest##.visible-block
 adding.quest##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
 adding.quest##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
@@ -172,7 +172,7 @@ adding.quest##a#btn[href^="https://adding.quest/"][href*='?r='] > .btn-collab.ho
 ! zplay.gamezone.cam
 ! ------------------------------------------------------------
 zplay.gamezone.cam###clickme > .btn-collab.hover-top.btn
-zplay.gamezone.cam##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&t=1"])):upward(.Adabove)
+!zplay.gamezone.cam##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&t=1"])):upward(.Adabove)
 zplay.gamezone.cam##.visible-block
 zplay.gamezone.cam##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
 zplay.gamezone.cam##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
@@ -186,7 +186,7 @@ zplay.gamezone.cam##a#btn[href^="https://zplay.gamezone.cam/"][href*='?r='] > .b
 ! gamestation.cam
 ! ------------------------------------------------------------
 gamestation.cam###clickme > .btn-collab.hover-top.btn
-gamestation.cam##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&t=1"])):upward(.Adabove)
+!gamestation.cam##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&t=1"])):upward(.Adabove)
 gamestation.cam##.visible-block
 gamestation.cam##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
 gamestation.cam##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
@@ -200,7 +200,7 @@ gamestation.cam##a#btn[href^="https://gamestation.cam/"][href*='?r='] > .btn-col
 ! gplay.gameplanet.cam
 ! ------------------------------------------------------------
 gplay.gameplanet.cam###clickme > .btn-collab.hover-top.btn
-gplay.gameplanet.cam##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&t=1"])):upward(.Adabove)
+!gplay.gameplanet.cam##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&t=1"])):upward(.Adabove)
 gplay.gameplanet.cam##.visible-block
 gplay.gameplanet.cam##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
 gplay.gameplanet.cam##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
