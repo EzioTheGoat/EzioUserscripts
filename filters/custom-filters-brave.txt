@@ -152,7 +152,7 @@ m.gamehub.cam##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .Dow
 m.gamehub.cam##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
 m.gamehub.cam##.desktop-button
 m.gamehub.cam##a#btn[href*="?r="]:not([href*="&t=1&gfs=1&tfs=1"])
-m.gamehub.cam##a#btn[href^="https://m.gamehub.cam/"][href*='?r='] > .btn-collab.hover-top.btn
+!m.gamehub.cam##a#btn[href^="https://m.gamehub.cam/"][href*='?r='] > .btn-collab.hover-top.btn
 
 ! ============================================================
 ! adding.quest
