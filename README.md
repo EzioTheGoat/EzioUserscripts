@@ -111,7 +111,7 @@ If you encounter issues such as browser detection warnings, script blocking, or 
   </div>
       
   <div align="center">
-        <a href="https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/refs/heads/main/bypass-arabseed.user.js">
+        <a href="https://greasyfork.org/en/scripts/527229-bypass-arabseed">
           <img src="https://img.shields.io/badge/INSTALL_SCRIPT-00B894?style=for-the-badge&logo=open-source-initiative&logoColor=white" alt="Install" style="margin-top: 12px;">
         </a>
       </div>
@@ -151,7 +151,7 @@ If you encounter issues such as browser detection warnings, script blocking, or 
 </div>
 
   <div align="center">
-        <a href="https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/refs/heads/main/bypass-cimanow.user.js">
+        <a href="https://greasyfork.org/en/scripts/527232-bypass-cimanow">
           <img src="https://img.shields.io/badge/INSTALL_SCRIPT-00B894?style=for-the-badge&logo=open-source-initiative&logoColor=white" alt="Install" style="margin-top: 12px;">
         </a>
       </div>
@@ -180,7 +180,7 @@ If you encounter issues such as browser detection warnings, script blocking, or 
         </tr>
       </table>
       <div align="center">
-        <a href="https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/refs/heads/main/DeepSeek-regenerate.user.js">
+        <a href="https://greasyfork.org/en/scripts/527233-auto-regenerate-on-server-busy-deepseek">
           <img src="https://img.shields.io/badge/INSTALL_SCRIPT-00B894?style=for-the-badge&logo=open-source-initiative&logoColor=white" alt="Install" style="margin-top: 12px">
         </a>
       </div>
@@ -209,7 +209,7 @@ If you encounter issues such as browser detection warnings, script blocking, or 
         </tr>
       </table>
       <div align="center">
-        <a href="https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/refs/heads/main/Reddit-Sidebar-Toggle.user.js">
+        <a href="https://greasyfork.org/en/scripts/527240-reddit-sidebar-toggle">
           <img src="https://img.shields.io/badge/INSTALL_SCRIPT-00B894?style=for-the-badge&logo=open-source-initiative&logoColor=white" alt="Install" style="margin-top: 12px">
         </a>
       </div>
@@ -241,7 +241,7 @@ If you encounter issues such as browser detection warnings, script blocking, or 
         </tr>
       </table>
       <div align="center">
-        <a href="https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/refs/heads/main/Auto-PiP-Tab-Switch.user.js">
+        <a href="https://greasyfork.org/en/scripts/527239-auto-picture-in-picture-on-tab-change">
           <img src="https://img.shields.io/badge/INSTALL_SCRIPT-00B894?style=for-the-badge&logo=open-source-initiative&logoColor=white" alt="Install" style="margin-top: 12px">
         </a>
       </div>
