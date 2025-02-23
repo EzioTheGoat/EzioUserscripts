@@ -784,6 +784,8 @@ asd.quest##video
 ! CimaNow
 cimanow.cc###xqeqjp
 cimanow.cc###xqeqjp1
+||cimanow.online^$script,domain=cimanow.cc
+||cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js$script,domain=cimanow.cc
 cimanow.cc##[src*="https://i.ibb.co/dB9fgQQ/f2-1.gif"]
 cimanow.cc##[src*="https://i.ibb.co/MMgpK0B/Phone.jpg"]
 cimanow.cc##.premium
