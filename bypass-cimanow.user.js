@@ -1,13 +1,16 @@
 // ==UserScript==
 // @name         Bypass CimaNow
 // @namespace    Violentmonkey Scripts
-// @version      2.2.4
+// @version      2.2.5
 // @description  Automatically append "watching/" to specific URLs, with exceptions and improved performance and error handling
 // @author       Ezio Auditore
 // @icon         https://i.imgur.com/blh1X07.png
 // @match        *://cimanow.cc/*
 // @match        *://vip.cimanowinc.com/*
 // @match        *://bs.cimanow.cc/*
+// @match        *://*.cimanow.cc/*
+// @match        *://*.cimanowinc.com/*
+// @match        *://*.cimanow.online/*
 // @grant        none
 // @run-at       document-start
 // @updateURL    https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/bypass-cimanow.user.js
@@ -86,6 +89,8 @@
       "/recent/", // Temporal content feed
       "/الاحدث/", // Localized Arabic content
       "/plans/", // Monetization tiers
+      "/قريبا/",
+      "/رمضان/",
       "/%D8%A7%D9%84%D8%AD%D8%AF%D9%8A%D8%AB/", // URL-encoded security bypass
       "/%d8%a7%d9%84%d8%a7%d8%ad%d8%af%d8%ab/", // Lowercase encoding variant
     ];
@@ -147,6 +152,15 @@
    * 2. Prototype override prevents script element creation
    */
   function enableLazyLoadBlocking() {
+    const currentPath = window.location.pathname;
+    if (
+      !(
+        currentPath.startsWith("/selary/") || currentPath.includes("/watching/")
+      )
+    ) {
+      return;
+    }
+
     console.log(
       "[CIMA NOW] LazyLoad Blocker Activated on:",
       window.location.href
@@ -219,16 +233,11 @@
       // Phase 1: URL Routing
       handleUrlRouting(window.location.href);
 
-      // Phase 2: Conditional LazyLoad Blocking
-      if (window.location.pathname.includes("/watching/")) {
-        enableLazyLoadBlocking();
-      }
+      // Phase 2: LazyLoad Script Blocking (Call unconditionally)
+      enableLazyLoadBlocking();
 
       // Phase 3: Anti-Detection
       deployAntiAdblock();
-
-      // Phase 4: Browser Hardening
-      maskBraveDetection();
     } catch (criticalError) {
       console.error("[CIMA NOW] Fatal Initialization Error:", criticalError);
     }
