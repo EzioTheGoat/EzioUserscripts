@@ -47,38 +47,59 @@
 
 <br>
 
-**Before we start, if you're a Brave user, please check out the following configuration:**
+<!-- ===================================== CONFIGURATION ====================================== -->
 
-# 🦁🛡️ Brave Browser Configuration
+**Before we start, please follow these configuration instructions to ensure optimal performance:**
 
-<div style="border: 2px solid #4285F4; border-radius: 10px; padding: 20px; background-color: #f1f8ff; margin: 20px 0;">
+## 🦁🛡️ 1. Brave Browser Configuration
 
-<h3 style="margin-top: 0; color: #0b72e8;">Essential Setup for Arabseed & Cimanow</h3>
+Follow these steps to add our custom filter list in Brave:
 
-**1. Required Tools 🛠️**
+1. **Open Brave’s Ad Blocker Settings:**
+   - Type `brave://adblock` into your address bar and press Enter.
+2. **Add a Custom Filter List:**
+   - Scroll down to the **Custom filter lists** section.
+   - Click to add a new custom filter.
+3. **Paste the Filter URL:**
+   - Copy and paste the following URL:
+     ```
+     https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/filters/custom-filters-brave.txt
+     ```
+4. **Save Your Settings:**
+   - Confirm and save your changes.
+5. **Test Your Configuration:**
+   - Visit one of our supported sites (like Arabseed or Cimanow) to verify that the filters are working correctly.
 
-[![User Agent Switcher](https://img.shields.io/badge/Install_UA_Switcher-4285F4?style=flat-square&logo=brave&logoColor=white)](https://chromewebstore.google.com/detail/user-agent-switcher-and-m/bhchdcejhohfmigjafbampogmaanbfkg)
+If you encounter any issues (e.g., browser detection warnings, script blocking, or unexpected redirects), please [report them here](https://github.com/EzioTheGoat/EzioUserscripts/issues/new?template=blocked-site.md).
 
-**2. Filter Subscription 🔗**
+---
 
-Add the following URL to Brave's custom filters:
+## 🛡️ 2. uBlock Origin Configuration for Other Browsers
 
-<pre style="background: #e8f0fe; padding: 10px; border-radius: 5px; overflow-x: auto;">https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/filters/custom-filters-brave.txt</pre>
+If you’re using browsers like Chrome, Firefox, or Edge with uBlock Origin installed, follow these steps:
 
-**3. Configuration Steps ⚙️**
+1. **Open the uBlock Origin Dashboard:**
+   - **Chrome/Edge:** Click the uBlock Origin icon and select **Dashboard**.
+   - **Firefox:** Click the uBlock Origin icon and choose **Preferences**.
+2. **Go to the “Filter lists” Tab:**
+   - Locate the filter lists section.
+3. **Add a Custom Filter:**
+   - Scroll to the **Custom** section.
+   - Click on **Import...** (or paste the URL directly if prompted).
+4. **Paste the Filter URL:**
+   - Copy and paste the following URL:
+     ```
+     https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/filters/custom-filters-brave.txt
+     ```
+5. **Save and Refresh:**
+   - Save your changes.
+   - Refresh your browser to activate the new filters.
+6. **Verify the Setup:**
+   - Visit one of our supported sites to ensure the filters are active and functioning properly.
 
-1. Open <code>brave://adblock</code>
-2. Paste the filter URL in **Custom filter lists**
-3. Set User Agent Switcher to mimic Chrome:
+If you experience issues like detection warnings, blocked scripts, or unexpected redirects, please [report them here](https://github.com/EzioTheGoat/EzioUserscripts/issues/new?template=blocked-site.md).
 
-<pre style="background: #e8f0fe; padding: 10px; border-radius: 5px; overflow-x: auto;">Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36</pre>
-
-**4. Verify & Report 📝**
-
-If you encounter issues such as browser detection warnings, script blocking, or unexpected redirects, please [report them here](https://github.com/EzioTheGoat/EzioUserscripts/issues/new?template=blocked-site.md).
-
-</div>
-
+---
 
 ## 🛠 Featured Scripts
 
