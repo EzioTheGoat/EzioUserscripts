@@ -784,6 +784,8 @@ asd.quest##video
 ! https://web184.faselhd.cafe
 web184.faselhd.cafe##.ml-auto.mr-4.headerItems > .promoLink
 ##body > div:has(> div > a[href^="https://www.faselplus.com/onboarding"])
+web184.faselhd.cafe###pr
+web184.faselhd.cafe##.breakNews
 
 ! CimaNow
 cimanow.cc###xqeqjp
