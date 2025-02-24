@@ -790,3 +790,4 @@ cimanow.cc##[src*="https://i.ibb.co/dB9fgQQ/f2-1.gif"]
 cimanow.cc##[src*="https://i.ibb.co/MMgpK0B/Phone.jpg"]
 cimanow.cc##.premium
 cimanow.cc##button
+||cdn.jsdelivr.net/npm/sweetalert2@11.14.4/dist/sweetalert2.all.min.js$domain=cimanow.cc
