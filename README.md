@@ -168,7 +168,7 @@ If you experience issues like detection warnings, blocked scripts, or unexpected
 
   <!-- GIF Demo -->
 <div align="center">
-  <img src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExbmRqczNkZGs3MDR1MGlvaWp3Zm85NTF6dmZsb2JsdTBmdmw1aHNsZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/lIGezIB9FhtZD5sJZy/giphy.gif" alt="Cimanow Demo" width="600">
+  <img src="https://i.imgur.com/3CgNg4K.gif" alt="CimaNow Demo" style="max-width: 100%; border: 1px solid #e1e4e8; border-radius: 8px;">
 </div>
 
   <div align="center">
