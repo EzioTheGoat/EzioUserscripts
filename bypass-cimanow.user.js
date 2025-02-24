@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bypass CimaNow
 // @namespace    Violentmonkey Scripts
-// @version      2.2.3
+// @version      2.2.4
 // @description  Automatically append "watching/" to specific URLs, with exceptions and improved performance and error handling
 // @author       Ezio Auditore
 // @icon         https://i.imgur.com/blh1X07.png
@@ -139,6 +139,73 @@
     document.documentElement.prepend(stealthStyles);
   }
 
+  /**
+   * Advanced LazyLoad Script Blocking
+   * @description
+   * Dual-layer protection against lazy loading scripts:
+   * 1. MutationObserver monitors DOM for script injections
+   * 2. Prototype override prevents script element creation
+   */
+  function enableLazyLoadBlocking() {
+    console.log(
+      "[CIMA NOW] LazyLoad Blocker Activated on:",
+      window.location.href
+    );
+
+    const lazyLoadScriptIdentifier =
+      "cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/17.8.3/lazyload.min.js";
+
+    function blockLazyLoadScript(node) {
+      if (node.tagName === "SCRIPT") {
+        const src = node.src || "";
+        if (src.includes(lazyLoadScriptIdentifier)) {
+          node.parentNode?.removeChild(node);
+          console.log("[CIMA NOW] Blocked lazyload script:", src);
+        }
+      }
+    }
+
+    // Monitor entire DOM for script injections
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => {
+          if (
+            node.nodeType === Node.ELEMENT_NODE &&
+            node.tagName === "SCRIPT"
+          ) {
+            blockLazyLoadScript(node);
+          }
+        });
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      childList: true,
+      subtree: true,
+    });
+
+    // Intercept script element creation
+    const originalCreateElement = Document.prototype.createElement;
+    Document.prototype.createElement = function (tagName) {
+      const element = originalCreateElement.call(this, tagName);
+      if (tagName.toLowerCase() === "script") {
+        const originalSetAttribute = element.setAttribute;
+        element.setAttribute = function (name, value) {
+          if (
+            name === "src" &&
+            typeof value === "string" &&
+            value.includes(lazyLoadScriptIdentifier)
+          ) {
+            console.log("[CIMA NOW] Blocked lazyload script creation:", value);
+            return;
+          }
+          return originalSetAttribute.call(this, name, value);
+        };
+      }
+      return element;
+    };
+  }
+
   // ██╗███╗   ██╗██╗████████╗██╗ █████╗ ██╗     ███████╗
   // ██║████╗  ██║██║╚══██╔══╝██║██╔══██╗██║     ██╔════╝
   // ██║██╔██╗ ██║██║   ██║   ██║███████║██║     █████╗
@@ -147,39 +214,23 @@
   // ╚═╝╚═╝  ╚═══╝╚═╝   ╚═╝   ╚═╝╚═╝  ╚═╝╚══════╝╚══════╝
   // Execution Bootstrap
 
-  /**
-   * Controlled Initialization Sequence
-   * @description
-   * Orchestrates component initialization with:
-   * - Error boundary containment
-   * - Execution ordering guarantees
-   * - Fail-safe error reporting
-   */
   (function bootstrap() {
     try {
       // Phase 1: URL Routing
       handleUrlRouting(window.location.href);
 
-      // Phase 2: Anti-Detection
+      // Phase 2: Conditional LazyLoad Blocking
+      if (window.location.pathname.includes("/watching/")) {
+        enableLazyLoadBlocking();
+      }
+
+      // Phase 3: Anti-Detection
       deployAntiAdblock();
 
-      // Phase 3: Browser Hardening
+      // Phase 4: Browser Hardening
       maskBraveDetection();
     } catch (criticalError) {
       console.error("[CIMA NOW] Fatal Initialization Error:", criticalError);
     }
   })();
-
-  /**
-   * Brave Browser Detection Mitigation
-   * @todo Implement prototype chain manipulation
-   * @description
-   * Future implementation requirements:
-   * - Proxy navigator.brave properties
-   * - Randomize fingerprint attributes
-   * - Implement timing attack prevention
-   */
-  function maskBraveDetection() {
-    // Placeholder for advanced fingerprint randomization
-  }
 })();
