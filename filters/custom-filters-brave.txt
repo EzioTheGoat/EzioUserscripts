@@ -11,7 +11,7 @@
 !        and promotional download buttons.
 !
 ! Version:      1.2.5
-! Last Updated: 2025-02-25
+! Last Updated: 2025-02-26
 ! Author:       Ezio Auditore
 ! License:      MIT License
 ! Homepage:     https://github.com/EzioTheGoat/EzioUserscripts/filters
@@ -820,3 +820,4 @@ cimanow.cc##.social.tab
 cimanow.cc##[src="https://i.ibb.co/KF3P4Xv/f1-1.gif"]
 cimanow.cc##div.fixed-header-item:nth-of-type(6)
 ||cdn.jsdelivr.net/npm/sweetalert2@11.14.4/dist/sweetalert2.all.min.js$domain=cimanow.cc
+||new.cimanow.online/judo.js^$script
