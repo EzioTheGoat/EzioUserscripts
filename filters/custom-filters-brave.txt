@@ -789,6 +789,7 @@ web184.faselhd.cafe##.breakNews
 www.faselhds.cafe##.ml-auto.mr-4.headerItems
 www.faselhds.cafe##.newsInner
 www.faselhds.cafe###pr
+www.faselhds.cafe##.social-block
 
 ! https://web184.faselhd.care
 web184.faselhd.care##.ml-auto.mr-4.headerItems > .promoLink
@@ -798,6 +799,10 @@ web184.faselhd.care##.breakNews
 www.faselhds.care##.ml-auto.mr-4.headerItems
 www.faselhds.care##.newsInner
 www.faselhds.care###pr
+www.faselhds.care##.social-block
+
+! https://a120.egyrbyeteuh.sbs
+||egydead.space/wp-content/uploads/2023/12/Download.png$image
 
 ! CimaNow
 cimanow.cc###xqeqjp
