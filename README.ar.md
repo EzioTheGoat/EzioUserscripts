@@ -1,27 +1,25 @@
-# مجموعة مستخدمي ezio
+# 🔥 مجموعة سكريبتات المستخدم لإزيو
 
-<div align="center">
+<div align="center" dir="rtl">
   <img src="https://img.shields.io/badge/Supports-Chrome-4285F4?logo=google-chrome&logoColor=white&style=for-the-badge">
   <img src="https://img.shields.io/badge/Supports-Firefox-FF7139?logo=firefox-browser&logoColor=white&style=for-the-badge">
   <br>
-  <sub style="font-size: 0.9em;">Requires <a href="https://violentmonkey.github.io/">ViolentMonkey</a> or a compatible userscript manager</sub>
+  <sub style="font-size: 0.9em;">يتطلب <a href="https://violentmonkey.github.io/">ViolentMonkey</a> أو مدير سكريبتات مستخدم متوافق</sub>
 </div>
 
 <br>
 
 <!-- ===================================== HEADER / INFO ====================================== -->
-
-<div align="center">
+<div align="center" dir="rtl">
   <!--<hr style="width: 80%; border: 1px solid #30363d; margin: 2rem auto; box-shadow: 0 2px 4px rgba(0,0,0,0.1)">-->
-  <p style="font-size: 1.1em; font-weight: 500;">Enhance your browsing experience with curated userscripts</p>
+  <p style="font-size: 1.1em; font-weight: 500;">حسّن تجربتك في التصفح باستخدام سكريبتات مستخدم مُنتقاة بعناية</p>
 </div>
 <!-- ==================================== END HEADER / INFO =================================== -->
 
 <br>
 
 <!-- ===================================== FOOTER ====================================== -->
-
-<div align="center">
+<div align="center" dir="rtl">
   <div style="display: flex; gap: 1.5rem; justify-content: center; align-items: center; margin: 1.5rem 0;">
     <a href="https://github.com/EzioTheGoat">
       <img src="https://img.shields.io/badge/MAINTAINED%20BY-EZIO%20AUDITORE-181717?style=for-the-badge&logo=github">
@@ -41,7 +39,7 @@
   </div>
 
   <div style="margin-top: 1.5rem;">
-    <sub style="font-size: 0.85em;">🛠️ Crafted with passion and maintained with care</sub>
+    <sub style="font-size: 0.85em;">🛠️ مصنوعة بشغف ومُصانة بعناية</sub>
   </div>
 </div>
 <!-- ==================================== END FOOTER =================================== -->
@@ -50,55 +48,59 @@
 
 <!-- ===================================== CONFIGURATION ====================================== -->
 
-**قبل أن نبدأ ، يرجى اتباع تعليمات التكوين هذه لضمان الأداء الأمثل:**
+**قبل أن نبدأ، يرجى اتباع تعليمات الإعداد التالية لضمان أفضل أداء:**
 
-## 🦁🛡 1. تكوين المتصفح الشجاع
+## 🦁🛡️ 1. إعداد متصفح بريف
 
-اتبع الخطوات هذه لإضافة قائمة التصفية المخصصة الخاصة بنا في Brave:
+اتبع الخطوات التالية لإضافة قائمة التصفية المخصصة في متصفح بريف:
 
-1.  **إعدادات حاصرات الإعلانات الخاصة بـ Brave's:**
-    -   يكتب`brave://adblock`في شريط العناوين الخاص بك واضغط على Enter.
-2.  **إضافة قائمة مرشح مخصصة:**
-    -   انتقل إلى**قوائم مرشح مخصصة**قسم.
-    -   انقر لإضافة مرشح مخصص جديد.
-3.  **لصق عنوان URL للمرشح:**
-    -   نسخ ولصق عنوان URL التالي:
-            https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/filters/custom-filters-brave.txt
-4.  **احفظ إعداداتك:**
-    -   تأكيد وحفظ التغييرات الخاصة بك.
-5.  **اختبر التكوين الخاص بك:**
-    -   قم بزيارة أحد مواقعنا المدعومة (مثل Arabseed أو Cimanow) للتحقق من أن المرشحات تعمل بشكل صحيح.
+1. **افتح إعدادات مانع الإعلانات في بريف:**
+   - اكتب `brave://adblock` في شريط العناوين واضغط Enter.
+2. **أضف قائمة تصفية مخصصة:**
+   - قم بالتمرير إلى قسم **قوائم التصفية المخصصة**.
+   - انقر لإضافة تصفية مخصصة جديدة.
+3. **الصق رابط التصفية:**
+   - انسخ والصق الرابط التالي:
+     ```
+     https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/filters/custom-filters-brave.txt
+     ```
+4. **احفظ إعداداتك:**
+   - قم بتأكيد وحفظ التغييرات.
+5. **اختبر إعداداتك:**
+   - قم بزيارة أحد المواقع المدعومة (مثل Arabseed أو Cimanow) للتحقق من أن التصفية تعمل بشكل صحيح.
 
-إذا واجهت أي مشكلات (على سبيل المثال ، تحذيرات اكتشاف المتصفح ، أو حظر البرنامج النصي ، أو إعادة توجيه غير متوقعة) ، من فضلك[أبلغهم هنا](https://github.com/EzioTheGoat/EzioUserscripts/issues/new?template=blocked-site.md).
+إذا واجهت أي مشاكل (مثل تحذيرات اكتشاف المتصفح، أو حجب السكريبت، أو عمليات إعادة توجيه غير متوقعة)، يرجى [الإبلاغ عنها هنا](https://github.com/EzioTheGoat/EzioUserscripts/issues/new?template=blocked-site.md).
 
-* * *
+---
 
-## 🛡 2. تكوين أصل Ublock للمتصفحات الأخرى
+## 🛡️ 2. إعداد uBlock Origin لمتصفحات أخرى
 
-إذا كنت تستخدم متصفحات مثل Chrome أو Firefox أو Edge مع تثبيت Oblock Origin ، اتبع هذه الخطوات:
+إذا كنت تستخدم متصفحات مثل Chrome، Firefox، أو Edge مع تثبيت uBlock Origin، اتبع الخطوات التالية:
 
-1.  **افتح لوحة معلومات Oblock Origin:**
-    -   **الكروم/الحافة:**انقر فوق أيقونة Oblock Origin وحدد**لوحة القيادة**.
-    -   **Firefox:**انقر فوق أيقونة Oblock Origin واختر**التفضيلات**.
-2.  **انتقل إلى علامة التبويب "قوائم التصفية":**
-    -   حدد موقع قسم قوائم المرشح.
-3.  **أضف مرشحًا مخصصًا:**
-    -   انتقل إلى**مخصص**قسم.
-    -   انقر فوق**يستورد...**(أو لصق عنوان URL مباشرة إذا طُلب منه).
-4.  **لصق عنوان URL للمرشح:**
-    -   نسخ ولصق عنوان URL التالي:
-            https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/filters/custom-filters-brave.txt
-5.  **حفظ وتحديث:**
-    -   احفظ التغييرات الخاصة بك.
-    -   قم بتحديث متصفحك لتفعيل المرشحات الجديدة.
-6.  **تحقق من الإعداد:**
-    -   قم بزيارة أحد المواقع المدعومة لدينا لضمان نشطة المرشحات وتعمل بشكل صحيح.
+1. **افتح لوحة تحكم uBlock Origin:**
+   - **Chrome/Edge:** انقر على أيقونة uBlock Origin واختر **لوحة التحكم**.
+   - **Firefox:** انقر على أيقونة uBlock Origin واختر **التفضيلات**.
+2. **انتقل إلى تبويب "قوائم التصفية":**
+   - ابحث عن قسم قوائم التصفية.
+3. **أضف تصفية مخصصة:**
+   - قم بالتمرير إلى قسم **مخصص**.
+   - انقر على **استيراد...** (أو الصق الرابط مباشرة إذا طُلب منك ذلك).
+4. **الصق رابط التصفية:**
+   - انسخ والصق الرابط التالي:
+     ```
+     https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/filters/custom-filters-brave.txt
+     ```
+5. **احفظ وقم بتحديث الصفحة:**
+   - احفظ التغييرات.
+   - قم بتحديث المتصفح لتفعيل التصفية الجديدة.
+6. **تحقق من الإعداد:**
+   - قم بزيارة أحد المواقع المدعومة للتأكد من أن التصفية نشطة وتعمل بشكل صحيح.
 
-إذا واجهت قضايا مثل تحذيرات الكشف أو البرامج النصية المحظورة أو إعادة التوجيه غير المتوقعة ، من فضلك[أبلغهم هنا](https://github.com/EzioTheGoat/EzioUserscripts/issues/new?template=blocked-site.md).
+إذا واجهت مشاكل مثل تحذيرات الاكتشاف، أو حجب السكريبتات، أو عمليات إعادة توجيه غير متوقعة، يرجى [الإبلاغ عنها هنا](https://github.com/EzioTheGoat/EzioUserscripts/issues/new?template=blocked-site.md).
 
-* * *
+---
 
-## 🛠 البرامج النصية المميزة
+## 🔧 السكريبتات المميزة
 
 <table>
   <tr>
@@ -106,38 +108,38 @@
       <img src="https://i.imgur.com/purcqbc.png" width="64" style="border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
     </td>
     <td>
-      <h3>🔗 Bypass Arabseed</h3>
+      <h3>🔗 تخطي عرب سيد</h3>
       <p style="margin: 8px 0; font-size: 0.9em; color: #666;">
-        🇪🇬 Arabic Streaming Site | عرب سيد | 
+        🇪🇬 موقع بث عربي | عرب سيد | 
         <a href="https://asd.rest/main/" target="_blank">https://asd.rest/main/</a>
       </p>
-      <strong>Automatically bypasses:</strong><br>
+      <strong>يتخطى تلقائياً:</strong><br>
       <table>
         <tr>
-          <td>✅ Countdown timers</td>
-          <td>✅ Popups & ads</td>
+          <td>✅ العدادات التنازلية</td>
+          <td>✅ النوافذ المنبثقة والإعلانات</td>
         </tr>
         <tr>
-          <td>✅ Fake redirects</td>
-          <td>✅ Download page unlock</td>
+          <td>✅ إعادة التوجيه الوهمية</td>
+          <td>✅ فتح صفحة التنزيل</td>
         </tr>
       </table>
       
-  <!-- Professional GIF Demo Section -->
+  <!-- قسم العرض التوضيحي GIF الاحترافي -->
   <div align="center" style="margin: 12px 0;">
-        <img src="https://i.imgur.com/fdcEMhn.gif" alt="Arabseed Demo" style="max-width: 100%; border: 1px solid #e1e4e8; border-radius: 8px;">
+        <img src="https://i.imgur.com/fdcEMhn.gif" alt="عرض توضيحي لعرب سيد" style="max-width: 100%; border: 1px solid #e1e4e8; border-radius: 8px;">
   </div>
       
   <div align="center">
         <a href="https://greasyfork.org/en/scripts/527229-bypass-arabseed">
-          <img src="https://img.shields.io/badge/INSTALL_SCRIPT-00B894?style=for-the-badge&logo=open-source-initiative&logoColor=white" alt="Install" style="margin-top: 12px;">
+          <img src="https://img.shields.io/badge/INSTALL_SCRIPT-00B894?style=for-the-badge&logo=open-source-initiative&logoColor=white" alt="تثبيت" style="margin-top: 12px;">
         </a>
       </div>
     </td>
   </tr>
 </table>
 
-* * *
+---
 
 <table>
   <tr>
@@ -145,39 +147,38 @@
       <img src="https://i.imgur.com/blh1X07.png" width="64" style="border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1)">
     </td>
     <td>
-      <h3>🎥 Bypass Cimanow</h3>
+      <h3>🎥 تخطي سيما ناو</h3>
       <p style="margin: 8px 0; font-size: 0.9em; color: #666;">
-        🇪🇬 Arabic Streaming Site | سيما ناو | 
+        🇪🇬 موقع بث عربي | سيما ناو | 
         <a href="https://cimanow.cc" target="_blank">https://cimanow.cc</a>
       </p>
-      <strong>Smart URL manipulation:</strong><br>
+      <strong>تلاعب ذكي في الروابط:</strong><br>
       <table>
         <tr>
-          <td>🔗 Auto-appends "watching/"</td>
-          <td>🚀 Performance optimizations</td>
+          <td>🔗 يضيف تلقائياً "watching/"</td>
+          <td>🚀 تحسينات في الأداء</td>
         </tr>
         <tr>
-          <td>📛 Exception management</td>
-          <td>⚡ Error handling</td>
+          <td>📛 إدارة الاستثناءات</td>
+          <td>⚡ معالجة الأخطاء</td>
         </tr>
       </table>
 
-  <!-- GIF Demo -->
-
+  <!-- عرض توضيحي GIF -->
 <div align="center">
-  <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExdGRvdnZkd2JpNDFubGg1dHExZDRjdTIzdHAyNWR6NHE3ZmJsamR2YyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/V6YBk0eHvLN4mBM4Ly/giphy.gif" alt="CimaNow Demo" style="max-width: 100%; border: 1px solid #e1e4e8; border-radius: 8px;">
+  <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExdGRvdnZkd2JpNDFubGg1dHExZDRjdTIzdHAyNWR6NHE3ZmJsamR2YyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/V6YBk0eHvLN4mBM4Ly/giphy.gif" alt="عرض توضيحي لسيما ناو" style="max-width: 100%; border: 1px solid #e1e4e8; border-radius: 8px;">
 </div>
 
   <div align="center">
         <a href="https://greasyfork.org/en/scripts/527232-bypass-cimanow">
-          <img src="https://img.shields.io/badge/INSTALL_SCRIPT-00B894?style=for-the-badge&logo=open-source-initiative&logoColor=white" alt="Install" style="margin-top: 12px;">
+          <img src="https://img.shields.io/badge/INSTALL_SCRIPT-00B894?style=for-the-badge&logo=open-source-initiative&logoColor=white" alt="تثبيت" style="margin-top: 12px;">
         </a>
       </div>
     </td>
   </tr>
 </table>
 
-* * *
+---
 
 <table>
   <tr>
@@ -185,28 +186,28 @@
       <img src="https://i.imgur.com/3RqMFdM.png" width="64" style="border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1)">
     </td>
     <td>
-      <h3>🤖 DeepSeek Regenerator</h3>
-      <strong>AI-powered enhancements:</strong><br>
+      <h3>🤖 مجدِّد DeepSeek</h3>
+      <strong>تحسينات مدعومة بالذكاء الاصطناعي:</strong><br>
       <table>
         <tr>
-          <td>🔄 Automatic regeneration</td>
-          <td>⏳ Server detection</td>
+          <td>🔄 تجديد تلقائي</td>
+          <td>⏳ اكتشاف الخادم</td>
         </tr>
         <tr>
-          <td>📈 Error recovery</td>
-          <td>🤖 Smart retries</td>
+          <td>📈 استعادة الأخطاء</td>
+          <td>🤖 إعادة المحاولة الذكية</td>
         </tr>
       </table>
       <div align="center">
         <a href="https://greasyfork.org/en/scripts/527233-auto-regenerate-on-server-busy-deepseek">
-          <img src="https://img.shields.io/badge/INSTALL_SCRIPT-00B894?style=for-the-badge&logo=open-source-initiative&logoColor=white" alt="Install" style="margin-top: 12px">
+          <img src="https://img.shields.io/badge/INSTALL_SCRIPT-00B894?style=for-the-badge&logo=open-source-initiative&logoColor=white" alt="تثبيت" style="margin-top: 12px">
         </a>
       </div>
     </td>
   </tr>
 </table>
 
-* * *
+---
 
 <table>
   <tr>
@@ -214,28 +215,28 @@
       <img src="https://www.redditstatic.com/desktop2x/img/favicon/android-icon-192x192.png" width="64" style="border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1)">
     </td>
     <td>
-      <h3>🖥 Reddit Sidebar Toggle</h3>
-      <strong>UI improvements:</strong><br>
+      <h3>🖥 تبديل الشريط الجانبي في Reddit</h3>
+      <strong>تحسينات واجهة المستخدم:</strong><br>
       <table>
         <tr>
-          <td>🎛 Persistent state</td>
-          <td>🔄 One-click toggle</td>
+          <td>🎛 حالة ثابتة</td>
+          <td>🔄 تبديل بنقرة واحدة</td>
         </tr>
         <tr>
-          <td>📱 Responsive design</td>
-          <td>⚙️ Cross-page consistency</td>
+          <td>📱 تصميم متجاوب</td>
+          <td>⚙️ اتساق عبر الصفحات</td>
         </tr>
       </table>
       <div align="center">
         <a href="https://greasyfork.org/en/scripts/527240-reddit-sidebar-toggle">
-          <img src="https://img.shields.io/badge/INSTALL_SCRIPT-00B894?style=for-the-badge&logo=open-source-initiative&logoColor=white" alt="Install" style="margin-top: 12px">
+          <img src="https://img.shields.io/badge/INSTALL_SCRIPT-00B894?style=for-the-badge&logo=open-source-initiative&logoColor=white" alt="تثبيت" style="margin-top: 12px">
         </a>
       </div>
     </td>
   </tr>
 </table>
 
-* * *
+---
 
 <table>
   <tr>
@@ -243,109 +244,109 @@
       <img src="https://img.icons8.com/ios-filled/64/000000/picture-in-picture.png" width="64" style="border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1)">
     </td>
     <td>
-      <h3>🎥 Auto-PiP Tab Switch</h3>
+      <h3>🎥 التبديل التلقائي لوضع الصورة داخل الصورة (PiP)</h3>
       <p style="margin: 8px 0; font-size: 0.9em; color: #666;">
-        🔄 Automatically enters Picture-in-Picture (PiP) mode for videos when switching tabs, and exits PiP when returning. Works for all Chromium browsers.
+        يدخل تلقائيًا إلى وضع الصورة داخل الصورة (PiP) للفيديوهات عند تبديل التبويبات، ويخرج من وضع PiP عند العودة. يعمل على جميع متصفحات كروميوم.
       </p>
-      <strong>Key Features:</strong><br>
+      <strong>الميزات الرئيسية:</strong><br>
       <table>
         <tr>
-          <td>✅ Auto-PiP on tab switch</td>
-          <td>✅ Exits PiP when returning</td>
+          <td>✅ تفعيل PiP تلقائي عند تبديل التبويب</td>
+          <td>✅ الخروج من PiP عند العودة</td>
         </tr>
         <tr>
-          <td>✅ Works on most video sites</td>
-          <td>✅ Skips if the video is paused</td>
+          <td>✅ يعمل على معظم مواقع الفيديو</td>
+          <td>✅ يتخطى إذا كان الفيديو متوقفًا</td>
         </tr>
       </table>
       <div align="center">
         <a href="https://greasyfork.org/en/scripts/527239-auto-picture-in-picture-on-tab-change">
-          <img src="https://img.shields.io/badge/INSTALL_SCRIPT-00B894?style=for-the-badge&logo=open-source-initiative&logoColor=white" alt="Install" style="margin-top: 12px">
+          <img src="https://img.shields.io/badge/INSTALL_SCRIPT-00B894?style=for-the-badge&logo=open-source-initiative&logoColor=white" alt="تثبيت" style="margin-top: 12px">
         </a>
       </div>
     </td>
   </tr>
 </table>
 
-* * *
+---
 
 ## 🔧 كيفية التثبيت
 
-1.  **تثبيت العنف**على متصفحك:
-    -   🦊**Firefox:**[الحصول على الوظيفة الإضافية](https://addons.mozilla.org/en-US/firefox/addon/violentmonkey/)
-    -   🌐**الكروم (الكروم ، الحافة ، إلخ):**[احصل على التمديد](https://violentmonkey.github.io/get-it/)
-2.  انقر فوق**تثبيت البرنامج النصي**زر للأداة المطلوبة الخاصة بك
-3.  تأكيد التثبيت في ملحق المنبثقة
-4.  استمتع بالتصفح المحسّن! 🎉
+1. **قم بتثبيت Violentmonkey على متصفحك:**
+   - 🦊 **فايرفوكس:** [الحصول على الإضافة](https://addons.mozilla.org/en-US/firefox/addon/violentmonkey/)
+   - 🌐 **كروميوم (Chrome, Edge, إلخ):** [الحصول على الامتداد](https://violentmonkey.github.io/get-it/)
+2. انقر على زر **تثبيت السكريبت** للأداة التي ترغب بها.
+3. قم بتأكيد التثبيت في نافذة الإضافة.
+4. استمتع بتصفح محسّن! 🎉
 
-* * *
+---
 
-# 📱 دليل إعداد الهاتف المحمول
+# 📱 دليل إعداد الهواتف المحمولة
 
-<div style="border: 2px solid #FF9500; border-radius: 10px; padding: 20px; background-color: #fff4e6; margin: 20px 0;">
+<div style="border: 2px solid #FF9500; border-radius: 10px; padding: 20px; background-color: #fff4e6; margin: 20px 0;" dir="rtl">
 
-## 🤖 تكوين Android
+## 🤖 إعدادات أندرويد
 
 <div style="display: flex; align-items: center; gap: 15px; margin: 15px 0;">
   <img src="https://img.icons8.com/color/48/000000/firefox.png" width="40">
   <div>
-    <h3 style="margin: 0;">Firefox + Extensions</h3>
+    <h3 style="margin: 0;">فايرفوكس + الإضافات</h3>
     <ol>
-      <li>Install <a href="https://play.google.com/store/apps/details?id=org.mozilla.firefox">Firefox for Android</a></li>
-      <li>Tap menu → Add-ons
+      <li>قم بتثبيت <a href="https://play.google.com/store/apps/details?id=org.mozilla.firefox">Firefox لنظام أندرويد</a></li>
+      <li>اضغط على القائمة → الإضافات
         <ul>
           <li><a href="https://addons.mozilla.org/en-US/android/addon/ublock-origin/">uBlock Origin</a></li>
           <li><a href="https://addons.mozilla.org/en-US/android/addon/violentmonkey/">Violentmonkey</a></li>
         </ul>
       </li>
-      <li>Install scripts using desktop-style install buttons</li>
+      <li>قم بتثبيت السكريبتات باستخدام أزرار التثبيت على نمط سطح المكتب</li>
     </ol>
   </div>
 </div>
 
-## 🍎 تكوين iOS
+## 🍎 إعدادات iOS
 
 <div style="display: flex; align-items: center; gap: 15px; margin: 15px 0;">
   <img src="https://img.icons8.com/ios-filled/50/000000/safari--v1.png" width="40">
   <div>
-    <h3 style="margin: 0;">Orion Browser Setup</h3>
+    <h3 style="margin: 0;">إعداد متصفح Orion</h3>
     <ol>
-      <li>Install <a href="https://apps.apple.com/us/app/orion-browser-by-kagi/id1484498200">Orion Browser</a></li>
-      <li>Enable extensions:
+      <li>قم بتثبيت <a href="https://apps.apple.com/us/app/orion-browser-by-kagi/id1484498200">متصفح Orion بواسطة Kagi</a></li>
+      <li>قم بتمكين الإضافات:
         <ul>
-          <li>Settings → Extensions → Enable "Violentmonkey" or "Tampermonkey"</li>
+          <li>الإعدادات → الإضافات → تفعيل "Violentmonkey" أو "Tampermonkey"</li>
         </ul>
       </li>
-      <li>Install scripts through Violentmonkey's or Tampermonkey's interface</li>
+      <li>قم بتثبيت السكريبتات عبر واجهة Violentmonkey أو Tampermonkey</li>
     </ol>
     <p style="font-size: 0.9em; color: #666;">
-      <strong>Note:</strong> Apple restrictions may limit some functionality compared to desktop
+      <strong>ملاحظة:</strong> قد تقيد قيود Apple بعض الوظائف مقارنة بسطح المكتب
     </p>
   </div>
 </div>
 
 </div>
 
-<div style="border-left: 4px solid #34a853; padding: 12px; margin: 20px 0; background-color: #e6f4ea;">
-  <h3>📱 Mobile Optimization Tips</h3>
+<div style="border-left: 4px solid #34a853; padding: 12px; margin: 20px 0; background-color: #e6f4ea;" dir="rtl">
+  <h3>📱 نصائح لتحسين الأداء على الهواتف المحمولة</h3>
   <ul>
-    <li>Use <code>Request Desktop Site</code> for better script compatibility</li>
-    <li>Enable "Persistent" mode in Violentmonkey settings</li>
-    <li>Whitelist video sites in battery saver modes</li>
+    <li>استخدم خيار <code>طلب موقع سطح المكتب</code> لتحسين توافق السكريبتات</li>
+    <li>فعّل وضع "الثبات" في إعدادات Violentmonkey</li>
+    <li>قم بإضافة مواقع الفيديو إلى القائمة البيضاء في أوضاع توفير البطارية</li>
   </ul>
 </div>
 
-* * *
+---
 
 ## 🎨 التخصيص والمساهمة
 
-🔧**تريد تحسين هذه البرامج النصية؟**
+🔧 **هل ترغب في تحسين هذه السكريبتات؟**
 
-1.  شوكة هذا المستودع
-2.  قم بإنشاء فرع الميزات الخاص بك (`git checkout -b feature/AmazingFeature`)
-3.  ارتكاب تغييراتك (`git commit -m 'Add some AmazingFeature'`)
-4.  ادفع إلى الفرع (`git push origin feature/AmazingFeature`)
-5.  افتح طلب سحب
+1. قم بفورك (نسخ) هذا المستودع.
+2. أنشئ فرع الميزة الخاص بك (`git checkout -b feature/AmazingFeature`).
+3. قم بعمل commit للتغييرات (`git commit -m 'إضافة ميزة مذهلة'`).
+4. ادفع الفرع إلى المستودع (`git push origin feature/AmazingFeature`).
+5. افتح طلب سحب.
 
-🐞**وجدت مشكلة؟**  
-[افتح قضية github](https://github.com/EzioTheGoat/EzioUserscripts/issues)
+🐞 **هل وجدت مشكلة؟**  
+[افتح مشكلة على GitHub](https://github.com/EzioTheGoat/EzioUserscripts/issues)
