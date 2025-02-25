@@ -10,7 +10,7 @@
 !     2. Removing unwanted elements such as "clickme" buttons, ad overlays,
 !        and promotional download buttons.
 !
-! Version:      1.2.4
+! Version:      1.2.5
 ! Last Updated: 2025-02-25
 ! Author:       Ezio Auditore
 ! License:      MIT License
