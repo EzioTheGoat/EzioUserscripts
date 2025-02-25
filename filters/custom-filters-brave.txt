@@ -786,6 +786,18 @@ web184.faselhd.cafe##.ml-auto.mr-4.headerItems > .promoLink
 ##body > div:has(> div > a[href^="https://www.faselplus.com/onboarding"])
 web184.faselhd.cafe###pr
 web184.faselhd.cafe##.breakNews
+www.faselhds.cafe##.ml-auto.mr-4.headerItems
+www.faselhds.cafe##.newsInner
+www.faselhds.cafe###pr
+
+! https://web184.faselhd.care
+web184.faselhd.care##.ml-auto.mr-4.headerItems > .promoLink
+##body > div:has(> div > a[href^="https://www.faselplus.com/onboarding"])
+web184.faselhd.care###pr
+web184.faselhd.care##.breakNews
+www.faselhds.care##.ml-auto.mr-4.headerItems
+www.faselhds.care##.newsInner
+www.faselhds.care###pr
 
 ! CimaNow
 cimanow.cc###xqeqjp
