@@ -1,5 +1,5 @@
 ! =============================================================================
-! Title: Brave Custom Filter List
+! Title: Ezio Auditore Filter List
 ! =============================================================================
 ! Description:  
 !   This custom uBlock Origin filter list is designed to improve your browsing
