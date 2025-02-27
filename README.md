@@ -172,7 +172,7 @@ If you experience issues like detection warnings, blocked scripts, or unexpected
 
   <!-- GIF Demo -->
 <div align="center">
-  <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExdGRvdnZkd2JpNDFubGg1dHExZDRjdTIzdHAyNWR6NHE3ZmJsamR2YyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/V6YBk0eHvLN4mBM4Ly/giphy.gif" alt="CimaNow Demo" style="max-width: 100%; border: 1px solid #e1e4e8; border-radius: 8px;">
+  <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExdGRvdnZkd2JpNDFubGg1dHExZDRjdTIzdHAyNWR6NHE3ZmJsamR2YyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/V6YBk0eHvLN4mBM4Ly/giphy.gif" alt="CimaNow Demo" width="800" style="border: 1px solid #e1e4e8; border-radius: 8px;">
 </div>
 
   <div align="center">
