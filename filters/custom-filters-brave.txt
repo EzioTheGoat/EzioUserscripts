@@ -825,3 +825,6 @@ www.faselhds.care##.social-block
 ! Feb 26, 2025 https://arablionztv.com
 arablionztv.com##.visible.GotoTop
 arablionztv.com##.adsLionz > [href="https://tinyurl.com/lionzlink"]
+
+! https://ak.sv/
+ak.sv##html > div
