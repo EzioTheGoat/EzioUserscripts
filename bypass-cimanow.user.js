@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bypass CimaNow
 // @namespace    Violentmonkey Scripts
-// @version      2.2.5
+// @version      2.2.6
 // @description  Automatically append "watching/" to specific URLs, with exceptions and improved performance and error handling
 // @author       Ezio Auditore
 // @icon         https://i.imgur.com/blh1X07.png
@@ -133,10 +133,10 @@
     stealthStyles.textContent = `
       /* Block Object.assign abuse for script injection */
       cimanow.cc##+js(acs, Object.assign)
-      
+
       /* Neutralize Brave browser detection */
       cimanow.cc##+js(brave-fix)
-      
+
       /* Prevent iframe-based popup execution */
       cimanow.cc##.popup:has(iframe)
     `;
@@ -220,6 +220,105 @@
     };
   }
 
+  // ---------------------------------------------------------------------------
+  // maskBrave: Bypass Brave Browser Detection
+  // ---------------------------------------------------------------------------
+  /**
+   * Overrides browser properties to bypass Brave detection.
+   *
+   * This function creates a mock for the `navigator.brave` property by
+   * redefining it with a getter that returns a custom proxy. The proxy's
+   * `isBrave` method always resolves to `{ isBrave: false }`, effectively
+   * masking the fact that the browser might be Brave.
+   *
+   * Additionally, if `navigator.userAgentData` is available, it is overwritten
+   * with a spoofed configuration that mimics a Chromium-based browser without
+   * Brave-specific identifiers.
+   *
+   * To ensure these overrides persist, the function also suppresses potential
+   * errors and continuously re-applies the modifications on DOM mutations.
+   *
+   * @function maskBrave
+   * @returns {void}
+   */
+  function maskBrave() {
+    // Create a proxy-based mock for navigator.brave with an isBrave method.
+    const createBraveMock = () => {
+      const baseMock = {
+        isBrave: {
+          name: "isBrave",
+          execute: () => Promise.resolve({ isBrave: false }),
+        },
+      };
+      return new Proxy(baseMock, {
+        get(target, prop) {
+          // Return the property if it exists; otherwise return a dummy function.
+          return prop in target ? target[prop] : () => Promise.resolve();
+        },
+      });
+    };
+
+    // Attempt to remove any existing navigator.brave property.
+    try {
+      delete Navigator.prototype.brave;
+    } catch (e) {
+      // Silently fail if deletion isn't possible.
+    }
+
+    // Redefine navigator.brave with the custom getter that returns our mock.
+    Object.defineProperty(Navigator.prototype, "brave", {
+      get: () => createBraveMock(),
+      configurable: true,
+      enumerable: false,
+    });
+
+    // Override navigator.userAgentData to remove Brave-specific identifiers if available.
+    if (navigator.userAgentData) {
+      Object.defineProperty(navigator, "userAgentData", {
+        value: {
+          brands: [
+            { brand: "Chromium", version: "120" },
+            { brand: "Google Chrome", version: "120" },
+            { brand: "Not-A.Brand", version: "99" },
+          ],
+          mobile: false,
+          platform: "Windows",
+        },
+        configurable: true,
+      });
+    }
+
+    // Suppress errors that might reveal our modifications to external scripts.
+    window.addEventListener("error", (e) => {
+      e.stopImmediatePropagation();
+      e.stopPropagation();
+      return true;
+    });
+    window.onerror = () => true;
+
+    // Monitor DOM mutations to continuously reapply our Brave override.
+    const observer = new MutationObserver(() => {
+      try {
+        try {
+          delete Navigator.prototype.brave;
+        } catch (e) {
+          // Ignore deletion errors during reapplication.
+        }
+        Object.defineProperty(Navigator.prototype, "brave", {
+          get: () => createBraveMock(),
+          configurable: true,
+          enumerable: false,
+        });
+      } catch (err) {
+        // Suppress any errors encountered during the reapplication process.
+      }
+    });
+    observer.observe(document, {
+      childList: true,
+      subtree: true,
+    });
+  }
+
   // ██╗███╗   ██╗██╗████████╗██╗ █████╗ ██╗     ███████╗
   // ██║████╗  ██║██║╚══██╔══╝██║██╔══██╗██║     ██╔════╝
   // ██║██╔██╗ ██║██║   ██║   ██║███████║██║     █████╗
@@ -234,10 +333,11 @@
       handleUrlRouting(window.location.href);
 
       // Phase 2: LazyLoad Script Blocking (Call unconditionally)
-      enableLazyLoadBlocking();
+      //enableLazyLoadBlocking();
 
       // Phase 3: Anti-Detection
       deployAntiAdblock();
+      maskBrave();
     } catch (criticalError) {
       console.error("[CIMA NOW] Fatal Initialization Error:", criticalError);
     }
