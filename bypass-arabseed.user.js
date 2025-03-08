@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bypass ArabSeed
 // @namespace    Violentmonkey Scripts
-// @version      2.3.6
+// @version      2.3.7
 // @description  Automatically bypass the countdown and show the download link
 // @author       Ezio Auditore
 // @icon         https://i.imgur.com/purcqbc.png
@@ -41,16 +41,17 @@
 // @match        https://cheapou.site/*
 // @match        https://hegry.site/*
 // @match        https://playarena.cam/*
-// @match       https://moshakes.site/*
-// @match       https://joyarcade.cam/*
-// @match       https://gameflare.cam/*
-// @match       https://shallal.site/*
-// @match       https://marcmello.site/*
-// @match       https://mal3oub.site/*
-// @match       https://shabory.site/*
-// @match       https://marshoush.site/*
-// @match       https://ka3boly.site/*
-// @match       https://muhager.site/*
+// @match        https://moshakes.site/*
+// @match        https://joyarcade.cam/*
+// @match        https://gameflare.cam/*
+// @match        https://shallal.site/*
+// @match        https://marcmello.site/*
+// @match        https://mal3oub.site/*
+// @match        https://shabory.site/*
+// @match        https://marshoush.site/*
+// @match        https://ka3boly.site/*
+// @match        https://muhager.site/*
+// @match        https://ofreok.online/*
 // @grant        none
 // @run-at       document-end
 // @updateURL    https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/bypass-arabseed.user.js
@@ -62,11 +63,11 @@
  *
  * This script performs the following tasks:
  * 1. Overrides window.open to block unwanted domains.
- * 2. Normalizes the current URL by appending domain‑specific parameters.
+ * 2. Normalizes the current URL by appending domain-specific parameters.
  * 3. Skips meta-refresh redirects.
  * 4. Hides countdown timers and reveals the primary download button.
  * 5. Observes dynamic DOM changes to block unwanted redirects and ads.
- * 6. Modifies the download button to directly redirect to MP4 files.
+ * 6. Modifies the download button to directly redirect to MP4 files, with specific handling for ofreok.online.
  *
  * The code is organized with professional inline comments and JSDoc-style blocks
  * for ease of understanding, extending, and updating.
@@ -85,7 +86,10 @@
     "videovils.click",
     "href.li",
     "aabroishere.website",
-    "fulvideozrt.click", // Added from existing filters
+    "fulvideozrt.click",
+    "href.li",
+    "pub-9c4ec7f3f95c448b85e464d2b533aac1.r2.dev",
+    "ntryiwl.click",
   ];
   const originalWindowOpen = window.open;
   window.open = function (url, name, features) {
@@ -115,6 +119,118 @@
    */
   function applyCustomFilters() {
     // TODO: Implement custom filtering logic if required.
+  }
+
+  /**
+   * Force-reveals hidden content and removes fake elements for ofreok.online
+   * Priority: 1 (Executes immediately on ofreok.online)
+   */
+  function forceRevealContent() {
+    // Reveal hidden download links
+    const realDownloadLinks = [
+      document.getElementById("btn"),
+      document.querySelector('a[href*=".mp4"]'),
+      document.querySelector('a[href*="/direct/"]'),
+    ].filter(Boolean);
+
+    realDownloadLinks.forEach((link) => {
+      link.style.display = "block";
+      link.style.visibility = "visible";
+    });
+
+    // Remove fake elements
+    const elementsToRemove = [
+      "#countdown",
+      "#downloadButton",
+      ".modalDialog",
+      "#modal",
+    ].join(", ");
+    document.querySelectorAll(elementsToRemove).forEach((el) => el.remove());
+
+    // Force-show all hidden elements
+    document.querySelectorAll('[style*="display: none"]').forEach((el) => {
+      el.style.display = "block !important";
+      el.style.visibility = "visible !important";
+    });
+  }
+
+  /**
+   * Disables common anti-adblock detectors for ofreok.online
+   * Priority: 2 (Runs after content reveal on ofreok.online)
+   */
+  function disableAntiBypass() {
+    // Kill countdown timers
+    if (typeof countdown !== "undefined") {
+      countdown.start = () => {};
+      countdown.stop = () => {};
+      if (countdown.container) {
+        countdown.container.style.display = "none";
+      }
+    }
+
+    // Block common detection scripts
+    const blockedPatterns = [
+      /adblock/i,
+      /blockadblock/i,
+      /adsbygoogle/i,
+      /pagead2\.googlesyndication/i,
+    ];
+    Object.defineProperty(window, "adsbygoogle", {
+      value: [],
+      writable: false,
+    });
+
+    // Disable mutation observers (specific to page scripts)
+    if (typeof MutationObserver !== "undefined") {
+      MutationObserver.prototype.observe = function () {
+        console.log("[Bypass] MutationObserver disabled");
+      };
+    }
+  }
+
+  /**
+   * Observer to maintain bypass state for ofreok.online
+   * Priority: Persistent (Runs continuously on ofreok.online)
+   */
+  function createDomGuard() {
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        // Re-apply bypass on new elements
+        mutation.addedNodes.forEach((node) => {
+          if (node.nodeType === 1) {
+            // Element node
+            if (node.matches("#countdown, .modalDialog")) {
+              node.remove();
+            }
+            node
+              .querySelectorAll?.('[style*="display: none"]')
+              .forEach((el) => {
+                el.style.display = "block";
+              });
+          }
+        });
+      });
+    });
+
+    observer.observe(document.documentElement, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["style"],
+    });
+  }
+
+  // Immediate execution for ofreok.online
+  if (window.location.hostname === "ofreok.online") {
+    forceRevealContent();
+    disableAntiBypass();
+    createDomGuard();
+
+    // Reinforce bypass every 2 seconds
+    setInterval(() => {
+      forceRevealContent();
+      disableAntiBypass();
+    }, 2000);
   }
 
   /**
@@ -149,7 +265,7 @@
       }
     }
 
-    // Define domain flags for internal handling.
+    // Define domain flags for internal handling (unchanged from original)
     const isMonafesSite = hostname === "m.monafes.site";
     const isGamehubCam = hostname === "m.gamehub.cam";
     const isTechlandLive = hostname === "m.techland.live";
@@ -183,9 +299,9 @@
     const isMarshoushSite = hostname === "marshoush.site";
     const isKa3bolySite = hostname === "ka3boly.site";
     const isMuhagerSite = hostname === "muhager.site";
+    const isOfreokOnline = hostname === "ofreok.online";
 
-    // Special handling for Kalosha.site:
-    // Append "gmz=1" if the URL contains "game=" but not "gmz=1" or "dgame=".
+    // Special handling for Kalosha.site (unchanged)
     if (isKaloshaSite) {
       const hasGameParam = currentUrl.includes("game=");
       const hasGmzParam = currentUrl.includes("gmz=1");
@@ -198,8 +314,7 @@
       return false;
     }
 
-    // Special bypass for reviewpalace.net desktop version:
-    // If URL ends with "pst=digits" and lacks "gmz=1", append "gmz=1".
+    // Special bypass for reviewpalace.net desktop version (unchanged)
     if (isReviewpalaceNetDesktop) {
       const pstRegex = /[?&]pst=\d+$/;
       if (pstRegex.test(currentUrl) && !/&gmz=1/.test(currentUrl)) {
@@ -209,8 +324,7 @@
       }
     }
 
-    // Special handling for jurbana.site:
-    // Append "gmz=1" if the URL ends with "game=digits" and doesn't already include it.
+    // Special handling for jurbana.site (unchanged)
     if (isJurbanaSite) {
       const gameRegex = /[?&]game=\d+$/;
       if (gameRegex.test(currentUrl) && !currentUrl.includes("gmz=1")) {
@@ -220,10 +334,7 @@
       }
     }
 
-    /**
-     * List of domains that require bypassing the countdown by appending "?tfs=1" to the URL.
-     * To update the list of domains, simply modify the array below.
-     */
+    // List of bypass domains (ofreok.online already included)
     const bypassDomains = [
       "hawsa.site",
       "gamevault.cam",
@@ -249,22 +360,12 @@
       "marshoush.site",
       "ka3boly.site",
       "muhager.site",
+      "ofreok.online",
     ];
 
-    /**
-     * Checks if the current URL on any of the specified domains requires bypassing the countdown.
-     *
-     * For domains listed in `bypassDomains`, if the query string contains "r=" and does not already include "tfs=1",
-     * the function appends "&tfs=1" (or "?tfs=1" if no query parameters exist) to the URL and redirects the page.
-     *
-     * Example:
-     *   Before: https://hawsa.site/single/1227/real-motocross/?r=479083485
-     *   After:  https://hawsa.site/single/1227/real-motocross/?r=479083485&tfs=1
-     *
-     * @returns {boolean} Returns true if the URL was modified and a redirection was performed, otherwise false.
-     */
+    // Apply tfs=1 bypass for bypassDomains (unchanged)
     if (
-      bypassDomains.includes(window.location.hostname) &&
+      bypassDomains.includes(hostname) &&
       window.location.search.includes("r=") &&
       !window.location.search.includes("tfs=1")
     ) {
@@ -273,7 +374,7 @@
       return true;
     }
 
-    // Apply domain-specific normalization if the URL matches our bare pattern.
+    // Apply domain-specific normalization (unchanged)
     if (urlPattern.test(currentUrl)) {
       if (isMonafesSite && !/&t=1&mon=1/.test(currentUrl)) {
         window.location.replace(`${currentUrl}&t=1&mon=1`);
@@ -309,7 +410,6 @@
 
   /**
    * Detects and handles meta-refresh redirects by scanning for meta tags.
-   * Useful for pages that use meta tags to trigger redirection.
    */
   function skipMetaRedirect() {
     try {
@@ -347,7 +447,6 @@
 
   /**
    * Observes dynamic DOM changes to reapply custom filters and block unwanted redirects.
-   * It disables links that point to known ad/redirect domains.
    */
   function handleDynamicRedirectsAndAds() {
     const blockedDomainsForAds = [
@@ -355,15 +454,15 @@
       "videovils.click",
       "another-ad-domain.com",
       "yet-another-ad-domain.com",
+      "href.li",
+      "pub-9c4ec7f3f95c448b85e464d2b533aac1.r2.dev",
+      "ntryiwl.click",
     ];
 
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.type === "childList" || mutation.type === "attributes") {
-          // Reapply custom filters whenever new elements are added.
           applyCustomFilters();
-
-          // Disable links pointing to blocked domains.
           const links = document.querySelectorAll("a");
           links.forEach((link) => {
             const href = link.getAttribute("href");
@@ -393,32 +492,18 @@
 
   /**
    * Main function to initialize the script after the page is fully loaded.
-   *
-   * This function:
-   * - Normalizes the URL (exiting early if a redirection occurs).
-   * - Skips meta-refresh redirects.
-   * - Hides countdown timers and shows the download button.
-   * - Sets up dynamic DOM observers to block ads/redirects.
-   * - Modifies the download button to intercept click events and redirect directly to MP4 links.
    */
   function initScript() {
-    // Normalize the URL. If a redirection occurs, halt further execution.
     if (normalizeUrl()) {
       return;
     }
 
-    // Handle meta-refresh redirects if present.
     skipMetaRedirect();
-
-    // Hide countdown timers and reveal the download button.
     skipCountdownsAndButtons();
 
-    // For specific dynamic ad domains, set up observers.
     const dynamicAdDomains = ["asd.quest", "asd.rest", "asd.show"];
     if (dynamicAdDomains.includes(window.location.hostname)) {
       handleDynamicRedirectsAndAds();
-
-      // Additional observer to reapply custom filters on DOM mutations.
       const filterObserver = new MutationObserver((mutations) => {
         mutations.forEach(() => applyCustomFilters());
       });
@@ -432,51 +517,73 @@
     /*********************************************
      * 4. Download Button Modification            *
      *********************************************/
-    // Attempt to locate the download button using multiple selectors.
-    let downloadButton = document.querySelector(
-      'a.download-button, button.download-button, a[href*="movie="]'
-    );
-    if (!downloadButton) {
-      // Fallback: Search among all <a> and <button> elements for text containing "download".
-      downloadButton = Array.from(document.querySelectorAll("a, button")).find(
-        (el) => /download/i.test(el.textContent)
-      );
-    }
-    if (downloadButton) {
-      console.log("Download button found. Attaching click interceptor.");
-      downloadButton.addEventListener(
-        "click",
-        function (e) {
-          e.preventDefault();
-          e.stopPropagation();
+    if (window.location.hostname === "ofreok.online") {
+      // Specific handling for ofreok.online
+      forceRevealContent();
+      disableAntiBypass();
 
-          // Attempt to locate an MP4 link (priority for exact match).
-          let mp4Link = document.querySelector('a[href$=".mp4"]');
-          if (!mp4Link) {
-            const allMp4Links = document.querySelectorAll('a[href*=".mp4"]');
-            if (allMp4Links.length > 0) {
-              mp4Link = allMp4Links[0];
-            }
-          }
-
-          // If an MP4 link is found, redirect to it; otherwise, try backup detection using a <video> element.
-          if (mp4Link) {
-            console.log("Redirecting to MP4:", mp4Link.href);
-            window.location.href = mp4Link.href;
-          } else {
-            console.log("No MP4 link found. Initiating backup detection...");
-            const videoElement = document.querySelector("video");
-            if (videoElement && videoElement.src) {
-              window.location.href = videoElement.src;
-            }
-          }
-        },
-        true
+      // Enhanced download button handler for ofreok.online
+      document.querySelectorAll("a, button").forEach((element) => {
+        if (/(download|تحميل)/i.test(element.textContent)) {
+          element.addEventListener(
+            "click",
+            (e) => {
+              e.preventDefault();
+              const directLink =
+                document.querySelector('a[href*=".mp4"]')?.href ||
+                document.querySelector("video")?.src;
+              if (directLink) {
+                console.log("Redirecting to direct link:", directLink);
+                window.location.href = directLink;
+              }
+            },
+            true
+          );
+        }
+      });
+    } else {
+      // General handling for other domains
+      let downloadButton = document.querySelector(
+        'a.download-button, button.download-button, a[href*="movie="]'
       );
+      if (!downloadButton) {
+        downloadButton = Array.from(
+          document.querySelectorAll("a, button")
+        ).find((el) => /download/i.test(el.textContent));
+      }
+      if (downloadButton) {
+        console.log("Download button found. Attaching click interceptor.");
+        downloadButton.addEventListener(
+          "click",
+          function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            let mp4Link = document.querySelector('a[href$=".mp4"]');
+            if (!mp4Link) {
+              const allMp4Links = document.querySelectorAll('a[href*=".mp4"]');
+              if (allMp4Links.length > 0) {
+                mp4Link = allMp4Links[0];
+              }
+            }
+
+            if (mp4Link) {
+              console.log("Redirecting to MP4:", mp4Link.href);
+              window.location.href = mp4Link.href;
+            } else {
+              console.log("No MP4 link found. Initiating backup detection...");
+              const videoElement = document.querySelector("video");
+              if (videoElement && videoElement.src) {
+                window.location.href = videoElement.src;
+              }
+            }
+          },
+          true
+        );
+      }
     }
   }
 
   // Wait for the window to fully load before initializing the script.
   window.addEventListener("load", initScript);
 })();
-
