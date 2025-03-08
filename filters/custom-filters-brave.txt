@@ -65,6 +65,7 @@ mal3oub.site##+js(brave-fix)
 shabory.site##+js(brave-fix)
 marshoush.site##+js(brave-fix)
 ka3boly.site##+js(brave-fix)
+ofreok.online##+js(brave-fix)
 
 ! CimaNow
 cimanow.cc##+js(brave-fix)
@@ -127,6 +128,7 @@ bs.cimanow.cc##+js(brave-fix)
 !   - marshoush.site        : requires &tfs=1
 !   - ka3boly.site         : requires &tfs=1
 !   - muhager.site         : requires &tfs=1
+!   - ofreok.online         : requires 
 ! -----------------------------------------------------------------------------
 
 ! =============================================================================
@@ -771,6 +773,20 @@ muhager.site##.desktop-button
 muhager.site##a#btn[href*="?r="]:not([href*="&tfs=1"])
 muhager.site##a#btn[href^="https://muhager.site/"][href*='?r='] > .btn-collab.hover-top.btn
 
+============================================================
+! ofreok.online
+! ------------------------------------------------------------
+ofreok.online###clickme > .btn-collab.hover-top.btn
+!ofreok.online##.first > .DownloadMainContent > .InnerDownload > .Adabove:not(:has(a[href*="&t=1"])):upward(.Adabove)
+ofreok.online##.visible-block
+ofreok.online##.relativeee.DownloadArea > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+ofreok.online##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+ofreok.online##.relativeee.DownloadArea > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+ofreok.online##.DownloadBlock > .DownloadBlock > .DownloadBlock > .DownloadBlock > .TitleCenteral [href^="https://fulvideozrt.click/"] > .desktop-button
+ofreok.online##.desktop-button
+ofreok.online##a#btn[href*="?r="]:not([href*="&t=1&gfs=1&tfs=1"])
+ofreok.online##a#btn[href^="https://ofreok.online/"][href*='?r='] > .btn-collab.hover-top.btn
+
 ! =============================================================================
 ! SECTION IIII: UNRELATED SITES (General Blocking)
 ! -----------------------------------------------------------------------------
@@ -780,6 +796,7 @@ muhager.site##a#btn[href^="https://muhager.site/"][href*='?r='] > .btn-collab.ho
 asd.show##video
 asd.rest##video
 asd.quest##video
+m15.asd.rest##video
 
 ! CimaNow
 cimanow.cc###xqeqjp
