@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bypass ArabSeed
 // @namespace    Violentmonkey Scripts
-// @version      2.3.7
+// @version      2.3.8
 // @description  Automatically bypass the countdown and show the download link
 // @author       Ezio Auditore
 // @icon         https://i.imgur.com/purcqbc.png
@@ -226,10 +226,45 @@
     disableAntiBypass();
     createDomGuard();
 
+    // Add the new functionality for ofreok.online
+    function showRealDownload() {
+      var realLink = document.querySelector('a#btn');
+      if (realLink) {
+        realLink.style.display = 'block'; // Make the real link visible
+      }
+    }
+
+    function hideFakeElements() {
+      var fakeForm = document.querySelector('form#btn');
+      var clickMeDiv = document.querySelector('div#clickme');
+      if (fakeForm) {
+        fakeForm.style.display = 'none'; // Hide the fake form
+      }
+      if (clickMeDiv) {
+        clickMeDiv.style.display = 'none'; // Hide the clickme div
+      }
+    }
+
+    // Check if the real link is already present in the DOM
+    if (document.querySelector('a#btn')) {
+      // If the real link exists, show it and hide fake elements
+      showRealDownload();
+      hideFakeElements();
+    } else {
+      // If the real link isn't present, simulate form submission
+      var fakeForm = document.querySelector('form#btn');
+      if (fakeForm) {
+        console.log("Submitting fake form to reveal real content");
+        fakeForm.submit(); // Submit the form to load the real link
+      }
+    }
+
     // Reinforce bypass every 2 seconds
     setInterval(() => {
       forceRevealContent();
       disableAntiBypass();
+      showRealDownload();
+      hideFakeElements();
     }, 2000);
   }
 
