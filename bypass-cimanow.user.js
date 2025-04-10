@@ -1,345 +1,302 @@
 // ==UserScript==
-// @name         Bypass CimaNow
-// @namespace    Violentmonkey Scripts
-// @version      2.2.6
-// @description  Automatically append "watching/" to specific URLs, with exceptions and improved performance and error handling
-// @author       Ezio Auditore
-// @icon         https://i.imgur.com/blh1X07.png
-// @match        *://cimanow.cc/*
-// @match        *://vip.cimanowinc.com/*
-// @match        *://bs.cimanow.cc/*
-// @match        *://*.cimanow.cc/*
-// @match        *://*.cimanowinc.com/*
-// @match        *://*.cimanow.online/*
-// @grant        none
-// @run-at       document-start
-// @updateURL    https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/bypass-cimanow.user.js
-// @downloadURL  https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/bypass-cimanow.user.js
+// @name         Bypass CimaNow
+// @namespace    Violentmonkey Scripts
+// @version      2.2.7
+// @description  Automatically Bypass all CimaNow Restrictions, Auto-click buttons, and Redirect to Watching Page
+// @author       Ezio Auditore
+// @icon         https://i.imgur.com/blh1X07.png
+// @match        *://cimanow.cc/*
+// @match        *://vip.cimanowinc.com/*
+// @match        *://bs.cimanow.cc/*
+// @match        *://*.cimanow.cc/*
+// @match        *://*.cimanowinc.com/*
+// @match        *://*.cimanow.online/*
+// @match        https://rm.freex2line.online/*
+// @grant        none
+// @run-at       document-start
+// @updateURL    https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/bypass-cimanow.user.js
+// @downloadURL  https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/bypass-cimanow.user.js
 // ==/UserScript==
 
 (function IIFE() {
-  "use strict";
+  "use strict";
 
-  // ██████╗ ██████╗  ██████╗ ██╗    ██╗███████╗██████╗  ██████╗
-  // ██╔══██╗██╔══██╗██╔═══██╗██║    ██║██╔════╝██╔══██╗██╔════╝
-  // ██████╔╝██████╔╝██║   ██║██║ █╗ ██║█████╗  ██████╔╝██║
-  // ██╔══██╗██╔══██╗██║   ██║██║███╗██║██╔══╝  ██╔══██╗██║
-  // ██████╔╝██║  ██║╚██████╔╝╚███╔███╔╝███████╗██║  ██║╚██████╗
-  // ╚═════╝ ╚═╝  ╚═╝ ╚═════╝  ╚══╝╚══╝ ╚══════╝╚═╝  ╚═╝ ╚═════╝
-  // Browser Fingerprint Configuration Section
+  // ██████╗ ██████╗  ██████╗ ██╗    ██╗███████╗██████╗  ██████╗
+  // ██╔══██╗██╔══██╗██╔═══██╗██║    ██║██╔════╝██╔══██╗██╔════╝
+  // ██████╔╝██████╔╝██║   ██║██║ █╗ ██║█████╗  ██████╔╝██║
+  // ██╔══██╗██╔══██╗██║   ██║██║███╗██║██╔══╝  ██╔══██╗██║
+  // ██████╔╝██║  ██║╚██████╔╝╚███╔███╔╝███████╗██║  ██║╚██████╗
+  // ╚═════╝ ╚═╝  ╚═╝ ╚═════╝  ╚══╝╚══╝ ╚══════╝╚═╝  ╚═╝ ╚═════╝
+  // Browser Fingerprint Configuration Section
 
-  /**
-   * Strategic User-Agent Configuration
-   * @constant {string}
-   * @description
-   * - Chrome 120: Represents 68% of global browser market share (StatCounter 2024)
-   * - Windows 10: Maintains 72% OS market share (Steam Survey 2024)
-   * - No unique identifiers: Generic WebKit version avoids fingerprinting
-   * - Updated biweekly: Matches average enterprise update cycle
-   */
-  const COMMON_USER_AGENT =
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
+  const COMMON_USER_AGENT =
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
 
-  /**
-   * User-Agent Property Descriptor Configuration
-   * @description
-   * - Immutable definition prevents accidental mutation
-   * - Non-enumerable property hides from Object.keys() detection
-   * - Getter function provides fresh reference each access
-   */
-  Object.defineProperty(navigator, "userAgent", {
-    get: () => COMMON_USER_AGENT,
-    configurable: false,
-    enumerable: false,
-  });
+  Object.defineProperty(navigator, "userAgent", {
+    get: () => COMMON_USER_AGENT,
+    configurable: false,
+    enumerable: false,
+  });
 
-  // ██╗  ██╗███████╗██╗   ██╗██╗ ██████╗███████╗███████╗
-  // ██║ ██╔╝██╔════╝╚██╗ ██╔╝██║██╔════╝██╔════╝██╔════╝
-  // █████╔╝ █████╗   ╚████╔╝ ██║██║     █████╗  ███████╗
-  // ██╔═██╗ ██╔══╝    ╚██╔╝  ██║██║     ██╔══╝  ╚════██║
-  // ██║  ██╗███████╗   ██║   ██║╚██████╗███████╗███████║
-  // ╚═╝  ╚═╝╚══════╝   ╚═╝   ╚═╝ ╚═════╝╚══════╝╚══════╝
-  // Core Business Logic Section
+  // ██╗  ██╗███████╗██╗   ██╗██╗ ██████╗███████╗███████╗
+  // ██║ ██╔╝██╔════╝╚██╗ ██╔╝██║██╔════╝██╔════╝██╔════╝
+  // █████╔╝ █████╗   ╚████╔╝ ██║██║     █████╗  ███████╗
+  // ██╔═██╗ ██╔══╝    ╚██╔╝  ██║██║     ██╔══╝  ╚════██║
+  // ██║  ██╗███████╗   ██║   ██║╚██████╗███████╗███████║
+  // ╚═╝  ╚═╝╚══════╝   ╚═╝   ╚═╝ ╚═════╝╚══════╝╚══════╝
+  // Core Business Logic Section
 
-  /**
-   * Advanced URL Routing Engine
-   * @param {string} url - Current document URL
-   * @returns {void}
-   * @description
-   * Implements intelligent path management with:
-   * - Root path normalization
-   * - Protected route whitelisting
-   * - Dynamic path construction
-   * - Encoded path variant handling
-   */
-  function handleUrlRouting(url) {
-    const { pathname: currentPath, href: originalUrl } = new URL(url);
+  function handleUrlRouting(url) {
+    const { pathname: currentPath, href: originalUrl } = new URL(url);
 
-    // Root Path Normalization
-    if (currentPath === "/") {
-      window.location.replace("/home/");
-      return;
-    }
+    if (currentPath === "/") {
+      window.location.replace("/home/");
+      return;
+    }
 
-    // Protected Path Configuration
-    const SAFE_PATHS = [
-      "/home/", // Primary content gateway
-      "/category/", // Taxonomy-based navigation
-      "/selary/", // Subscription management
-      "/recent/", // Temporal content feed
-      "/الاحدث/", // Localized Arabic content
-      "/plans/", // Monetization tiers
-      "/قريبا/",
-      "/رمضان/",
-      "/%D8%A7%D9%84%D8%AD%D8%AF%D9%8A%D8%AB/", // URL-encoded security bypass
-      "/%d8%a7%d9%84%d8%a7%d8%ad%d8%af%d8%ab/", // Lowercase encoding variant
-    ];
+    const SAFE_PATHS = [
+      "/home/",
+      "/category/",
+      "/selary/",
+      "/recent/",
+      "/الاحدث/",
+      "/plans/",
+      "/قريبا/",
+      "/رمضان/",
+      "/%D8%A7%D9%84%D8%AD%D8%AF%D9%8A%D8%AB/",
+      "/%d8%a7%d9%84%d8%a7%d8%ad%d8%af%d8%ab/",
+    ];
 
-    // Security Validation Layer
-    const isProtectedRoute = SAFE_PATHS.some((path) =>
-      currentPath.includes(path)
-    );
-    const hasWatchingSegment = /\/watching\/?$/i.test(originalUrl);
+    const isProtectedRoute = SAFE_PATHS.some((path) =>
+      currentPath.includes(path)
+    );
+    const hasWatchingSegment = /\/watching\/?$/i.test(originalUrl);
 
-    if (isProtectedRoute || hasWatchingSegment) return;
+    if (isProtectedRoute || hasWatchingSegment) return;
 
-    // Dynamic Path Construction
-    const pathSeparator = originalUrl.endsWith("/") ? "" : "/";
-    window.location.replace(`${originalUrl}${pathSeparator}watching/`);
-  }
+    const pathSeparator = originalUrl.endsWith("/") ? "" : "/";
+    //window.location.replace(`${originalUrl}${pathSeparator}watching/`);
+  }
 
-  // ███████╗███████╗ ██████╗ ██╗   ██╗██████╗ ██╗████████╗██╗   ██╗
-  // ██╔════╝██╔════╝██╔═══██╗██║   ██║██╔══██╗██║╚══██╔══╝╚██╗ ██╔╝
-  // ███████╗█████╗  ██║   ██║██║   ██║██████╔╝██║   ██║    ╚████╔╝
-  // ╚════██║██╔══╝  ██║   ██║██║   ██║██╔══██╗██║   ██║     ╚██╔╝
-  // ███████║███████╗╚██████╔╝╚██████╔╝██║  ██║██║   ██║      ██║
-  // ╚══════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝   ╚═╝      ╚═╝
-  // Security & Anti-Detection Section
+  // ███████╗███████╗ ██████╗ ██╗   ██╗██████╗ ██╗████████╗██╗   ██╗
+  // ██╔════╝██╔════╝██╔═══██╗██║   ██║██╔══██╗██║╚══██╔══╝╚██╗ ██╔╝
+  // ███████╗█████╗  ██║   ██║██║   ██║██████╔╝██║   ██║    ╚████╔╝
+  // ╚════██║██╔══╝  ██║   ██║██║   ██║██╔══██╗██║   ██║     ╚██╔╝
+  // ███████║███████╗╚██████╔╝╚██████╔╝██║  ██║██║   ██║      ██║
+  // ╚══════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝   ╚═╝      ╚═╝
+  // Security & Anti-Detection Section
 
-  /**
-   * Advanced Adblock Countermeasures
-   * @description
-   * Implements three-layer protection:
-   * 1. Script behavior modification
-   * 2. Browser detection bypass
-   * 3. DOM-based popup prevention
-   * @see https://github.com/gorhill/uBlock/wiki/Static-filter-syntax
-   */
-  function deployAntiAdblock() {
-    const stealthStyles = document.createElement("style");
-    stealthStyles.id = "cimanow-anti-detection";
+  function deployAntiAdblock() {
+    const stealthStyles = document.createElement("style");
+    stealthStyles.id = "cimanow-anti-detection";
+    stealthStyles.textContent = `
+      cimanow.cc##+js(acs, Object.assign)
+      cimanow.cc##+js(brave-fix)
+      cimanow.cc##.popup:has(iframe)
+    `;
+    document.documentElement.prepend(stealthStyles);
+  }
 
-    // Defense-in-depth filtering rules
-    stealthStyles.textContent = `
-      /* Block Object.assign abuse for script injection */
-      cimanow.cc##+js(acs, Object.assign)
+  function enableLazyLoadBlocking() {
+    const currentPath = window.location.pathname;
+    if (
+      !(
+        currentPath.startsWith("/selary/") || currentPath.includes("/watching/")
+      )
+    )
+      return;
 
-      /* Neutralize Brave browser detection */
-      cimanow.cc##+js(brave-fix)
+    console.log("[CIMA NOW] LazyLoad Blocker Activated:", window.location.href);
 
-      /* Prevent iframe-based popup execution */
-      cimanow.cc##.popup:has(iframe)
-    `;
+    const lazyLoadScriptIdentifier =
+      "cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/17.8.3/lazyload.min.js";
 
-    document.documentElement.prepend(stealthStyles);
-  }
+    function blockLazyLoadScript(node) {
+      if (
+        node.tagName === "SCRIPT" &&
+        node.src.includes(lazyLoadScriptIdentifier)
+      ) {
+        node.parentNode?.removeChild(node);
+        console.log("[CIMA NOW] Blocked lazyload script:", node.src);
+      }
+    }
 
-  /**
-   * Advanced LazyLoad Script Blocking
-   * @description
-   * Dual-layer protection against lazy loading scripts:
-   * 1. MutationObserver monitors DOM for script injections
-   * 2. Prototype override prevents script element creation
-   */
-  function enableLazyLoadBlocking() {
-    const currentPath = window.location.pathname;
-    if (
-      !(
-        currentPath.startsWith("/selary/") || currentPath.includes("/watching/")
-      )
-    ) {
-      return;
-    }
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        mutation.addedNodes.forEach((node) => {
+          if (node.nodeType === Node.ELEMENT_NODE) blockLazyLoadScript(node);
+        });
+      });
+    });
 
-    console.log(
-      "[CIMA NOW] LazyLoad Blocker Activated on:",
-      window.location.href
-    );
+    observer.observe(document.documentElement, {
+      childList: true,
+      subtree: true,
+    });
 
-    const lazyLoadScriptIdentifier =
-      "cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/17.8.3/lazyload.min.js";
+    const originalCreateElement = Document.prototype.createElement;
+    Document.prototype.createElement = function (tagName) {
+      const element = originalCreateElement.call(this, tagName);
+      if (tagName.toLowerCase() === "script") {
+        const originalSetAttribute = element.setAttribute;
+        element.setAttribute = function (name, value) {
+          if (name === "src" && value.includes(lazyLoadScriptIdentifier)) {
+            console.log("[CIMA NOW] Blocked lazyload script creation:", value);
+            return;
+          }
+          return originalSetAttribute.call(this, name, value);
+        };
+      }
+      return element;
+    };
+  }
 
-    function blockLazyLoadScript(node) {
-      if (node.tagName === "SCRIPT") {
-        const src = node.src || "";
-        if (src.includes(lazyLoadScriptIdentifier)) {
-          node.parentNode?.removeChild(node);
-          console.log("[CIMA NOW] Blocked lazyload script:", src);
-        }
-      }
-    }
+  function maskBrave() {
+    const createBraveMock = () =>
+      new Proxy(
+        {
+          isBrave: {
+            name: "isBrave",
+            execute: () => Promise.resolve({ isBrave: false }),
+          },
+        },
+        {
+          get: (target, prop) =>
+            prop in target ? target[prop] : () => Promise.resolve(),
+        }
+      );
 
-    // Monitor entire DOM for script injections
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        mutation.addedNodes.forEach((node) => {
-          if (
-            node.nodeType === Node.ELEMENT_NODE &&
-            node.tagName === "SCRIPT"
-          ) {
-            blockLazyLoadScript(node);
-          }
-        });
-      });
-    });
+    try {
+      delete Navigator.prototype.brave;
+    } catch (e) {}
+    Object.defineProperty(Navigator.prototype, "brave", {
+      get: () => createBraveMock(),
+      configurable: true,
+      enumerable: false,
+    });
 
-    observer.observe(document.documentElement, {
-      childList: true,
-      subtree: true,
-    });
+    if (navigator.userAgentData) {
+      Object.defineProperty(navigator, "userAgentData", {
+        value: {
+          brands: [
+            { brand: "Chromium", version: "120" },
+            { brand: "Google Chrome", version: "120" },
+            { brand: "Not-A.Brand", version: "99" },
+          ],
+          mobile: false,
+          platform: "Windows",
+        },
+        configurable: true,
+      });
+    }
 
-    // Intercept script element creation
-    const originalCreateElement = Document.prototype.createElement;
-    Document.prototype.createElement = function (tagName) {
-      const element = originalCreateElement.call(this, tagName);
-      if (tagName.toLowerCase() === "script") {
-        const originalSetAttribute = element.setAttribute;
-        element.setAttribute = function (name, value) {
-          if (
-            name === "src" &&
-            typeof value === "string" &&
-            value.includes(lazyLoadScriptIdentifier)
-          ) {
-            console.log("[CIMA NOW] Blocked lazyload script creation:", value);
-            return;
-          }
-          return originalSetAttribute.call(this, name, value);
-        };
-      }
-      return element;
-    };
-  }
+    window.addEventListener("error", (e) => e.stopImmediatePropagation());
+    window.onerror = () => true;
 
-  // ---------------------------------------------------------------------------
-  // maskBrave: Bypass Brave Browser Detection
-  // ---------------------------------------------------------------------------
-  /**
-   * Overrides browser properties to bypass Brave detection.
-   *
-   * This function creates a mock for the `navigator.brave` property by
-   * redefining it with a getter that returns a custom proxy. The proxy's
-   * `isBrave` method always resolves to `{ isBrave: false }`, effectively
-   * masking the fact that the browser might be Brave.
-   *
-   * Additionally, if `navigator.userAgentData` is available, it is overwritten
-   * with a spoofed configuration that mimics a Chromium-based browser without
-   * Brave-specific identifiers.
-   *
-   * To ensure these overrides persist, the function also suppresses potential
-   * errors and continuously re-applies the modifications on DOM mutations.
-   *
-   * @function maskBrave
-   * @returns {void}
-   */
-  function maskBrave() {
-    // Create a proxy-based mock for navigator.brave with an isBrave method.
-    const createBraveMock = () => {
-      const baseMock = {
-        isBrave: {
-          name: "isBrave",
-          execute: () => Promise.resolve({ isBrave: false }),
-        },
-      };
-      return new Proxy(baseMock, {
-        get(target, prop) {
-          // Return the property if it exists; otherwise return a dummy function.
-          return prop in target ? target[prop] : () => Promise.resolve();
-        },
-      });
-    };
+    new MutationObserver(() => {
+      try {
+        delete Navigator.prototype.brave;
+        Object.defineProperty(Navigator.prototype, "brave", {
+          get: () => createBraveMock(),
+          configurable: true,
+          enumerable: false,
+        });
+      } catch (err) {}
+    }).observe(document, { childList: true, subtree: true });
+  }
 
-    // Attempt to remove any existing navigator.brave property.
-    try {
-      delete Navigator.prototype.brave;
-    } catch (e) {
-      // Silently fail if deletion isn't possible.
-    }
+  // █▀▀ █▀▀█ █▀▀█ █▀▀ █▀▀ 　 █▀▀ █░░█ █▀▀█ █▀▀ █▀▀ █▀▀
+  // █░░ █▄▄▀ █▄▄█ ▀▀█ █▀▀ 　 █▀▀ █▄▄█ █▄▄█ ▀▀█ ▀▀█ ▀▀█
+  // ▀▀▀ ▀░▀▀ ▀░░▀ ▀▀▀ ▀▀▀ 　 ▀░░ ▄▄▄█ ▀░░▀ ▀▀▀ ▀▀▀ ▀▀▀
+  // Auto-Click & Timer Bypass Section
 
-    // Redefine navigator.brave with the custom getter that returns our mock.
-    Object.defineProperty(Navigator.prototype, "brave", {
-      get: () => createBraveMock(),
-      configurable: true,
-      enumerable: false,
-    });
+  function fakeCountdown360() {
+    if (window.jQuery?.fn) {
+      window.jQuery.fn.countdown360 = function (options) {
+        console.log("[Fake countdown360] Activated with options:", options);
+        return {
+          start: () =>
+            setTimeout(() => {
+              const btn = document.querySelector("#downloadbtn");
+              if (btn) {
+                console.log(
+                  "[Fake countdown360] Triggering download button click"
+                );
+                simulateClick(btn);
+              }
+            }, 200),
+        };
+      };
+      console.log("[Fake countdown360] Plugin successfully mocked");
+      return true;
+    }
+    return false;
+  }
 
-    // Override navigator.userAgentData to remove Brave-specific identifiers if available.
-    if (navigator.userAgentData) {
-      Object.defineProperty(navigator, "userAgentData", {
-        value: {
-          brands: [
-            { brand: "Chromium", version: "120" },
-            { brand: "Google Chrome", version: "120" },
-            { brand: "Not-A.Brand", version: "99" },
-          ],
-          mobile: false,
-          platform: "Windows",
-        },
-        configurable: true,
-      });
-    }
+  function simulateClick(element) {
+    if (!element) return;
+    element.scrollIntoView({ behavior: "smooth", block: "center" });
+    element.focus();
 
-    // Suppress errors that might reveal our modifications to external scripts.
-    window.addEventListener("error", (e) => {
-      e.stopImmediatePropagation();
-      e.stopPropagation();
-      return true;
-    });
-    window.onerror = () => true;
+    const event = new MouseEvent("click", {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+    });
 
-    // Monitor DOM mutations to continuously reapply our Brave override.
-    const observer = new MutationObserver(() => {
-      try {
-        try {
-          delete Navigator.prototype.brave;
-        } catch (e) {
-          // Ignore deletion errors during reapplication.
-        }
-        Object.defineProperty(Navigator.prototype, "brave", {
-          get: () => createBraveMock(),
-          configurable: true,
-          enumerable: false,
-        });
-      } catch (err) {
-        // Suppress any errors encountered during the reapplication process.
-      }
-    });
-    observer.observe(document, {
-      childList: true,
-      subtree: true,
-    });
-  }
+    const result = element.dispatchEvent(event);
+    console.log(
+      "[Auto-click] Dispatched click event:",
+      element,
+      "Success:",
+      result
+    );
+  }
 
-  // ██╗███╗   ██╗██╗████████╗██╗ █████╗ ██╗     ███████╗
-  // ██║████╗  ██║██║╚══██╔══╝██║██╔══██╗██║     ██╔════╝
-  // ██║██╔██╗ ██║██║   ██║   ██║███████║██║     █████╗
-  // ██║██║╚██╗██║██║   ██║   ██║██╔══██║██║     ██╔══╝
-  // ██║██║ ╚████║██║   ██║   ██║██║  ██║███████╗███████╗
-  // ╚═╝╚═╝  ╚═══╝╚═╝   ╚═╝   ╚═╝╚═╝  ╚═╝╚══════╝╚══════╝
-  // Execution Bootstrap
+  function attemptAutoClick() {
+    const targetElements = document.querySelectorAll(".btext");
+    for (const el of targetElements) {
+      if (el.textContent.trim() === "مشاهدة وتحميل") {
+        simulateClick(el.parentElement);
+        return true;
+      }
+    }
+    return false;
+  }
 
-  (function bootstrap() {
-    try {
-      // Phase 1: URL Routing
-      handleUrlRouting(window.location.href);
+  function initializeAutoBypass() {
+    const countdownCheck = setInterval(() => {
+      if (fakeCountdown360()) clearInterval(countdownCheck);
+    }, 50);
 
-      // Phase 2: LazyLoad Script Blocking (Call unconditionally)
-      //enableLazyLoadBlocking();
+    const observer = new MutationObserver((mutations, obs) => {
+      if (attemptAutoClick()) obs.disconnect();
+    });
 
-      // Phase 3: Anti-Detection
-      deployAntiAdblock();
-      maskBrave();
-    } catch (criticalError) {
-      console.error("[CIMA NOW] Fatal Initialization Error:", criticalError);
-    }
-  })();
+    observer.observe(document.documentElement, {
+      childList: true,
+      subtree: true,
+    });
+
+    window.addEventListener("load", () => setTimeout(attemptAutoClick, 100));
+  }
+
+  // ██╗███╗   ██╗██╗████████╗██╗ █████╗ ██╗     ███████╗
+  // ██║████╗  ██║██║╚══██╔══╝██║██╔══██╗██║     ██╔════╝
+  // ██║██╔██╗ ██║██║   ██║   ██║███████║██║     █████╗
+  // ██║██║╚██╗██║██║   ██║   ██║██╔══██║██║     ██╔══╝
+  // ██║██║ ╚████║██║   ██║   ██║██║  ██║███████╗███████╗
+  // ╚═╝╚═╝  ╚═══╝╚═╝   ╚═╝   ╚═╝╚═╝  ╚═╝╚══════╝╚══════╝
+  // Execution Bootstrap
+
+  (function bootstrap() {
+    try {
+      handleUrlRouting(window.location.href);
+      deployAntiAdblock();
+      maskBrave();
+      initializeAutoBypass();
+    } catch (error) {
+      console.error("[CIMA NOW+] Initialization Error:", error);
+    }
+  })();
 })();
