@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bypass CimaNow
 // @namespace    Violentmonkey Scripts
-// @version      2.2.8
+// @version      2.2.9
 // @description  Automatically Bypass all CimaNow Restrictions, Auto-click buttons, and Redirect to Watching Page
 // @author       Ezio Auditore
 // @icon         https://i.imgur.com/blh1X07.png
@@ -73,7 +73,12 @@
    * - Encoded path variant handling
    */
   function handleUrlRouting(url) {
-    const { pathname: currentPath, href: originalUrl } = new URL(url);
+    const { pathname: currentPath, href: originalUrl, search } = new URL(url);
+
+    // Exclude search URLs from redirection
+    if (search.includes("?s=")) {
+      return;
+    }
 
     // Root Path Normalization
     if (currentPath === "/") {
@@ -343,3 +348,4 @@
     }
   })();
 })();
+
