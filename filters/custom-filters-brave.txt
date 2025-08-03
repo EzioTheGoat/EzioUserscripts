@@ -812,7 +812,7 @@ cimanow.cc##[src="https://i.ibb.co/KF3P4Xv/f1-1.gif"]
 cimanow.cc##div.fixed-header-item:nth-of-type(6)
 ||cdn.jsdelivr.net/npm/sweetalert2@11.14.4/dist/sweetalert2.all.min.js$domain=cimanow.cc
 ||new.cimanow.online/judo.js^$script
-!||rm.freex2line.online^
+||rm.freex2line.online^
 
 ! https://web184.faselhd.cafe
 web184.faselhd.cafe##.ml-auto.mr-4.headerItems > .promoLink
@@ -843,4 +843,5 @@ arablionztv.com##.adsLionz > [href="https://tinyurl.com/lionzlink"]
 
 ! https://ak.sv/
 ak.sv##html > div
+
 
