@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Bypass CimaNow
 // @namespace    Violentmonkey Scripts
-// @version      2.2.9
-// @description  Automatically Bypass all CimaNow Restrictions, Auto-click buttons, and Redirect to Watching Page
+// @version      2.3.0
+// @description  Automatically Bypass all CimaNow Restrictions
 // @author       Ezio Auditore
 // @icon         https://i.imgur.com/blh1X07.png
 // @match        *://cimanow.cc/*
@@ -11,6 +11,7 @@
 // @match        *://*.cimanow.cc/*
 // @match        *://*.cimanowinc.com/*
 // @match        *://*.cimanow.online/*
+// @match        *://rm.freex2line.online/*
 // @grant        none
 // @run-at       document-start
 // @updateURL    https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/bypass-cimanow.user.js
@@ -110,7 +111,50 @@
 
     // Dynamic Path Construction
     const pathSeparator = originalUrl.endsWith("/") ? "" : "/";
-    window.location.replace(`${originalUrl}${pathSeparator}watching/`);
+    //window.location.replace(`${originalUrl}${pathSeparator}watching/`);
+  }
+
+  /**
+   * Blocks scripts from rm.freex2line.online on CimaNow domains.
+   */
+  function blockFreex2lineScripts() {
+    const blockedHost = "rm.freex2line.online";
+    const originalCreateElement = Document.prototype.createElement;
+
+    function overrideScript(element) {
+      // Intercept src property
+      Object.defineProperty(element, "src", {
+        set(url) {
+          if (url && url.includes(blockedHost)) {
+            console.warn(`[CIMA NOW] Blocked script from: ${url}`);
+          } else {
+            element.setAttribute("src", url);
+          }
+        },
+        get() {
+          return element.getAttribute("src");
+        },
+        configurable: true,
+      });
+    }
+
+    // Override Document.prototype.createElement
+    Document.prototype.createElement = function (tagName, ...args) {
+      const element = originalCreateElement.call(this, tagName, ...args);
+      if (tagName.toLowerCase() === "script") {
+        overrideScript(element);
+      }
+      return element;
+    };
+
+    // Also override document.createElement for completeness
+    document.createElement = function (tagName, ...args) {
+      const element = originalCreateElement.call(document, tagName, ...args);
+      if (tagName.toLowerCase() === "script") {
+        overrideScript(element);
+      }
+      return element;
+    };
   }
 
   // ███████╗███████╗ ██████╗ ██╗   ██╗██████╗ ██╗████████╗██╗   ██╗
@@ -337,12 +381,36 @@
       // Phase 1: URL Routing
       handleUrlRouting(window.location.href);
 
+      // Phase 2: Block rm.freex2line.online scripts ONLY on CimaNow domains
+      const cimanowDomains = ["cimanow.cc", "cimanowinc.com", "cimanow.online"];
+      if (cimanowDomains.some((domain) => location.hostname.includes(domain))) {
+        blockFreex2lineScripts();
+      }
+
       // Phase 2: LazyLoad Script Blocking (Call unconditionally)
       //enableLazyLoadBlocking();
 
       // Phase 3: Anti-Detection
       deployAntiAdblock();
       maskBrave();
+
+      // Phase 4: Remove Ad Anchors if on freex2line.online
+      function removeAdAnchors() {
+        const adIds = ["xqeqjp", "xqeqjp1"];
+        adIds.forEach((id) => {
+          const ad = document.getElementById(id);
+          if (ad) {
+            ad.remove();
+            console.log(`[CIMA NOW] Removed ad anchor with id: ${id}`);
+          }
+        });
+      }
+
+      if (location.hostname.includes("freex2line.online")) {
+        window.addEventListener("DOMContentLoaded", removeAdAnchors);
+        const observer = new MutationObserver(removeAdAnchors);
+        observer.observe(document.body, { childList: true, subtree: true });
+      }
     } catch (criticalError) {
       console.error("[CIMA NOW] Fatal Initialization Error:", criticalError);
     }
