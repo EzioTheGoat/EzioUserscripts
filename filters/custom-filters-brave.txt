@@ -66,6 +66,7 @@ shabory.site##+js(brave-fix)
 marshoush.site##+js(brave-fix)
 ka3boly.site##+js(brave-fix)
 ofreok.online##+js(brave-fix)
+ofre15.online##+js(brave-fix)
 
 ! CimaNow
 cimanow.cc##+js(brave-fix)
@@ -843,6 +844,7 @@ arablionztv.com##.adsLionz > [href="https://tinyurl.com/lionzlink"]
 
 ! https://ak.sv/
 ak.sv##html > div
+
 
 
 
