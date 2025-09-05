@@ -845,6 +845,11 @@ arablionztv.com##.adsLionz > [href="https://tinyurl.com/lionzlink"]
 ! https://ak.sv/
 ak.sv##html > div
 
+! ArabSeed experimental
+m.gamehub.cam##.anti-adblock-message
+m.gamehub.cam##.downloads__tabs:style(display:block!important)
+
+
 
 
 
