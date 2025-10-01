@@ -10,8 +10,8 @@
 !     2. Removing unwanted elements such as "clickme" buttons, ad overlays,
 !        and promotional download buttons.
 !
-! Version:      1.2.5
-! Last Updated: 2025-02-26
+! Version:      1.3
+! Last Updated: 2025-10-01
 ! Author:       Ezio Auditore
 ! License:      MIT License
 ! Homepage:     https://github.com/EzioTheGoat/EzioUserscripts/filters
@@ -67,6 +67,7 @@ marshoush.site##+js(brave-fix)
 ka3boly.site##+js(brave-fix)
 ofreok.online##+js(brave-fix)
 ofre15.online##+js(brave-fix)
+
 
 ! CimaNow
 cimanow.cc##+js(brave-fix)
@@ -788,6 +789,11 @@ ofreok.online##.desktop-button
 ofreok.online##a#btn[href*="?r="]:not([href*="&t=1&gfs=1&tfs=1"])
 ofreok.online##a#btn[href^="https://ofreok.online/"][href*='?r='] > .btn-collab.hover-top.btn
 
+============================================================
+! a.asd.homes
+! ------------------------------------------------------------
+a.asd.homes###clickme
+
 ! =============================================================================
 ! SECTION IIII: UNRELATED SITES (General Blocking)
 ! -----------------------------------------------------------------------------
@@ -848,8 +854,3 @@ ak.sv##html > div
 ! ArabSeed experimental
 m.gamehub.cam##.anti-adblock-message
 m.gamehub.cam##.downloads__tabs:style(display:block!important)
-
-
-
-
-
