@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bypass ArabSeed
 // @namespace    Violentmonkey Scripts
-// @version      2.4.1
+// @version      2.4.2
 // @description  Automatically bypass the countdown and show the download link
 // @author       Ezio Auditore
 // @icon         https://i.imgur.com/purcqbc.png
@@ -391,7 +391,12 @@
       !currentUrl.includes("asd4a=1")
     ) {
       const separator = currentUrl.includes("?") ? "&" : "?";
-      window.location.replace(currentUrl + separator + "asd4a=1");
+      // Add both asd4a=1 and asd7b=1 if not present
+      let newUrl = currentUrl + separator + "asd4a=1";
+      if (!currentUrl.includes("asd7b=1")) {
+        newUrl += "&asd7b=1";
+      }
+      window.location.replace(newUrl);
       return true;
     }
 
