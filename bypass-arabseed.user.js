@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bypass ArabSeed
 // @namespace    Violentmonkey Scripts
-// @version      2.4.6fix
+// @version      2.4.7
 // @description  Automatically bypass the countdown and show the download link
 // @author       Ezio Auditore
 // @icon         https://i.imgur.com/purcqbc.png
@@ -78,7 +78,6 @@
 (function () {
   "use strict";
 
-  // Log initialization with the current hostname.
   console.log("Script initialized on:", window.location.hostname);
 
   /*****************************************************
@@ -139,7 +138,6 @@
    * Priority: 1 (Executes immediately on ofreok.online)
    */
   function forceRevealContent() {
-    // Reveal hidden download links
     const realDownloadLinks = [
       document.getElementById("btn"),
       document.querySelector('a[href*=".mp4"]'),
@@ -151,7 +149,6 @@
       link.style.visibility = "visible";
     });
 
-    // Remove fake elements
     const elementsToRemove = [
       "#countdown",
       "#downloadButton",
@@ -160,7 +157,6 @@
     ].join(", ");
     document.querySelectorAll(elementsToRemove).forEach((el) => el.remove());
 
-    // Force-show all hidden elements
     document.querySelectorAll('[style*="display: none"]').forEach((el) => {
       el.style.display = "block !important";
       el.style.visibility = "visible !important";
@@ -172,7 +168,6 @@
    * Priority: 2 (Runs after content reveal on ofreok.online)
    */
   function disableAntiBypass() {
-    // Kill countdown timers
     if (typeof countdown !== "undefined") {
       countdown.start = () => {};
       countdown.stop = () => {};
@@ -181,7 +176,6 @@
       }
     }
 
-    // Block common detection scripts
     const blockedPatterns = [
       /adblock/i,
       /blockadblock/i,
@@ -193,7 +187,6 @@
       writable: false,
     });
 
-    // Disable mutation observers (specific to page scripts)
     if (typeof MutationObserver !== "undefined") {
       MutationObserver.prototype.observe = function () {
         console.log("[Bypass] MutationObserver disabled");
@@ -208,10 +201,8 @@
   function createDomGuard() {
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
-        // Re-apply bypass on new elements
         mutation.addedNodes.forEach((node) => {
           if (node.nodeType === 1) {
-            // Element node
             if (node.matches("#countdown, .modalDialog")) {
               node.remove();
             }
@@ -233,17 +224,15 @@
     });
   }
 
-  // Immediate execution for ofreok.online
   if (["ofreok.online", "ofre15.online"].includes(window.location.hostname)) {
     forceRevealContent();
     disableAntiBypass();
     createDomGuard();
 
-    // Add the new functionality for ofreok.online
     function showRealDownload() {
       var realLink = document.querySelector("a#btn");
       if (realLink) {
-        realLink.style.display = "block"; // Make the real link visible
+        realLink.style.display = "block";
       }
     }
 
@@ -251,28 +240,24 @@
       var fakeForm = document.querySelector("form#btn");
       var clickMeDiv = document.querySelector("div#clickme");
       if (fakeForm) {
-        fakeForm.style.display = "none"; // Hide the fake form
+        fakeForm.style.display = "none";
       }
       if (clickMeDiv) {
-        clickMeDiv.style.display = "none"; // Hide the clickme div
+        clickMeDiv.style.display = "none";
       }
     }
 
-    // Check if the real link is already present in the DOM
     if (document.querySelector("a#btn")) {
-      // If the real link exists, show it and hide fake elements
       showRealDownload();
       hideFakeElements();
     } else {
-      // If the real link isn't present, simulate form submission
       var fakeForm = document.querySelector("form#btn");
       if (fakeForm) {
         console.log("Submitting fake form to reveal real content");
-        fakeForm.submit(); // Submit the form to load the real link
+        fakeForm.submit();
       }
     }
 
-    // Reinforce bypass every 2 seconds
     setInterval(() => {
       forceRevealContent();
       disableAntiBypass();
@@ -292,9 +277,8 @@
   function normalizeUrl() {
     const currentUrl = window.location.href;
     const hostname = window.location.hostname;
-    const urlPattern = /\/category\/.+\?r=\d+$/; // Matches URLs like /category/... with trailing ?r=digits
+    const urlPattern = /\/category\/.+\?r=\d+$/;
 
-    // Check if the download button (#btn) exists and its href points to an external file host.
     const downloadBtn = document.getElementById("btn");
     if (downloadBtn) {
       const externalHosts = [
@@ -313,7 +297,6 @@
       }
     }
 
-    // Define domain flags for internal handling (unchanged from original)
     const isMonafesSite = hostname === "m.monafes.site";
     const isGamehubCam = hostname === "m.gamehub.cam";
     const isTechlandLive = hostname === "m.techland.live";
@@ -350,7 +333,7 @@
     const isOfreokOnline = hostname === "ofreok.online";
     const isOfre15Online = hostname === "ofre15.online";
 
-    // Special handling for Kalosha.site (unchanged)
+    // Special bypass for kalosha.site
     if (isKaloshaSite) {
       const hasGameParam = currentUrl.includes("game=");
       const hasGmzParam = currentUrl.includes("gmz=1");
@@ -363,7 +346,7 @@
       return false;
     }
 
-    // Special bypass for reviewpalace.net desktop version (unchanged)
+    // Special bypass for reviewpalace.net desktop version
     if (isReviewpalaceNetDesktop) {
       const pstRegex = /[?&]pst=\d+$/;
       if (pstRegex.test(currentUrl) && !/&gmz=1/.test(currentUrl)) {
@@ -373,7 +356,7 @@
       }
     }
 
-    // Special handling for jurbana.site (unchanged)
+    // Special handling for jurbana.site
     if (isJurbanaSite) {
       const gameRegex = /[?&]game=\d+$/;
       if (gameRegex.test(currentUrl) && !currentUrl.includes("gmz=1")) {
@@ -391,7 +374,6 @@
       !currentUrl.includes("asd4a=1")
     ) {
       const separator = currentUrl.includes("?") ? "&" : "?";
-      // Add both asd4a=1 and asd7b=1 if not present
       let newUrl = currentUrl + separator + "asd4a=1";
       if (!currentUrl.includes("asd7b=1")) {
         newUrl += "&asd7b=1";
@@ -406,7 +388,7 @@
       }
 
       if (!currentUrl.includes("asd7n=1")) {
-        newUrl += "&asd7n=1";
+        newUrl += "$asd7n=1";
       }
 
       if (!currentUrl.includes("asd7p=1")) {
@@ -417,7 +399,6 @@
       return true;
     }
 
-    // List of bypass domains (ofreok.online already included)
     const bypassDomains = [
       "hawsa.site",
       "gamevault.cam",
@@ -447,7 +428,6 @@
       "ofre15.online",
     ];
 
-    // Apply tfs=1 bypass for bypassDomains (unchanged)
     if (
       bypassDomains.includes(hostname) &&
       window.location.search.includes("r=") &&
@@ -458,15 +438,12 @@
       return true;
     }
 
-    // Apply domain-specific normalization (unchanged)
     if (urlPattern.test(currentUrl)) {
       if (isMonafesSite && !/&t=1&mon=1/.test(currentUrl)) {
         window.location.replace(`${currentUrl}&t=1&mon=1`);
         return true;
       } else if (isGamehubCam) {
-        // Custom logic: if r= is found, add mon=1 after it (if not already present)
         if (/r=\d+/.test(currentUrl) && !/mon=1/.test(currentUrl)) {
-          // Insert mon=1 after the r=number
           const updatedUrl = currentUrl.replace(/(r=\d+)/, "$1&mon=1");
           window.location.replace(updatedUrl);
           return true;
@@ -608,11 +585,9 @@
      * 4. Download Button Modification            *
      *********************************************/
     if (["ofreok.online", "ofre15.online"].includes(window.location.hostname)) {
-      // Specific handling for ofreok.online
       forceRevealContent();
       disableAntiBypass();
 
-      // Enhanced download button handler for ofreok.online
       document.querySelectorAll("a, button").forEach((element) => {
         if (/(download|تحميل)/i.test(element.textContent)) {
           element.addEventListener(
@@ -632,7 +607,6 @@
         }
       });
     } else {
-      // General handling for other domains
       let downloadButton = document.querySelector(
         'a.download-button, button.download-button, a[href*="movie="]'
       );
@@ -674,7 +648,6 @@
     }
   }
 
-  // Wait for DOMContentLoaded or document-start to initialize the script as early as possible.
   function initScriptWrapper() {
     try {
       initScript();
@@ -689,5 +662,4 @@
     initScriptWrapper();
   }
 })();
-
 
