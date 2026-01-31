@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bypass ArabSeed
 // @namespace    Violentmonkey Scripts
-// @version      2.4.8
+// @version      2.4.9
 // @description  Automatically bypass the countdown and show the download link
 // @author       Ezio Auditore
 // @icon         https://i.imgur.com/purcqbc.png
@@ -54,6 +54,7 @@
 // @match        https://ofreok.online/*
 // @match        https://ofre15.online/*
 // @match        https://a.asd.homes/*
+// @match        https://asd.pics/*
 // @grant        none
 // @run-at       document-start
 // @updateURL    https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/bypass-arabseed.user.js
@@ -203,6 +204,13 @@
           url.includes("/category/downloadz/") &&
           url.includes("r=") &&
           !url.includes("asd4a=1"),
+      },
+      "asd.pics": {
+        params: ["asd8a=1"],
+        test: (url) =>
+          url.includes("/category/downloadz/") &&
+          url.includes("r=") &&
+          !url.includes("asd8a=1"),
       },
     },
   };
@@ -355,14 +363,14 @@
 
     shouldSkipNormalization() {
       const downloadBtn = Utils.safeQuerySelector(
-        CONFIG.selectors.downloadButton
+        CONFIG.selectors.downloadButton,
       );
       return downloadBtn && Utils.isExternalFileHost(downloadBtn.href);
     },
 
     getDomainConfig(hostname) {
       return Object.entries(CONFIG.domainConfigs).find(([domain]) =>
-        hostname.includes(domain)
+        hostname.includes(domain),
       )?.[1];
     },
 
@@ -425,7 +433,7 @@
     skip() {
       try {
         const metaRefresh = Utils.safeQuerySelector(
-          CONFIG.selectors.metaRefresh
+          CONFIG.selectors.metaRefresh,
         );
 
         if (metaRefresh) {
@@ -451,7 +459,7 @@
       try {
         const countdown = Utils.safeQuerySelector(CONFIG.selectors.countdown);
         const downloadButton = Utils.safeQuerySelector(
-          CONFIG.selectors.downloadButton
+          CONFIG.selectors.downloadButton,
         );
 
         if (countdown) {
@@ -524,7 +532,7 @@
       Utils.safeQuerySelectorAll(CONFIG.selectors.hiddenElements).forEach(
         (el) => {
           UIManipulator.makeElementVisible(el);
-        }
+        },
       );
     },
 
@@ -558,7 +566,7 @@
 
             if (
               node.matches?.(
-                `${CONFIG.selectors.countdown}, ${CONFIG.selectors.modalDialog}`
+                `${CONFIG.selectors.countdown}, ${CONFIG.selectors.modalDialog}`,
               )
             ) {
               node.remove();
@@ -583,7 +591,7 @@
 
     handleDownloadButton() {
       const realLink = Utils.safeQuerySelector(
-        `a${CONFIG.selectors.downloadButton}`
+        `a${CONFIG.selectors.downloadButton}`,
       );
       const fakeForm = Utils.safeQuerySelector(CONFIG.selectors.downloadForm);
       const clickMeDiv = Utils.safeQuerySelector(CONFIG.selectors.clickMeDiv);
@@ -627,7 +635,7 @@
                 window.location.href = directLink;
               }
             },
-            true
+            true,
           );
         }
       });
@@ -656,7 +664,7 @@
 
       if (!button) {
         button = Utils.safeQuerySelectorAll("a, button").find((el) =>
-          /download/i.test(el.textContent)
+          /download/i.test(el.textContent),
         );
       }
 
@@ -668,7 +676,7 @@
 
       if (!mp4Link) {
         const allMp4Links = Utils.safeQuerySelectorAll(
-          CONFIG.selectors.mp4LinkAny
+          CONFIG.selectors.mp4LinkAny,
         );
         mp4Link = allMp4Links[0];
       }
@@ -697,14 +705,14 @@
               Utils.log("No MP4 link found. Checking video element...");
 
               const videoElement = Utils.safeQuerySelector(
-                CONFIG.selectors.videoElement
+                CONFIG.selectors.videoElement,
               );
               if (videoElement?.src) {
                 window.location.href = videoElement.src;
               }
             }
           },
-          true
+          true,
         );
       }
     },
@@ -805,7 +813,7 @@
   function bootstrap() {
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", () =>
-        BypassController.init()
+        BypassController.init(),
       );
     } else {
       BypassController.init();
