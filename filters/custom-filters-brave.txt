@@ -796,6 +796,12 @@ ofreok.online##a#btn[href^="https://ofreok.online/"][href*='?r='] > .btn-collab.
 a.asd.homes###clickme
 a.asd.homes##.desktop-button
 ! =============================================================================
+
+============================================================
+! asd.pics
+! ------------------------------------------------------------
+asd.pics###clickme
+! =============================================================================
 ! SECTION IIII: UNRELATED SITES (General Blocking)
 ! -----------------------------------------------------------------------------
 ! These rules apply to asd.show, asd.rest, asd.quest and cimanow to block video elements.
@@ -855,5 +861,6 @@ ak.sv##html > div
 ! ArabSeed experimental
 m.gamehub.cam##.anti-adblock-message
 m.gamehub.cam##.downloads__tabs:style(display:block!important)
+
 
 
