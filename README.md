@@ -1,18 +1,22 @@
 # 🔥 Ezio's Userscript Collection
 
 <div align="center">
-  <img src="https://img.shields.io/badge/Supports-Chrome-4285F4?logo=google-chrome&logoColor=white&style=for-the-badge">
-  <img src="https://img.shields.io/badge/Supports-Firefox-FF7139?logo=firefox-browser&logoColor=white&style=for-the-badge">
-  <br>
-  <sub style="font-size: 0.9em;">Requires <a href="https://violentmonkey.github.io/">ViolentMonkey</a> or a compatible userscript manager</sub>
+
+📢 <b>Join the official Telegram channel for updates, new scripts, and fixes</b>
+
+<a href="https://t.me/EzioTheGoatScripts">
+  <img src="https://img.shields.io/badge/Join%20Telegram-EzioTheGoatScripts-2CA5E0?logo=telegram&logoColor=white&style=for-the-badge">
+</a>
+
 </div>
 
 <br>
 
-<!-- ===================================== HEADER / INFO ====================================== -->
 <div align="center">
-  <!--<hr style="width: 80%; border: 1px solid #30363d; margin: 2rem auto; box-shadow: 0 2px 4px rgba(0,0,0,0.1)">-->
-  <p style="font-size: 1.1em; font-weight: 500;">Enhance your browsing experience with curated userscripts</p>
+  <img src="https://img.shields.io/badge/Supports-Chrome-4285F4?logo=google-chrome&logoColor=white&style=for-the-badge">
+  <img src="https://img.shields.io/badge/Supports-Firefox-FF7139?logo=firefox-browser&logoColor=white&style=for-the-badge">
+  <br>
+  <sub style="font-size: 0.9em;">Requires <a href="https://violentmonkey.github.io/">ViolentMonkey</a> or a compatible userscript manager</sub>
 </div>
 <!-- ==================================== END HEADER / INFO =================================== -->
 
