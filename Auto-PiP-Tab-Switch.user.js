@@ -1,172 +1,152 @@
 // ==UserScript==
 // @name         Auto Picture-in-Picture on Tab Change
+// @name:ar      التبديل التلقائي إلى وضع الصورة داخل الصورة (PiP)
 // @namespace    https://github.com/EzioTheGoat/EzioUserscripts
-// @version      2.1
+// @version      2.2
 // @description  Auto-enables PiP for playing videos in Chromium browsers on tab switch. Requires an initial click to unlock and exits on return.
+// @description:ar  يُفعّل وضع الصورة داخل الصورة (PiP) تلقائيًا لمقاطع الفيديو في متصفحات Chromium عند التبديل بين علامات التبويب. يتطلب نقرة أولى لإلغاء القفل ويخرج عند الرجوع.
 // @author       Ezio Auditore
+// @license      MIT
 // @icon         https://img.icons8.com/ios-filled/64/000000/picture-in-picture.png
 // @match        *://*/*
 // @grant        none
-// @updateURL    https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/Auto-PiP-Tab-Switch.user.js
-// @downloadURL  https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/Auto-PiP-Tab-Switch.user.js
+// @downloadURL https://update.greasyfork.org/scripts/527239/Auto%20Picture-in-Picture%20on%20Tab%20Change.user.js
+// @updateURL https://update.greasyfork.org/scripts/527239/Auto%20Picture-in-Picture%20on%20Tab%20Change.meta.js
 // ==/UserScript==
 
 (function () {
-"use strict";
+  "use strict";
 
-const DEBUG = false;
-const PIP_DELAY = 120;
+  const DEBUG = false;
+  const PIP_DELAY = 120;
 
-function log(...msg) {
-  if (DEBUG) console.log("[AutoPiP]", ...msg);
-}
+  function log(...msg) {
+    if (DEBUG) console.log("[AutoPiP]", ...msg);
+  }
 
-if (window.top !== window.self) return;
-if (!document.pictureInPictureEnabled) return;
+  if (window.top !== window.self) return;
+  if (!document.pictureInPictureEnabled) return;
 
-let unlocked = false;
-let videoDetected = false;
+  let unlocked = false;
+  let videoDetected = false;
 
-["pointerdown", "keydown"].forEach(evt =>
-  document.addEventListener(evt, () => {
-    unlocked = true;
-    log("User interaction detected");
-  }, { once: true, capture: true })
-);
+  // Fallback unlock: one click or keypress unlocks gesture-based PiP for the whole session
+  ["pointerdown", "keydown"].forEach(evt =>
+    document.addEventListener(evt, () => {
+      unlocked = true;
+      log("User interaction detected, gesture-based PiP unlocked");
+    }, { once: true, capture: true })
+  );
 
+  function getBestVideo() {
+    const videos = [...document.querySelectorAll("video")];
+    if (!videos.length) return null;
+    let bestVideo = null;
+    let maxScore = 0;
+    for (const video of videos) {
+      if (video.offsetParent === null) continue;
+      if (video.disablePictureInPicture) continue;
+      const rect = video.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) continue;
+      const visible =
+        rect.top < window.innerHeight &&
+        rect.bottom > 0 &&
+        rect.left < window.innerWidth &&
+        rect.right > 0;
+      if (!visible) continue;
+      const area = rect.width * rect.height;
+      let score = area;
+      if (!video.paused && !video.ended) {
+        score += area * 2;
+      }
+      if (score > maxScore) {
+        maxScore = score;
+        bestVideo = video;
+      }
+    }
+    return bestVideo || videos[0];
+  }
 
+  async function enterPiP() {
+    const video = getBestVideo();
+    if (!video) return;
+    if (video.paused || video.ended || video.readyState < 3) return;
+    if (document.pictureInPictureElement === video) return;
+    try {
+      await video.requestPictureInPicture();
+      log("Entered PiP");
+    } catch (e) {
+      log("PiP failed", e);
+    }
+  }
 
-function getBestVideo() {
+  // Gesture-gated fallback for browsers without MediaSession PiP support
+  async function enterPiPFallback() {
+    if (!unlocked) return;
+    await enterPiP();
+  }
 
-  const videos = [...document.querySelectorAll("video")];
-  if (!videos.length) return null;
+  async function exitPiP() {
+    if (!document.pictureInPictureElement) return;
+    try {
+      await document.exitPictureInPicture();
+      log("Exited PiP");
+    } catch (e) {
+      log("Exit PiP failed", e);
+    }
+  }
 
-  let bestVideo = null;
-  let maxScore = 0;
+  function initEvents() {
+    if (videoDetected) return;
+    videoDetected = true;
+    log("Video detected. Initializing PiP events.");
 
-  for (const video of videos) {
+    // PRIMARY: MediaSession enterpictureinpicture — zero clicks needed on Chromium 120+
+    // Chrome invokes this handler itself on tab switch, bypassing the user gesture requirement.
+    if ("mediaSession" in navigator) {
+      try {
+        navigator.mediaSession.setActionHandler("enterpictureinpicture", async () => {
+          log("MediaSession enterpictureinpicture triggered by browser");
+          await enterPiP();
+        });
+        log("MediaSession enterpictureinpicture handler registered");
+      } catch (e) {
+        log("enterpictureinpicture MediaSession action not supported", e);
+      }
+    }
 
-    if (video.offsetParent === null) continue;
-    if (video.disablePictureInPicture) continue;
+    // FALLBACK: blur/visibilitychange — requires one prior user interaction
+    window.addEventListener("blur", () => {
+      setTimeout(enterPiPFallback, PIP_DELAY);
+    });
+    window.addEventListener("focus", () => {
+      setTimeout(exitPiP, PIP_DELAY);
+    });
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        setTimeout(enterPiPFallback, PIP_DELAY);
+      } else {
+        setTimeout(exitPiP, PIP_DELAY);
+      }
+    });
+  }
 
-    const rect = video.getBoundingClientRect();
+  const observer = new MutationObserver(() => {
+    if (document.querySelector("video")) {
+      initEvents();
+      observer.disconnect();
+      log("Observer stopped");
+    }
+  });
 
-    if (rect.width === 0 || rect.height === 0) continue;
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true
+  });
 
-    const visible =
-      rect.top < window.innerHeight &&
-      rect.bottom > 0 &&
-      rect.left < window.innerWidth &&
-      rect.right > 0;
-
-    if (!visible) continue;
-
-    const area = rect.width * rect.height;
-
-    let score = area;
-
-    if (!video.paused && !video.ended) {
-      score += area * 2;
-    }
-
-    if (score > maxScore) {
-      maxScore = score;
-      bestVideo = video;
-    }
-
-  }
-
-  return bestVideo || videos[0];
-}
-
-
-
-async function enterPiP() {
-
-  if (!unlocked) return;
-
-  const video = getBestVideo();
-  if (!video) return;
-
-  if (video.paused || video.ended || video.readyState < 3) return;
-
-  if (document.pictureInPictureElement === video) return;
-
-  try {
-    await video.requestPictureInPicture();
-    log("Entered PiP");
-  } catch (e) {
-    log("PiP failed", e);
-  }
-
-}
-
-
-
-async function exitPiP() {
-
-  if (!document.pictureInPictureElement) return;
-
-  try {
-    await document.exitPictureInPicture();
-    log("Exited PiP");
-  } catch (e) {
-    log("Exit PiP failed", e);
-  }
-
-}
-
-
-
-function initEvents() {
-
-  if (videoDetected) return;
-
-  videoDetected = true;
-  log("Video detected. Initializing PiP events.");
-
-  window.addEventListener("blur", () => {
-    setTimeout(enterPiP, PIP_DELAY);
-  });
-
-  window.addEventListener("focus", () => {
-    setTimeout(exitPiP, PIP_DELAY);
-  });
-
-  document.addEventListener("visibilitychange", () => {
-
-    if (document.hidden) {
-      setTimeout(enterPiP, PIP_DELAY);
-    } else {
-      setTimeout(exitPiP, PIP_DELAY);
-    }
-
-  });
-
-}
-
-
-
-const observer = new MutationObserver(() => {
-
-  if (document.querySelector("video")) {
-    initEvents();
-    observer.disconnect();
-    log("Observer stopped");
-  }
-
-});
-
-observer.observe(document.body, {
-  childList: true,
-  subtree: true
-});
-
-
-
-if (document.querySelector("video")) {
-  initEvents();
-  observer.disconnect();
-}
+  if (document.querySelector("video")) {
+    initEvents();
+    observer.disconnect();
+  }
 
 })();
