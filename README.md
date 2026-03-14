@@ -180,7 +180,7 @@ If you experience issues like detection warnings, blocked scripts, or unexpected
 </div>
 
   <div align="center">
-        <a href="https://greasyfork.org/en/scripts/527232-bypass-cimanow">
+        <a href="https://github.com/EzioTheGoat/EzioUserscripts/raw/refs/heads/main/bypass-cimanow.user.js">
           <img src="https://img.shields.io/badge/INSTALL_SCRIPT-00B894?style=for-the-badge&logo=open-source-initiative&logoColor=white" alt="Install" style="margin-top: 12px;">
         </a>
       </div>
