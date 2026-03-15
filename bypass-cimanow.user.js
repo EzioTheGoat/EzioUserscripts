@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bypass CimaNow
 // @namespace    Violentmonkey Scripts
-// @version      3.0.0
+// @version      3.1
 // @description  Automatically Bypass all CimaNow Restrictions
 // @author       Ezio Auditore
 // @icon         https://i.imgur.com/blh1X07.png
@@ -25,176 +25,212 @@
 
   const hostname = location.hostname;
 
-  // ─────────────────────────────────────────────
-  // BRAVE BROWSER MASKING
-  // Prevents sites from detecting Brave browser
-  // ─────────────────────────────────────────────
-  function maskBrave() {
-    const braveMock = new Proxy(
-      { isBrave: () => Promise.resolve(false) },
-      { get: (t, p) => (p in t ? t[p] : () => Promise.resolve()) },
-    );
+  function setupNativeSpoof() {
+    const _toString = Function.prototype.toString;
+    const registry = new WeakMap();
+
+    const spoofedToString = function toString() {
+      if (registry.has(this)) return registry.get(this);
+      return _toString.call(this);
+    };
+    registry.set(spoofedToString, "function toString() { [native code] }");
+
+    Object.defineProperty(Function.prototype, "toString", {
+      value: spoofedToString,
+      writable: true,
+      configurable: true,
+    });
+
+    return function makeNative(fn, name) {
+      registry.set(fn, `function ${name ?? fn.name ?? ""}() { [native code] }`);
+      return fn;
+    };
+  }
+
+  function maskBrave(makeNative) {
+    const brands = [
+      { brand: "Chromium", version: "120" },
+      { brand: "Google Chrome", version: "120" },
+      { brand: "Not-A.Brand", version: "99" },
+    ];
 
     try {
       delete Navigator.prototype.brave;
     } catch (_) {}
     Object.defineProperty(Navigator.prototype, "brave", {
-      get: () => braveMock,
+      get: makeNative(function () {
+        return new Proxy(
+          { isBrave: () => Promise.resolve(false) },
+          { get: (t, p) => (p in t ? t[p] : () => Promise.resolve()) },
+        );
+      }, "get brave"),
       configurable: true,
       enumerable: false,
     });
 
-    if (navigator.userAgentData) {
-      Object.defineProperty(navigator, "userAgentData", {
-        value: {
-          brands: [
-            { brand: "Chromium", version: "120" },
-            { brand: "Google Chrome", version: "120" },
-            { brand: "Not-A.Brand", version: "99" },
-          ],
-          mobile: false,
-          platform: "Windows",
-        },
-        configurable: true,
-      });
-    }
+    if (!navigator.userAgentData) return;
+
+    Object.defineProperty(navigator, "userAgentData", {
+      value: {
+        brands,
+        mobile: false,
+        platform: "Windows",
+        getHighEntropyValues: () =>
+          Promise.resolve({
+            brands,
+            mobile: false,
+            platform: "Windows",
+            architecture: "x86",
+            bitness: "64",
+            model: "",
+            platformVersion: "15.0.0",
+            uaFullVersion: "120.0.0.0",
+            fullVersionList: brands,
+          }),
+        toJSON: () => ({ brands, mobile: false, platform: "Windows" }),
+      },
+      configurable: true,
+    });
   }
 
-  // ─────────────────────────────────────────────
-  // CIMANOW — Block rm.freex2line.online scripts
-  // ─────────────────────────────────────────────
   function blockFreex2lineScripts() {
     const BLOCKED_HOST = "rm.freex2line.online";
     const _createElement = Document.prototype.createElement;
-
-    function patchScript(el) {
-      const desc = Object.getOwnPropertyDescriptor(
-        HTMLScriptElement.prototype,
-        "src",
-      );
-      Object.defineProperty(el, "src", {
-        set(url) {
-          if (url && url.includes(BLOCKED_HOST)) {
-            console.warn("[CimaNow] Blocked script:", url);
-            return;
-          }
-          desc.set.call(el, url);
-        },
-        get() {
-          return desc.get.call(el);
-        },
-        configurable: true,
-      });
-    }
+    const srcDesc = Object.getOwnPropertyDescriptor(
+      HTMLScriptElement.prototype,
+      "src",
+    );
 
     Document.prototype.createElement = function (tag, ...args) {
       const el = _createElement.call(this, tag, ...args);
-      if (tag.toLowerCase() === "script") patchScript(el);
+      if (tag.toLowerCase() !== "script") return el;
+
+      Object.defineProperty(el, "src", {
+        set(url) {
+          if (url?.includes(BLOCKED_HOST)) {
+            console.warn("[CimaNow] Blocked freex2line script:", url);
+            return;
+          }
+          srcDesc.set.call(el, url);
+        },
+        get() {
+          return srcDesc.get.call(el);
+        },
+        configurable: true,
+      });
+
       return el;
     };
   }
 
-  // ─────────────────────────────────────────────
-  // FREEX2LINE — Auto-click download after countdown
-  // ─────────────────────────────────────────────
+  function removeAdAnchors() {
+    ["xqeqjp", "xqeqjp1"].forEach((id) =>
+      document.getElementById(id)?.remove(),
+    );
+  }
+
   function autoClickAfterCountdown() {
-    const waitForBtn = setInterval(() => {
+    const poll = setInterval(() => {
       const btn = document.querySelector("#downloadbtn, .downloadbtn");
       if (!btn) return;
-      clearInterval(waitForBtn);
+      clearInterval(poll);
 
       new MutationObserver((_, obs) => {
-        if (btn.style.display !== "none" && btn.offsetParent !== null) {
-          obs.disconnect();
-          setTimeout(() => btn.click(), 300);
-        }
+        if (btn.style.display === "none" || btn.offsetParent === null) return;
+        obs.disconnect();
+
+        setTimeout(() => {
+          const href = btn.getAttribute("href") ?? btn.href;
+          if (href?.startsWith("http")) {
+            window.open(href, "_blank", "noopener");
+          } else {
+            btn.click();
+          }
+        }, 300);
       }).observe(btn, { attributes: true, attributeFilter: ["style"] });
     }, 100);
   }
 
-  // ─────────────────────────────────────────────
-  // FREEX2LINE — Remove ad anchor elements
-  // ─────────────────────────────────────────────
-  function removeAdAnchors() {
-    ["xqeqjp", "xqeqjp1"].forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) el.remove();
-    });
-  }
-
-  // ─────────────────────────────────────────────
-  // JETLOAD — Bypass adblock detection
-  // Patches offsetParent, getComputedStyle, adsbygoogle, fetch
-  // ─────────────────────────────────────────────
-  function bypassJetloadDetection() {
-    // offsetParent — spoofs null (uBlock-hidden) elements as visible
+  function bypassJetloadDetection(makeNative) {
     const offsetDesc = Object.getOwnPropertyDescriptor(
       HTMLElement.prototype,
       "offsetParent",
     );
+
     Object.defineProperty(HTMLElement.prototype, "offsetParent", {
-      get() {
-        const val = offsetDesc.get.call(this);
-        if (val === null && this.isConnected) {
-          return (
-            this.parentElement || document.body || document.documentElement
-          );
+      get: makeNative(function () {
+        try {
+          const val = offsetDesc.get.call(this);
+          if (val === null && this.isConnected) {
+            return (
+              this.parentElement ?? document.body ?? document.documentElement
+            );
+          }
+          return val;
+        } catch (_) {
+          return null;
         }
-        return val;
-      },
+      }, "get offsetParent"),
       configurable: true,
     });
 
-    // getComputedStyle — only spoofs elements actually hidden by the blocker
     const _getComputedStyle = window.getComputedStyle.bind(window);
-    window.getComputedStyle = new Proxy(_getComputedStyle, {
-      apply(target, thisArg, args) {
-        const style = Reflect.apply(target, thisArg, args);
-        const el = args[0];
-        const blockerHidden =
-          el &&
-          el.isConnected &&
-          offsetDesc.get.call(el) === null &&
-          style.display === "none";
-        if (!blockerHidden) return style;
-        return new Proxy(style, {
-          get(s, prop) {
-            if (prop === "display") return "block";
-            if (prop === "visibility") return "visible";
-            const v = s[prop];
-            return typeof v === "function" ? v.bind(s) : v;
+
+    Object.defineProperty(window, "getComputedStyle", {
+      value: makeNative(
+        new Proxy(_getComputedStyle, {
+          apply(target, thisArg, args) {
+            try {
+              const style = Reflect.apply(target, thisArg, args);
+              const el = args[0];
+              const blockerHidden =
+                el instanceof HTMLElement &&
+                el.isConnected &&
+                offsetDesc.get.call(el) === null &&
+                style.display === "none";
+
+              if (!blockerHidden) return style;
+
+              return new Proxy(style, {
+                get(s, prop) {
+                  if (prop === "display") return "block";
+                  if (prop === "visibility") return "visible";
+                  const v = s[prop];
+                  return typeof v === "function" ? v.bind(s) : v;
+                },
+              });
+            } catch (_) {
+              return Reflect.apply(target, thisArg, args);
+            }
           },
-        });
-      },
+        }),
+        "getComputedStyle",
+      ),
+      writable: true,
+      configurable: true,
     });
 
-    // adsbygoogle.push check
-    window.adsbygoogle = window.adsbygoogle || [];
+    window.adsbygoogle ??= [];
     window.adsbygoogle.push = Array.prototype.push;
 
-    // fetch — only intercepts no-cors ad detection requests
     const _fetch = window.fetch.bind(window);
-    const fakeFetch = async (input, init) => {
-      if (init && init.mode === "no-cors") {
-        try {
-          return await _fetch(input, init);
-        } catch (_) {
-          return new Response("", { status: 200 });
-        }
-      }
-      return _fetch(input, init);
-    };
-    fakeFetch.toString = () => "function fetch() { [native code] }";
+
     Object.defineProperty(window, "fetch", {
-      value: fakeFetch,
+      value: makeNative(async function fetch(input, init) {
+        if (init?.mode === "no-cors") {
+          try {
+            return await _fetch(input, init);
+          } catch (_) {
+            return new Response("", { status: 200 });
+          }
+        }
+        return _fetch(input, init);
+      }, "fetch"),
       writable: true,
       configurable: true,
     });
   }
 
-  // ─────────────────────────────────────────────
-  // JETLOAD — Auto-click download after countdown
-  // ─────────────────────────────────────────────
   function autoClickJetload() {
     document.addEventListener("DOMContentLoaded", () => {
       const btn = document.getElementById("downloadbtn");
@@ -202,11 +238,7 @@
 
       new MutationObserver((_, obs) => {
         const href = btn.getAttribute("href");
-        if (
-          href &&
-          href.startsWith("https://") &&
-          btn.classList.contains("visible")
-        ) {
+        if (href?.startsWith("https://") && btn.classList.contains("visible")) {
           obs.disconnect();
           btn.click();
         }
@@ -214,15 +246,11 @@
     });
   }
 
-  // ─────────────────────────────────────────────
-  // BOOTSTRAP
-  // ─────────────────────────────────────────────
   (function bootstrap() {
     try {
-      // Runs on all domains
-      maskBrave();
+      const makeNative = setupNativeSpoof();
+      maskBrave(makeNative);
 
-      // CimaNow domains
       if (
         ["cimanow.cc", "cimanowinc.com", "cimanow.online"].some((d) =>
           hostname.includes(d),
@@ -231,7 +259,6 @@
         blockFreex2lineScripts();
       }
 
-      // freex2line.online
       if (hostname.includes("freex2line.online")) {
         window.addEventListener("DOMContentLoaded", () => {
           removeAdAnchors();
@@ -243,14 +270,14 @@
         });
       }
 
-      // jetload.pp.ua
       if (hostname.includes("jetload.pp.ua")) {
-        bypassJetloadDetection();
+        bypassJetloadDetection(makeNative);
         autoClickJetload();
       }
     } catch (err) {
-      console.error("[CimaNow] Fatal error:", err);
+      console.error("[CimaNow] Fatal bootstrap error:", err);
     }
   })();
 })();
+
 
