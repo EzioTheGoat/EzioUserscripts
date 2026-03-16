@@ -165,7 +165,7 @@ If you experience issues like detection warnings, blocked scripts, or unexpected
       <strong>Smart URL manipulation:</strong><br>
       <table>
         <tr>
-          <td>🔗 Auto-appends "watching/"</td>
+          <td>🔗 Auto-Click</td>
           <td>🚀 Performance optimizations</td>
         </tr>
         <tr>
