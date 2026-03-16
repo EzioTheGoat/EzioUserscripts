@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bypass CimaNow
 // @namespace    Violentmonkey Scripts
-// @version      3.4
+// @version      3.5
 // @description  Automatically Bypass all CimaNow Restrictions
 // @author       Ezio Auditore
 // @icon         https://i.imgur.com/blh1X07.png
@@ -265,29 +265,29 @@
 
   (function bootstrap() {
     try {
-      // if (
-      //   ["cimanow.cc", "cimanowinc.com", "cimanow.online"].some((d) =>
-      //     hostname.includes(d),
-      //   )
-      // ) {
-      //   blockFreex2lineScripts();
-      // }
+      if (
+        ["cimanow.cc", "cimanowinc.com", "cimanow.online"].some((d) =>
+          hostname.includes(d),
+        )
+      ) {
+        blockFreex2lineScripts();
+      }
 
       if (hostname.includes("freex2line.online")) {
         window.addEventListener("DOMContentLoaded", () => {
-          // removeAdAnchors();
-          autoClickAfterCountdown();
-          // new MutationObserver(removeAdAnchors).observe(document.body, {
-          //   childList: true,
-          //   subtree: true,
-          // });
+          removeAdAnchors(); 
+          //autoClickAfterCountdown();
+          new MutationObserver(removeAdAnchors).observe(document.body, {
+            childList: true,
+            subtree: true,
+          });
         });
       }
 
       if (hostname.includes("jetload.pp.ua")) {
         maskBrave();
         bypassJetloadDetection();
-        autoClickJetload();
+        //autoClickJetload();
       }
     } catch (err) {
       console.error("[CimaNow] Fatal bootstrap error:", err);
