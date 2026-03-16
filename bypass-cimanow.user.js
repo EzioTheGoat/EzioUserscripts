@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bypass CimaNow
 // @namespace    Violentmonkey Scripts
-// @version      3.1
+// @version      3.2
 // @description  Automatically Bypass all CimaNow Restrictions
 // @author       Ezio Auditore
 // @icon         https://i.imgur.com/blh1X07.png
@@ -249,7 +249,7 @@
   (function bootstrap() {
     try {
       const makeNative = setupNativeSpoof();
-      maskBrave(makeNative);
+      //maskBrave(makeNative);
 
       if (
         ["cimanow.cc", "cimanowinc.com", "cimanow.online"].some((d) =>
