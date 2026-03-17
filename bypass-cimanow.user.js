@@ -1,9 +1,10 @@
 // ==UserScript==
 // @name         Bypass CimaNow
 // @namespace    Violentmonkey Scripts
-// @version      3.7
+// @version      3.8
 // @description  This script enhances your experience by blocking popups, preventing fake redirects, and blocking intrusive advertisements for a seamless streaming experience.
 // @author       Ezio Auditore
+// @icon         https://i.ibb.co/yc58ytm6/1.png
 // @match        *://*.cimanow.cc/*
 // @match        *://*.cimanowinc.com/*
 // @match        *://*.cimanow.online/*
@@ -346,100 +347,6 @@
     );
   }
 
-  function _ui() {
-    window.addEventListener("DOMContentLoaded", () => {
-      const style = document.createElement("style");
-
-      style.textContent = `
-      body{
-        background-image:url("https://i.ibb.co/yc58ytm6/1.png") !important;
-        background-size:cover !important;
-        background-position:center center !important;
-        background-repeat:no-repeat !important;
-        background-attachment:fixed !important;
-        min-height:100vh;
-      }
-      `;
-
-      document.head.appendChild(style);
-
-      const walker = document.createTreeWalker(
-        document.body,
-        NodeFilter.SHOW_TEXT,
-      );
-
-      let node;
-
-      while ((node = walker.nextNode())) {
-        if (node.nodeValue.includes("سيتم اظهار رابط المشاهدة")) {
-          const el = node.parentElement;
-
-          if (el) el.style.display = "none";
-        }
-      }
-    });
-  }
-
-  function _logo() {
-    const apply = () => {
-      document.querySelectorAll("header a img").forEach((img) => {
-        img.src = "https://i.ibb.co/zWChc0Z9/q.png";
-        img.srcset = "";
-
-        img.style.width = "190px";
-        img.style.height = "auto";
-        img.style.objectFit = "contain";
-      });
-    };
-
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", apply);
-    } else {
-      apply();
-    }
-  }
-
-  function _landingUI() {
-    if (location.pathname !== "/") return;
-
-    const apply = () => {
-      document.querySelectorAll("section, footer").forEach((el) => el.remove());
-
-      const btn = [
-        ...document.querySelectorAll("header .header_buttons a"),
-      ].find((a) => a.textContent.trim() === "الدخول");
-
-      if (btn) {
-        btn.href = "https://github.com/EzioTheGoat/EzioUserscripts";
-        btn.textContent = "Ezio Userscripts";
-
-        btn.style.background = "linear-gradient(135deg,#ff3d00,#ff1744)";
-        btn.style.color = "#fff";
-        btn.style.padding = "10px 18px";
-        btn.style.borderRadius = "8px";
-        btn.style.fontWeight = "600";
-        btn.style.textDecoration = "none";
-        btn.style.boxShadow = "0 4px 14px rgba(0,0,0,.35)";
-      }
-
-      const container = document.createElement("div");
-
-      container.style.position = "relative";
-      container.style.width = "100%";
-      container.style.height = "100vh";
-      container.style.background =
-        "url(https://i.ibb.co/yc58ytm6/1.png) center / cover no-repeat";
-
-      document.body.appendChild(container);
-    };
-
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", apply);
-    } else {
-      apply();
-    }
-  }
-
   const routes = [
     {
       domain: "upns.online",
@@ -464,13 +371,6 @@
         _pih();
         _mb();
         _bjd();
-      },
-    },
-    {
-      domain: "cimanow.cc",
-      fn: () => {
-        _logo();
-        _landingUI();
       },
     },
   ];
