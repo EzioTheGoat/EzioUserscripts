@@ -1,55 +1,40 @@
-# 🔥 Ezio's Userscript Collection
+# 🔥 Ezio's Userscript Collection 
 
 <div align="center">
+  <img src="https://i.ibb.co/zWChc0Z9/q.png" width="900" alt="Ezio Banner" style="border-radius: 20px; margin-bottom: 30px;">
 
-📢 <b>Join the official Telegram channel for updates, new scripts, and fixes</b>
-
-<a href="https://t.me/EzioTheGoatScripts">
-  <img src="https://img.shields.io/badge/Join%20Telegram-EzioTheGoatScripts-2CA5E0?logo=telegram&logoColor=white&style=for-the-badge">
-</a>
-
-</div>
-
-<br>
-
-<div align="center">
-  <img src="https://img.shields.io/badge/Supports-Chrome-4285F4?logo=google-chrome&logoColor=white&style=for-the-badge">
-  <img src="https://img.shields.io/badge/Supports-Firefox-FF7139?logo=firefox-browser&logoColor=white&style=for-the-badge">
   <br>
-  <sub style="font-size: 0.9em;">Requires <a href="https://violentmonkey.github.io/">ViolentMonkey</a> or a compatible userscript manager</sub>
-</div>
-<!-- ==================================== END HEADER / INFO =================================== -->
 
-<div align="center">
-  <a href="README.md">English</a> | <a href="README.ar.md">العربية</a>
-</div>
+  <div align="center">
+    <table style="border-collapse: collapse; border: none;">
+      <tr style="border: none;">
+        <td style="border: none; padding: 15px;">
+          <a href="https://github.com/EzioTheGoat/EzioUserscripts/raw/refs/heads/main/bypass-cimanow.user.js">
+            <img src="https://i.imgur.com/blh1X07.png" height="110" alt="Install Cima Now" style="transition: transform .2s;">
+            <br>
+            <img src="https://img.shields.io/badge/INSTALL-CIMA%20NOW-E41E26?style=for-the-badge&logo=googleplay&logoColor=white">
+          </a>
+        </td>
+        <td style="border: none; padding: 15px;">
+          <a href="https://greasyfork.org/en/scripts/527229-bypass-arabseed">
+            <img src="https://i.imgur.com/purcqbc.png" height="110" alt="Install Arabseed" style="transition: transform .2s;">
+            <br>
+            <img src="https://img.shields.io/badge/INSTALL-ARABSEED-28A745?style=for-the-badge&logo=target&logoColor=white">
+          </a>
+        </td>
+      </tr>
+    </table>
 
-<br>
+  <br>
 
-<!-- ===================================== FOOTER ====================================== -->
-<div align="center">
-  <div style="display: flex; gap: 1.5rem; justify-content: center; align-items: center; margin: 1.5rem 0;">
-    <a href="https://github.com/EzioTheGoat">
-      <img src="https://img.shields.io/badge/MAINTAINED%20BY-EZIO%20AUDITORE-181717?style=for-the-badge&logo=github">
+   <a href="https://t.me/EzioTheGoatScripts">
+      <img src="https://img.shields.io/badge/JOIN%20THE%20OFFICIAL%20TELEGRAM-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white&height=80" height="75">
     </a>
-    <img src="https://img.shields.io/badge/BUILT%20WITH-❤️%20%26%20☕-FF006E?style=for-the-badge&logo=heart&logoColor=white&labelColor=6F4E37">
   </div>
 
-  <div style="display: flex; gap: 1.5rem; justify-content: center; margin-bottom: 1.5rem;">
-    <a href="https://ko-fi.com/ezio_auditore">
-      <img src="https://img.shields.io/badge/SUPPORT%20THIS%20PROJECT-00B9FE?style=for-the-badge&logo=kofi&logoColor=white">
-    </a>
+  <br><br>
   </div>
 
-  <div style="margin-top: 1rem;">
-    <img src="https://img.shields.io/badge/LICENSE-MIT-97CA00?style=for-the-badge&logo=open-source-initiative">
-    <img src="https://img.shields.io/badge/STATUS-ACTIVE%20DEVELOPMENT-6CC644?style=for-the-badge">
-  </div>
-
-  <div style="margin-top: 1.5rem;">
-    <sub style="font-size: 0.85em;">🛠️ Crafted with passion and maintained with care</sub>
-  </div>
-</div>
 <!-- ==================================== END FOOTER =================================== -->
 
 
