@@ -1,18 +1,15 @@
 // ==UserScript==
 // @name         Bypass CimaNow
 // @namespace    Violentmonkey Scripts
-// @version      3.5
-// @description  Automatically Bypass all CimaNow Restrictions
+// @version      3.7
+// @description  This script enhances your experience by blocking popups, preventing fake redirects, and blocking intrusive advertisements for a seamless streaming experience.
 // @author       Ezio Auditore
-// @icon         https://i.imgur.com/blh1X07.png
-// @match        *://cimanow.cc/*
-// @match        *://vip.cimanowinc.com/*
-// @match        *://bs.cimanow.cc/*
 // @match        *://*.cimanow.cc/*
 // @match        *://*.cimanowinc.com/*
 // @match        *://*.cimanow.online/*
-// @match        *://rm.freex2line.online/*
-// @match        *://jetload.pp.ua/*
+// @match        *://*.upns.online/*
+// @match        *://*.freex2line.online/*
+// @match        *://*.pp.ua/*
 // @require      https://userscripts.adtidy.org/release/adguard-extra/1.0/adguard-extra.user.js
 // @grant        none
 // @run-at       document-start
@@ -23,276 +20,471 @@
 (function IIFE() {
   "use strict";
 
-  const hostname = location.hostname;
+  const host = location.hostname;
 
-  function maskBrave() {
+  function matchDomain(domain) {
+    return host === domain || host.endsWith("." + domain);
+  }
+
+  function _pih() {
+    try {
+      const d = Object.getOwnPropertyDescriptor(Element.prototype, "innerHTML");
+      if (!d) return;
+      Object.defineProperty(Element.prototype, "innerHTML", {
+        set(v) {
+          try {
+            if (
+              (this === document.body || this === document.documentElement) &&
+              (v === "" || v === null)
+            )
+              return;
+            return d.set.call(this, v);
+          } catch (e) {
+            return d.set.call(this, v);
+          }
+        },
+        get() {
+          return d.get.call(this);
+        },
+        configurable: true,
+      });
+    } catch (e) {}
+  }
+
+  function _bima() {
+    class _Noop {
+      addEventListener() {}
+      removeEventListener() {}
+    }
+    class AdDisplayContainer extends _Noop {
+      initialize() {}
+      destroy() {}
+    }
+    class AdsLoader extends _Noop {
+      requestAds() {}
+      destroy() {}
+      getSettings() {
+        return {};
+      }
+    }
+    class AdsManager extends _Noop {
+      init() {}
+      start() {}
+      destroy() {}
+      stop() {}
+      pause() {}
+      resume() {}
+      getVolume() {
+        return 1;
+      }
+      setVolume() {}
+      getRemainingTime() {
+        return 0;
+      }
+      getCuePoints() {
+        return [];
+      }
+    }
+    class AdsRequest {
+      setAdWillAutoPlay() {}
+      setAdWillPlayMuted() {}
+    }
+
+    window.google = window.google || {};
+    window.google.ima = {
+      AdDisplayContainer,
+      AdsLoader,
+      AdsManager,
+      AdsRequest,
+      AdsManagerLoadedEvent: {
+        Type: { ADS_MANAGER_LOADED: "adsManagerLoaded" },
+      },
+      AdErrorEvent: { Type: { AD_ERROR: "adError" } },
+      AdEvent: {
+        Type: {
+          COMPLETE: "complete",
+          ALL_ADS_COMPLETED: "allAdsCompleted",
+          STARTED: "started",
+          PAUSED: "paused",
+          RESUMED: "resumed",
+          SKIPPED: "skipped",
+          SKIPPABLE_STATE_CHANGED: "skippableStateChanged",
+        },
+      },
+      ViewMode: { NORMAL: "normal", FULLSCREEN: "fullscreen" },
+      UiElements: { AD_ATTRIBUTION: "adAttribution", COUNTDOWN: "countdown" },
+    };
+
+    const _ce = document.createElement.bind(document);
+    const _src = Object.getOwnPropertyDescriptor(
+      HTMLScriptElement.prototype,
+      "src",
+    );
+    let _patched = true;
+
+    document.createElement = function (tag) {
+      const el = _ce(tag);
+      try {
+        if (_patched && tag.toLowerCase() === "script" && _src) {
+          Object.defineProperty(el, "src", {
+            set(val) {
+              try {
+                if (/imasdk\.googleapis\.com/i.test(val)) {
+                  _patched = false;
+                  document.createElement = _ce.bind(document);
+                  setTimeout(() => el.dispatchEvent(new Event("load")), 50);
+                  return;
+                }
+              } catch (_) {}
+              _src.set.call(el, val);
+            },
+            get() {
+              return _src.get.call(el);
+            },
+          });
+        }
+      } catch (e) {}
+      return el;
+    };
+  }
+
+  function _mb() {
+    try {
+      Object.defineProperty(Navigator.prototype, "brave", {
+        get: undefined,
+        configurable: true,
+      });
+    } catch (_) {}
     try {
       delete Navigator.prototype.brave;
     } catch (_) {}
-    Object.defineProperty(Navigator.prototype, "brave", {
-      get() {
-        return { isBrave: () => Promise.resolve(false) };
-      },
-      configurable: true,
-      enumerable: false,
-    });
-
-    if (!navigator.userAgentData) return;
-
-    const brands = [
-      { brand: "Chromium", version: "120" },
-      { brand: "Google Chrome", version: "120" },
-      { brand: "Not-A.Brand", version: "99" },
-    ];
-    Object.defineProperty(navigator, "userAgentData", {
-      value: {
-        brands,
-        mobile: false,
-        platform: "Windows",
-        getHighEntropyValues: () =>
-          Promise.resolve({
-            brands,
-            mobile: false,
-            platform: "Windows",
-            architecture: "x86",
-            bitness: "64",
-            model: "",
-            platformVersion: "15.0.0",
-            uaFullVersion: "120.0.0.0",
-            fullVersionList: brands,
-          }),
-        toJSON: () => ({ brands, mobile: false, platform: "Windows" }),
-      },
-      configurable: true,
-    });
+    try {
+      delete navigator.brave;
+    } catch (_) {}
+    try {
+      Object.defineProperty(Navigator.prototype, "brave", {
+        value: undefined,
+        writable: true,
+        configurable: true,
+        enumerable: false,
+      });
+    } catch (_) {}
   }
 
-  function blockFreex2lineScripts() {
-    const BLOCKED_HOST = "rm.freex2line.online";
+  function _mn(fn, name) {
+    const body = `function ${name ?? fn.name ?? ""}() { [native code] }`;
+    const t = function toString() {
+      return body;
+    };
+    try {
+      Object.defineProperty(t, "toString", {
+        value: function toString() {
+          return "function toString() { [native code] }";
+        },
+        configurable: true,
+        writable: true,
+      });
+      Object.defineProperty(fn, "toString", {
+        value: t,
+        configurable: true,
+        writable: true,
+      });
+    } catch (_) {}
+    return fn;
+  }
 
-    function checkAndBlock(node) {
-      if (!(node instanceof HTMLScriptElement)) return;
-      const src = node.getAttribute("src") || node.src;
-      if (src?.includes(BLOCKED_HOST)) {
-        node.type = "blocked/javascript";
-        node.removeAttribute("src");
-        console.warn("[CimaNow] Blocked freex2line script:", src);
-      }
+  function _bjd() {
+    let _od = null;
+    let _p = HTMLElement.prototype;
+    while (_p) {
+      _od = Object.getOwnPropertyDescriptor(_p, "offsetParent");
+      if (_od) break;
+      _p = Object.getPrototypeOf(_p);
+    }
+    if (_od?.get) {
+      const _og = _od.get;
+      Object.defineProperty(HTMLElement.prototype, "offsetParent", {
+        get: _mn(function () {
+          try {
+            const v = _og.call(this);
+            if (v === null && this.isConnected) {
+              if (
+                this.style.display === "none" ||
+                this.style.visibility === "hidden"
+              )
+                return null;
+              return (
+                this.parentElement ?? document.body ?? document.documentElement
+              );
+            }
+            return v;
+          } catch (_) {
+            return null;
+          }
+        }, "get offsetParent"),
+        configurable: true,
+      });
     }
 
-    const _appendChild = Node.prototype.appendChild;
-    Node.prototype.appendChild = function (child) {
-      try {
-        checkAndBlock(child);
-      } catch (_) {}
-      return _appendChild.call(this, child);
-    };
+    const _gcs = window.getComputedStyle.bind(window);
+    try {
+      Object.defineProperty(window, "getComputedStyle", {
+        value: _mn(
+          new Proxy(_gcs, {
+            apply(target, thisArg, args) {
+              try {
+                const st = Reflect.apply(target, thisArg, args);
+                const el = args[0];
+                if (
+                  el instanceof HTMLElement &&
+                  (el.style.display === "none" ||
+                    el.style.visibility === "hidden")
+                )
+                  return st;
+                const bh =
+                  el instanceof HTMLElement &&
+                  el.isConnected &&
+                  _od?.get?.call(el) === null &&
+                  st.display === "none";
+                if (!bh) return st;
+                return new Proxy(st, {
+                  get(s, prop) {
+                    if (prop === "display") return "block";
+                    if (prop === "visibility") return "visible";
+                    const v = s[prop];
+                    return typeof v === "function" ? v.bind(s) : v;
+                  },
+                });
+              } catch (_) {
+                return Reflect.apply(target, thisArg, args);
+              }
+            },
+          }),
+          "getComputedStyle",
+        ),
+        writable: true,
+        configurable: true,
+      });
+    } catch (_) {}
 
-    const _insertBefore = Node.prototype.insertBefore;
-    Node.prototype.insertBefore = function (newNode, refNode) {
-      try {
-        checkAndBlock(newNode);
-      } catch (_) {}
-      return _insertBefore.call(this, newNode, refNode);
+    try {
+      Object.defineProperty(window, "adsbygoogle", {
+        value: { loaded: true, push: Array.prototype.push, length: 0 },
+        configurable: true,
+        writable: true,
+      });
+    } catch (_) {
+      window.adsbygoogle = {
+        loaded: true,
+        push: Array.prototype.push,
+        length: 0,
+      };
+    }
+
+    const _gt = {
+      cmd: {
+        push(fn) {
+          try {
+            fn();
+          } catch (_) {}
+        },
+      },
+      pubads: () => ({
+        enableSingleRequest: () => {},
+        collapseEmptyDivs: () => {},
+        setTargeting: () => _gt.pubads(),
+        addEventListener: () => {},
+        refresh: () => {},
+        disableInitialLoad: () => {},
+        enableAsyncRendering: () => {},
+      }),
+      enableServices: () => {},
+      defineSlot: () => ({
+        addService: () => _gt.defineSlot(),
+        setTargeting: () => _gt.defineSlot(),
+      }),
+      display: () => {},
+      destroySlots: () => {},
+      apiReady: true,
+      pubadsReady: true,
     };
+    try {
+      Object.defineProperty(window, "googletag", {
+        value: _gt,
+        configurable: true,
+        writable: true,
+      });
+    } catch (_) {
+      window.googletag = _gt;
+    }
+
+    const _AD =
+      /doubleclick|googlesyndication|adservice|amazon-adsystem|pagead|adsbygoogle|googletagmanager|googletagservices/;
+    const _f = window.fetch.bind(window);
+    try {
+      Object.defineProperty(window, "fetch", {
+        value: _mn(async function fetch(input, init) {
+          const url = typeof input === "string" ? input : (input?.url ?? "");
+          if (_AD.test(url)) {
+            try {
+              return await _f(input, init);
+            } catch (_) {
+              return new Response("", { status: 200 });
+            }
+          }
+          return _f(input, init);
+        }, "fetch"),
+        writable: true,
+        configurable: true,
+      });
+    } catch (_) {}
   }
 
-  function removeAdAnchors() {
+  function _raa() {
     ["xqeqjp", "xqeqjp1"].forEach((id) =>
       document.getElementById(id)?.remove(),
     );
   }
 
-  function autoClickAfterCountdown() {
-    const poll = setInterval(() => {
-      const btn = document.querySelector("#downloadbtn, .downloadbtn");
-      if (!btn) return;
-      clearInterval(poll);
+  function _ui() {
+    window.addEventListener("DOMContentLoaded", () => {
+      const style = document.createElement("style");
 
-      new MutationObserver((_, obs) => {
-        if (btn.style.display === "none" || btn.offsetParent === null) return;
-        obs.disconnect();
+      style.textContent = `
+      body{
+        background-image:url("https://i.ibb.co/yc58ytm6/1.png") !important;
+        background-size:cover !important;
+        background-position:center center !important;
+        background-repeat:no-repeat !important;
+        background-attachment:fixed !important;
+        min-height:100vh;
+      }
+      `;
 
-        setTimeout(() => {
-          const href = btn.getAttribute("href") ?? btn.href;
-          if (href?.startsWith("http")) {
-            window.open(href, "_blank", "noopener");
-          } else {
-            btn.click();
-          }
-        }, 300);
-      }).observe(btn, { attributes: true, attributeFilter: ["style"] });
-    }, 100);
-  }
+      document.head.appendChild(style);
 
-  function makeNative(fn, name) {
-    const nativeStr = `function ${name ?? fn.name ?? ""}() { [native code] }`;
-    const toStr = function toString() {
-      return nativeStr;
-    };
-    Object.defineProperty(toStr, "toString", {
-      value: function toString() {
-        return "function toString() { [native code] }";
-      },
-      configurable: true,
-      writable: true,
-    });
-    Object.defineProperty(fn, "toString", {
-      value: toStr,
-      configurable: true,
-      writable: true,
-    });
-    return fn;
-  }
+      const walker = document.createTreeWalker(
+        document.body,
+        NodeFilter.SHOW_TEXT,
+      );
 
-  function bypassJetloadDetection() {
-    let offsetDesc = null;
-    let proto = HTMLElement.prototype;
-    while (proto) {
-      offsetDesc = Object.getOwnPropertyDescriptor(proto, "offsetParent");
-      if (offsetDesc) break;
-      proto = Object.getPrototypeOf(proto);
-    }
+      let node;
 
-    if (offsetDesc?.get) {
-      const originalGetter = offsetDesc.get;
+      while ((node = walker.nextNode())) {
+        if (node.nodeValue.includes("سيتم اظهار رابط المشاهدة")) {
+          const el = node.parentElement;
 
-      const getter = makeNative(function () {
-        try {
-          const val = originalGetter.call(this);
-          if (val === null && this.isConnected) {
-            if (
-              this.style.display === "none" ||
-              this.style.visibility === "hidden"
-            ) {
-              return null;
-            }
-            return (
-              this.parentElement ?? document.body ?? document.documentElement
-            );
-          }
-          return val;
-        } catch (_) {
-          return null;
+          if (el) el.style.display = "none";
         }
-      }, "get offsetParent");
+      }
+    });
+  }
 
-      Object.defineProperty(HTMLElement.prototype, "offsetParent", {
-        get: getter,
-        configurable: true,
+  function _logo() {
+    const apply = () => {
+      document.querySelectorAll("header a img").forEach((img) => {
+        img.src = "https://i.ibb.co/zWChc0Z9/q.png";
+        img.srcset = "";
+
+        img.style.width = "190px";
+        img.style.height = "auto";
+        img.style.objectFit = "contain";
       });
+    };
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", apply);
+    } else {
+      apply();
     }
-
-    const _getComputedStyle = window.getComputedStyle.bind(window);
-
-    Object.defineProperty(window, "getComputedStyle", {
-      value: makeNative(
-        new Proxy(_getComputedStyle, {
-          apply(target, thisArg, args) {
-            try {
-              const style = Reflect.apply(target, thisArg, args);
-              const el = args[0];
-
-              if (
-                el instanceof HTMLElement &&
-                (el.style.display === "none" ||
-                  el.style.visibility === "hidden")
-              ) {
-                return style;
-              }
-
-              const blockerHidden =
-                el instanceof HTMLElement &&
-                el.isConnected &&
-                offsetDesc?.get?.call(el) === null &&
-                style.display === "none";
-
-              if (!blockerHidden) return style;
-
-              return new Proxy(style, {
-                get(s, prop) {
-                  if (prop === "display") return "block";
-                  if (prop === "visibility") return "visible";
-                  const v = s[prop];
-                  return typeof v === "function" ? v.bind(s) : v;
-                },
-              });
-            } catch (_) {
-              return Reflect.apply(target, thisArg, args);
-            }
-          },
-        }),
-        "getComputedStyle",
-      ),
-      writable: true,
-      configurable: true,
-    });
-
-    window.adsbygoogle ??= [];
-    window.adsbygoogle.push = Array.prototype.push;
-
-    const _fetch = window.fetch.bind(window);
-    Object.defineProperty(window, "fetch", {
-      value: makeNative(async function fetch(input, init) {
-        if (init?.mode === "no-cors") {
-          try {
-            return await _fetch(input, init);
-          } catch (_) {
-            return new Response("", { status: 200 });
-          }
-        }
-        return _fetch(input, init);
-      }, "fetch"),
-      writable: true,
-      configurable: true,
-    });
   }
 
-  function autoClickJetload() {
-    document.addEventListener("DOMContentLoaded", () => {
-      const btn = document.getElementById("downloadbtn");
-      if (!btn) return;
+  function _landingUI() {
+    if (location.pathname !== "/") return;
 
-      new MutationObserver((_, obs) => {
-        const href = btn.getAttribute("href");
-        if (href?.startsWith("https://") && btn.classList.contains("visible")) {
-          obs.disconnect();
-          btn.click();
-        }
-      }).observe(btn, { attributes: true, attributeFilter: ["href", "class"] });
-    });
-  }
+    const apply = () => {
+      document.querySelectorAll("section, footer").forEach((el) => el.remove());
 
-  (function bootstrap() {
-    try {
-      if (
-        ["cimanow.cc", "cimanowinc.com", "cimanow.online"].some((d) =>
-          hostname.includes(d),
-        )
-      ) {
-        blockFreex2lineScripts();
+      const btn = [
+        ...document.querySelectorAll("header .header_buttons a"),
+      ].find((a) => a.textContent.trim() === "الدخول");
+
+      if (btn) {
+        btn.href = "https://github.com/EzioTheGoat/EzioUserscripts";
+        btn.textContent = "Ezio Userscripts";
+
+        btn.style.background = "linear-gradient(135deg,#ff3d00,#ff1744)";
+        btn.style.color = "#fff";
+        btn.style.padding = "10px 18px";
+        btn.style.borderRadius = "8px";
+        btn.style.fontWeight = "600";
+        btn.style.textDecoration = "none";
+        btn.style.boxShadow = "0 4px 14px rgba(0,0,0,.35)";
       }
 
-      if (hostname.includes("freex2line.online")) {
+      const container = document.createElement("div");
+
+      container.style.position = "relative";
+      container.style.width = "100%";
+      container.style.height = "100vh";
+      container.style.background =
+        "url(https://i.ibb.co/yc58ytm6/1.png) center / cover no-repeat";
+
+      document.body.appendChild(container);
+    };
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", apply);
+    } else {
+      apply();
+    }
+  }
+
+  const routes = [
+    {
+      domain: "upns.online",
+      fn: _bima,
+    },
+    {
+      domain: "freex2line.online",
+      fn: () => {
+        _ui();
         window.addEventListener("DOMContentLoaded", () => {
-          removeAdAnchors(); 
-          //autoClickAfterCountdown();
-          new MutationObserver(removeAdAnchors).observe(document.body, {
+          _raa();
+          new MutationObserver(_raa).observe(document.body, {
             childList: true,
             subtree: true,
           });
         });
-      }
+      },
+    },
+    {
+      domain: "jetload.pp.ua",
+      fn: () => {
+        _pih();
+        _mb();
+        _bjd();
+      },
+    },
+    {
+      domain: "cimanow.cc",
+      fn: () => {
+        _logo();
+        _landingUI();
+      },
+    },
+  ];
 
-      if (hostname.includes("jetload.pp.ua")) {
-        maskBrave();
-        bypassJetloadDetection();
-        //autoClickJetload();
-      }
-    } catch (err) {
-      console.error("[CimaNow] Fatal bootstrap error:", err);
+  (function routeRunner() {
+    try {
+      routes.forEach((r) => {
+        try {
+          if (matchDomain(r.domain)) r.fn();
+        } catch (_) {}
+      });
+    } catch (e) {
+      console.error("[bypass-cimanow] error:", e);
     }
   })();
 })();
-
 
