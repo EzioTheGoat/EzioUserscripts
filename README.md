@@ -16,7 +16,7 @@
           </a>
         </td>
         <td style="border: none; padding: 15px;">
-          <a href="https://greasyfork.org/en/scripts/527229-bypass-arabseed">
+          <a href="https://github.com/EzioTheGoat/EzioUserscripts/raw/refs/heads/main/bypass-arabseed.user.js">
             <img src="https://i.imgur.com/purcqbc.png" height="110" alt="Install Arabseed" style="transition: transform .2s;">
             <br>
             <img src="https://img.shields.io/badge/INSTALL-ARABSEED-28A745?style=for-the-badge&logo=target&logoColor=white">
@@ -125,7 +125,7 @@ If you experience issues like detection warnings, blocked scripts, or unexpected
   </div>
       
   <div align="center">
-        <a href="https://greasyfork.org/en/scripts/527229-bypass-arabseed">
+        <a href="https://github.com/EzioTheGoat/EzioUserscripts/raw/refs/heads/main/bypass-arabseed.user.js">
           <img src="https://img.shields.io/badge/INSTALL_SCRIPT-00B894?style=for-the-badge&logo=open-source-initiative&logoColor=white" alt="Install" style="margin-top: 12px;">
         </a>
       </div>
