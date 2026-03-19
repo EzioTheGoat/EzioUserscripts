@@ -1,9 +1,12 @@
 // ==UserScript==
 // @name         Bypass ArabSeed
+// @name:ar      تخطي عرب سيد
 // @namespace    Violentmonkey Scripts
-// @version      2.5
+// @version      2.6
 // @description  Automatically bypass the countdown and show the download link
+// @description:ar هذا السكربت مخصص لتحسين تجربتك على موقع عرب سيد من خلال تجاوز العراقيل المختلفة مثل مؤقت العد التنازلي، النوافذ المنبثقة، التحويلات المزيفة، وفتح صفحة التحميل مباشرةً. استمتع بتجربة مشاهدة سلسة دون انقطاع!
 // @author       Ezio Auditore
+// @license      MIT
 // @icon         https://i.imgur.com/purcqbc.png
 // @match        https://m.gameshop4u.com/*
 // @match        https://m.gamehub.cam/*
@@ -57,771 +60,442 @@
 // @match        https://asd.pics/*
 // @grant        none
 // @run-at       document-start
-// @updateURL    https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/bypass-arabseed.user.js
-// @downloadURL  https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/bypass-arabseed.user.js
+// @downloadURL https://update.greasyfork.org/scripts/527229/Bypass%20ArabSeed.user.js
+// @updateURL https://update.greasyfork.org/scripts/527229/Bypass%20ArabSeed.meta.js
 // ==/UserScript==
 
 (function () {
   "use strict";
 
-  // ============================================================================
-  // CONFIGURATION
-  // ============================================================================
+  const _h = window.location.hostname;
+  const _u = () => window.location.href;
 
-  const CONFIG = {
-    constants: {
-      OFREOK_POLL_INTERVAL: 2000,
-      DEBOUNCE_DELAY: 500,
-      MAX_URL_KEY_LENGTH: 200,
-    },
-
-    domains: {
-      blocked: [
-        "videovils.click",
-        "href.li",
-        "aabroishere.website",
-        "fulvideozrt.click",
-        "pub-9c4ec7f3f95c448b85e464d2b533aac1.r2.dev",
-        "ntryiwl.click",
-      ],
-
-      external: [
-        "turbobit.net",
-        "up-4ever.net",
-        "frdl.io",
-        "filespayouts.com",
-        "bigwarp.io",
-        "nitroflare.com",
-      ],
-
-      ofreok: ["ofreok.online", "ofre15.online"],
-
-      tfsRequired: [
-        "hawsa.site",
-        "gamevault.cam",
-        "safary.site",
-        "logenzi.site",
-        "maftou7.site",
-        "mar3a.site",
-        "be7alat.site",
-        "mastaba.site",
-        "gamezone.cam",
-        "robou3.site",
-        "dl4all.online",
-        "cheapou.site",
-        "hegry.site",
-        "playarena.cam",
-        "moshakes.site",
-        "joyarcade.cam",
-        "gameflare.cam",
-        "shallal.site",
-        "marcmello.site",
-        "mal3oub.site",
-        "shabory.site",
-        "marshoush.site",
-        "ka3boly.site",
-        "muhager.site",
-      ],
-
-      dynamicAds: ["asd.quest", "asd.rest", "asd.show"],
-    },
-
-    selectors: {
-      countdown: "#countdown",
-      downloadButton: "#btn",
-      downloadForm: "form#btn",
-      clickMeDiv: "div#clickme",
-      modalDialog: ".modalDialog",
-      modal: "#modal",
-      mp4Link: 'a[href$=".mp4"]',
-      mp4LinkAny: 'a[href*=".mp4"]',
-      videoElement: "video",
-      metaRefresh: 'meta[http-equiv="Refresh"]',
-      allLinks: "a",
-      hiddenElements: '[style*="display: none"]',
-    },
-
-    urlPatterns: {
-      category: /\/category\/.+\?r=\d+$/,
-      pstParam: /[?&]pst=\d+$/,
-      gameParam: /[?&]game=\d+$/,
-      rParam: /r=\d+/,
-    },
-
-    domainConfigs: {
+  const C = {
+    POLL: 2000,
+    DEBOUNCE: 500,
+    BLOCKED: [
+      "videovils.click",
+      "href.li",
+      "aabroishere.website",
+      "fulvideozrt.click",
+      "pub-9c4ec7f3f95c448b85e464d2b533aac1.r2.dev",
+      "ntryiwl.click",
+    ],
+    EXTERNAL: [
+      "turbobit.net",
+      "up-4ever.net",
+      "frdl.io",
+      "filespayouts.com",
+      "bigwarp.io",
+      "nitroflare.com",
+    ],
+    OFREOK: ["ofreok.online", "ofre15.online"],
+    TFS: [
+      "hawsa.site",
+      "gamevault.cam",
+      "safary.site",
+      "logenzi.site",
+      "maftou7.site",
+      "mar3a.site",
+      "be7alat.site",
+      "mastaba.site",
+      "gamezone.cam",
+      "robou3.site",
+      "dl4all.online",
+      "cheapou.site",
+      "hegry.site",
+      "playarena.cam",
+      "moshakes.site",
+      "joyarcade.cam",
+      "gameflare.cam",
+      "shallal.site",
+      "marcmello.site",
+      "mal3oub.site",
+      "shabory.site",
+      "marshoush.site",
+      "ka3boly.site",
+      "muhager.site",
+    ],
+    DYN_ADS: ["asd.quest", "asd.rest", "asd.show"],
+    DOMAIN_CFG: {
       "m.monafes.site": {
-        params: ["t=1", "mon=1"],
-        test: (url) => !/&t=1&mon=1/.test(url),
+        p: ["t=1", "mon=1"],
+        t: (u) => !/&t=1&mon=1/.test(u),
       },
       "m.gamehub.cam": {
-        params: ["mon=1"],
-        test: (url) => /r=\d+/.test(url) && !/mon=1/.test(url),
-        replace: (url) => url.replace(/(r=\d+)/, "$1&mon=1"),
+        p: ["mon=1"],
+        t: (u) => /r=\d+/.test(u) && !/mon=1/.test(u),
+        r: (u) => u.replace(/(r=\d+)/, "$1&mon=1"),
       },
       "m.techland.live": {
-        params: ["t=1", "etu=1"],
-        test: (url) => !/&t=1&etu=1/.test(url),
+        p: ["t=1", "etu=1"],
+        t: (u) => !/&t=1&etu=1/.test(u),
       },
       "m.reviewpalace.net": {
-        params: ["t=1", "tuh=1"],
-        test: (url) => !/&t=1&tuh=1/.test(url),
+        p: ["t=1", "tuh=1"],
+        t: (u) => !/&t=1&tuh=1/.test(u),
       },
-      "forgee.xyz": {
-        params: ["mon=1"],
-        test: (url) => !/&mon=1/.test(url),
-      },
+      "forgee.xyz": { p: ["mon=1"], t: (u) => !/&mon=1/.test(u) },
       "m.forgee.xyz": {
-        params: ["mon=1", "monz=1"],
-        test: (url) => !/&mon=1/.test(url) || !/&monz=1/.test(url),
+        p: ["mon=1", "monz=1"],
+        t: (u) => !/&mon=1/.test(u) || !/&monz=1/.test(u),
       },
       "kalosha.site": {
-        params: ["gmz=1"],
-        test: (url) =>
-          url.includes("game=") &&
-          !url.includes("gmz=1") &&
-          !url.includes("dgame="),
+        p: ["gmz=1"],
+        t: (u) =>
+          u.includes("game=") && !u.includes("gmz=1") && !u.includes("dgame="),
       },
       "reviewpalace.net": {
-        params: ["gmz=1"],
-        test: (url) =>
-          CONFIG.urlPatterns.pstParam.test(url) && !/&gmz=1/.test(url),
+        p: ["gmz=1"],
+        t: (u) => /[?&]pst=\d+$/.test(u) && !/&gmz=1/.test(u),
       },
       "jurbana.site": {
-        params: ["gmz=1"],
-        test: (url) =>
-          CONFIG.urlPatterns.gameParam.test(url) && !url.includes("gmz=1"),
+        p: ["gmz=1"],
+        t: (u) => /[?&]game=\d+$/.test(u) && !u.includes("gmz=1"),
       },
       "a.asd.homes": {
-        params: [
-          "asd4a=1",
-          "asd7b=1",
-          "asd7h=1",
-          "asd7m=1",
-          "asd7n=1",
-          "asd7p=1",
-        ],
-        test: (url) =>
-          url.includes("/category/downloadz/") &&
-          url.includes("r=") &&
-          !url.includes("asd4a=1"),
+        p: ["asd4a=1", "asd7b=1", "asd7h=1", "asd7m=1", "asd7n=1", "asd7p=1"],
+        t: (u) =>
+          u.includes("/category/downloadz/") &&
+          u.includes("r=") &&
+          !u.includes("asd4a=1"),
       },
       "asd.pics": {
-        params: ["asd8a=1"],
-        test: (url) =>
-          url.includes("/category/downloadz/") &&
-          url.includes("r=") &&
-          !url.includes("asd8a=1") &&
-          !url.includes("asd88b=1"),
+        p: ["asd8a=1", "asd88b=1"],
+        t: (u) =>
+          u.includes("/category/downloadz/") &&
+          u.includes("r=") &&
+          !u.includes("asd8a=1") &&
+          !u.includes("asd88b=1"),
       },
     },
   };
 
-  // ============================================================================
-  // UTILITIES
-  // ============================================================================
-
-  const Utils = {
-    log(message, ...args) {
-      console.log(`[BypassScript] ${message}`, ...args);
-    },
-
-    error(message, error) {
-      console.error(`[BypassScript] ${message}`, error);
-    },
-
-    debounce(func, delay) {
-      let timeout;
-      return function (...args) {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => func.apply(this, args), delay);
-      };
-    },
-
-    safeQuerySelector(selector, parent = document) {
-      try {
-        return parent.querySelector(selector);
-      } catch (e) {
-        Utils.error(`Invalid selector: ${selector}`, e);
-        return null;
-      }
-    },
-
-    safeQuerySelectorAll(selector, parent = document) {
-      try {
-        return Array.from(parent.querySelectorAll(selector));
-      } catch (e) {
-        Utils.error(`Invalid selector: ${selector}`, e);
-        return [];
-      }
-    },
-
-    getCurrentHostname() {
-      return window.location.hostname;
-    },
-
-    getCurrentUrl() {
-      return window.location.href;
-    },
-
-    injectUrlParams(url, params) {
-      const separator = url.includes("?") ? "&" : "?";
-      const missingParams = params.filter((param) => !url.includes(param));
-      return missingParams.length > 0
-        ? url + separator + missingParams.join("&")
-        : url;
-    },
-
-    isExternalFileHost(url) {
-      return CONFIG.domains.external.some((host) => url.includes(host));
-    },
-
-    isBlockedDomain(url) {
-      return CONFIG.domains.blocked.some((domain) => url.includes(domain));
-    },
-
-    redirectTo(url) {
-      Utils.log("Redirecting to:", url);
-      window.location.replace(url);
-    },
+  const isBlocked = (url) => C.BLOCKED.some((d) => url.includes(d));
+  const isExternal = (url) => C.EXTERNAL.some((d) => url.includes(d));
+  const go = (url) => window.location.replace(url);
+  const $ = (s, ctx = document) => {
+    try {
+      return ctx.querySelector(s);
+    } catch {
+      return null;
+    }
+  };
+  const $$ = (s, ctx = document) => {
+    try {
+      return Array.from(ctx.querySelectorAll(s));
+    } catch {
+      return [];
+    }
+  };
+  const show = (el) => {
+    if (!el) return;
+    el.style.display = "block";
+    el.style.visibility = "visible";
+  };
+  const debounce = (fn, ms) => {
+    let t;
+    return (...a) => {
+      clearTimeout(t);
+      t = setTimeout(() => fn(...a), ms);
+    };
   };
 
-  // ============================================================================
-  // ANTI-INSPECTION MODULE
-  // ============================================================================
+  const injectParams = (url, params) => {
+    const missing = params.filter((p) => !url.includes(p));
+    return missing.length
+      ? url + (url.includes("?") ? "&" : "?") + missing.join("&")
+      : url;
+  };
 
-  const AntiInspection = {
-    init() {
-      this.blockUnGrabber();
-      this.overrideWindowOpen();
-    },
+  const getDomainCfg = (host) =>
+    Object.entries(C.DOMAIN_CFG).find(([d]) => host.includes(d))?.[1];
 
-    blockUnGrabber() {
+  function initAntiInspection() {
+    const noop = { init: () => {} };
+    try {
       Object.defineProperty(window, "mdpUnGrabber", {
         value: {},
         writable: false,
       });
-
+    } catch {}
+    try {
       Object.defineProperty(window, "UnGrabber", {
-        value: function () {
-          return { init: function () {} };
-        },
+        value: () => noop,
         writable: false,
       });
-    },
+    } catch {}
+    const _open = window.open;
+    window.open = function (url, name, feat) {
+      try {
+        if (isBlocked(new URL(url, location.href).hostname)) return null;
+      } catch {}
+      return _open.call(window, url, name, feat);
+    };
+  }
 
-    overrideWindowOpen() {
-      const originalOpen = window.open;
+  function initURLNormalizer() {
+    const btn = $("#btn");
+    if (btn && isExternal(btn.href)) return false;
 
-      window.open = function (url, name, features) {
-        try {
-          const parsedUrl = new URL(url, window.location.href);
+    const url = _u();
+    const cfg = getDomainCfg(_h);
 
-          if (Utils.isBlockedDomain(parsedUrl.hostname)) {
-            Utils.log("Blocked window.open call to:", url);
-            return null;
-          }
-        } catch (e) {
-          Utils.error("Error parsing URL in window.open override:", e);
-        }
-
-        return originalOpen.call(window, url, name, features);
-      };
-    },
-  };
-
-  // ============================================================================
-  // URL NORMALIZER MODULE
-  // ============================================================================
-
-  const URLNormalizer = {
-    normalize() {
-      const hostname = Utils.getCurrentHostname();
-      const currentUrl = Utils.getCurrentUrl();
-
-      if (this.shouldSkipNormalization()) {
-        Utils.log("Skipping normalization - external file host detected");
-        return false;
-      }
-
-      // Check domain-specific configurations
-      const domainConfig = this.getDomainConfig(hostname);
-      if (domainConfig && this.shouldApplyConfig(currentUrl, domainConfig)) {
-        return this.applyDomainConfig(currentUrl, domainConfig);
-      }
-
-      // Check TFS parameter requirement
-      if (this.requiresTfsParam(hostname, currentUrl)) {
-        return this.applyTfsParam(currentUrl);
-      }
-
-      // Check generic category pattern
-      if (this.matchesCategoryPattern(currentUrl)) {
-        return this.applyCategoryBypass(hostname, currentUrl);
-      }
-
-      return false;
-    },
-
-    shouldSkipNormalization() {
-      const downloadBtn = Utils.safeQuerySelector(
-        CONFIG.selectors.downloadButton,
-      );
-      return downloadBtn && Utils.isExternalFileHost(downloadBtn.href);
-    },
-
-    getDomainConfig(hostname) {
-      return Object.entries(CONFIG.domainConfigs).find(([domain]) =>
-        hostname.includes(domain),
-      )?.[1];
-    },
-
-    shouldApplyConfig(url, config) {
-      return config.test(url);
-    },
-
-    applyDomainConfig(url, config) {
-      if (config.replace) {
-        Utils.redirectTo(config.replace(url));
-      } else {
-        const newUrl = Utils.injectUrlParams(url, config.params);
-        if (newUrl !== url) {
-          Utils.redirectTo(newUrl);
-        }
-      }
+    if (cfg?.t(url)) {
+      go(cfg.r ? cfg.r(url) : injectParams(url, cfg.p));
       return true;
-    },
+    }
 
-    requiresTfsParam(hostname, url) {
-      return (
-        CONFIG.domains.tfsRequired.includes(hostname) &&
-        url.includes("r=") &&
-        !url.includes("tfs=1")
-      );
-    },
-
-    applyTfsParam(url) {
-      const newUrl = Utils.injectUrlParams(url, ["tfs=1"]);
-      Utils.redirectTo(newUrl);
+    if (C.TFS.includes(_h) && url.includes("r=") && !url.includes("tfs=1")) {
+      go(injectParams(url, ["tfs=1"]));
       return true;
-    },
+    }
 
-    matchesCategoryPattern(url) {
-      return CONFIG.urlPatterns.category.test(url);
-    },
-
-    applyCategoryBypass(hostname, url) {
-      const config = this.getDomainConfig(hostname);
-
-      if (config && config.test(url)) {
-        this.applyDomainConfig(url, config);
+    if (/\/category\/.+\?r=\d+$/.test(url)) {
+      if (cfg?.t(url)) {
+        go(cfg.r ? cfg.r(url) : injectParams(url, cfg.p));
         return true;
       }
-
       if (!/&t=1/.test(url)) {
-        Utils.redirectTo(`${url}&t=1`);
+        go(`${url}&t=1`);
         return true;
       }
+    }
 
-      return false;
-    },
-  };
+    return false;
+  }
 
-  // ============================================================================
-  // META REDIRECT HANDLER
-  // ============================================================================
+  function initMetaRedirect() {
+    const meta = $('meta[http-equiv="Refresh"]');
+    if (!meta) return;
+    const dest = meta.getAttribute("content")?.split("URL=")[1];
+    if (dest) go(dest);
+  }
 
-  const MetaRedirectHandler = {
-    skip() {
-      try {
-        const metaRefresh = Utils.safeQuerySelector(
-          CONFIG.selectors.metaRefresh,
-        );
+  function initUI() {
+    const cd = $("#countdown");
+    const btn = $("#btn");
+    if (cd) cd.style.display = "none";
+    if (btn) btn.style.display = "block";
+  }
 
-        if (metaRefresh) {
-          const content = metaRefresh.getAttribute("content");
-          const redirectUrl = content?.split("URL=")[1];
+  function initOfreok() {
+    if (!C.OFREOK.includes(_h)) return;
 
-          if (redirectUrl) {
-            Utils.redirectTo(redirectUrl);
-          }
-        }
-      } catch (error) {
-        Utils.error("Error in skipMetaRedirect:", error);
-      }
-    },
-  };
+    const revealAll = () => {
+      [$("#btn"), $('a[href$=".mp4"]'), $('a[href*="/direct/"]')]
+        .filter(Boolean)
+        .forEach(show);
+      ["#countdown", ".modalDialog", "#modal"].forEach((s) => $(s)?.remove());
+      $$('[style*="display: none"]').forEach(show);
+    };
 
-  // ============================================================================
-  // UI MANIPULATOR MODULE
-  // ============================================================================
-
-  const UIManipulator = {
-    hideCountdownAndShowButton() {
-      try {
-        const countdown = Utils.safeQuerySelector(CONFIG.selectors.countdown);
-        const downloadButton = Utils.safeQuerySelector(
-          CONFIG.selectors.downloadButton,
-        );
-
-        if (countdown) {
-          countdown.style.display = "none";
-        }
-
-        if (downloadButton) {
-          downloadButton.style.display = "block";
-        }
-      } catch (error) {
-        Utils.error("Error in hideCountdownAndShowButton:", error);
-      }
-    },
-
-    makeElementVisible(element) {
-      if (!element) return;
-
-      element.style.display = "block";
-      element.style.visibility = "visible";
-    },
-
-    removeElement(element) {
-      element?.remove();
-    },
-
-    removeElements(selector) {
-      Utils.safeQuerySelectorAll(selector).forEach((el) => el.remove());
-    },
-  };
-
-  // ============================================================================
-  // OFREOK BYPASS HANDLER
-  // ============================================================================
-
-  const OfreokBypassHandler = {
-    isOfreokDomain() {
-      return CONFIG.domains.ofreok.includes(Utils.getCurrentHostname());
-    },
-
-    init() {
-      if (!this.isOfreokDomain()) return;
-
-      Utils.log("Initializing Ofreok bypass");
-
-      this.forceRevealContent();
-      this.disableAntiBypass();
-      this.createDomGuard();
-      this.handleDownloadButton();
-      this.startContinuousMonitoring();
-    },
-
-    forceRevealContent() {
-      const realLinks = [
-        Utils.safeQuerySelector(CONFIG.selectors.downloadButton),
-        Utils.safeQuerySelector(CONFIG.selectors.mp4Link),
-        Utils.safeQuerySelector('a[href*="/direct/"]'),
-      ].filter(Boolean);
-
-      realLinks.forEach((link) => UIManipulator.makeElementVisible(link));
-
-      const selectorsToRemove = [
-        CONFIG.selectors.countdown,
-        CONFIG.selectors.downloadButton,
-        CONFIG.selectors.modalDialog,
-        CONFIG.selectors.modal,
-      ].join(", ");
-
-      UIManipulator.removeElements(selectorsToRemove);
-
-      Utils.safeQuerySelectorAll(CONFIG.selectors.hiddenElements).forEach(
-        (el) => {
-          UIManipulator.makeElementVisible(el);
-        },
-      );
-    },
-
-    disableAntiBypass() {
+    const disableGuards = () => {
       if (typeof countdown !== "undefined") {
-        countdown.start = () => {};
-        countdown.stop = () => {};
-        if (countdown.container) {
-          countdown.container.style.display = "none";
-        }
+        try {
+          countdown.start = () => {};
+          countdown.stop = () => {};
+          if (countdown.container) countdown.container.style.display = "none";
+        } catch {}
       }
-
-      Object.defineProperty(window, "adsbygoogle", {
-        value: [],
-        writable: false,
-      });
-
-      if (typeof MutationObserver !== "undefined") {
-        const originalObserve = MutationObserver.prototype.observe;
-        MutationObserver.prototype.observe = function () {
-          Utils.log("MutationObserver disabled");
-        };
-      }
-    },
-
-    createDomGuard() {
-      const observer = new MutationObserver((mutations) => {
-        mutations.forEach((mutation) => {
-          mutation.addedNodes.forEach((node) => {
-            if (node.nodeType !== 1) return;
-
-            if (
-              node.matches?.(
-                `${CONFIG.selectors.countdown}, ${CONFIG.selectors.modalDialog}`,
-              )
-            ) {
-              node.remove();
-            }
-
-            node
-              .querySelectorAll?.(CONFIG.selectors.hiddenElements)
-              .forEach((el) => {
-                UIManipulator.makeElementVisible(el);
-              });
-          });
+      try {
+        Object.defineProperty(window, "adsbygoogle", {
+          value: [],
+          writable: false,
         });
-      });
+      } catch {}
+      MutationObserver.prototype.observe = function () {};
+    };
 
-      observer.observe(document.documentElement, {
-        childList: true,
-        subtree: true,
-        attributes: true,
-        attributeFilter: ["style"],
-      });
-    },
-
-    handleDownloadButton() {
-      const realLink = Utils.safeQuerySelector(
-        `a${CONFIG.selectors.downloadButton}`,
-      );
-      const fakeForm = Utils.safeQuerySelector(CONFIG.selectors.downloadForm);
-      const clickMeDiv = Utils.safeQuerySelector(CONFIG.selectors.clickMeDiv);
-
-      if (realLink) {
-        UIManipulator.makeElementVisible(realLink);
-      }
-
+    const handleBtn = () => {
+      const real = $("a#btn");
+      const fakeForm = $("form#btn");
+      const clickMe = $("div#clickme");
+      if (real) show(real);
       if (fakeForm) {
         fakeForm.style.display = "none";
         fakeForm.submit();
       }
+      if (clickMe) clickMe.style.display = "none";
+    };
 
-      if (clickMeDiv) {
-        clickMeDiv.style.display = "none";
-      }
-    },
+    new MutationObserver((muts) =>
+      muts.forEach((m) =>
+        m.addedNodes.forEach((n) => {
+          if (n.nodeType !== 1) return;
+          if (n.matches?.("#countdown,.modalDialog")) n.remove();
+          n.querySelectorAll?.('[style*="display: none"]').forEach(show);
+        }),
+      ),
+    ).observe(document.documentElement, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["style"],
+    });
 
-    startContinuousMonitoring() {
-      setInterval(() => {
-        this.forceRevealContent();
-        this.disableAntiBypass();
-        this.handleDownloadButton();
-      }, CONFIG.constants.OFREOK_POLL_INTERVAL);
-    },
+    revealAll();
+    disableGuards();
+    handleBtn();
+    setInterval(() => {
+      revealAll();
+      disableGuards();
+      handleBtn();
+    }, C.POLL);
 
-    interceptDownloadClick() {
-      Utils.safeQuerySelectorAll("a, button").forEach((element) => {
-        if (/(download|تحميل)/i.test(element.textContent)) {
-          element.addEventListener(
-            "click",
-            (e) => {
-              e.preventDefault();
-
-              const directLink =
-                Utils.safeQuerySelector(CONFIG.selectors.mp4LinkAny)?.href ||
-                Utils.safeQuerySelector(CONFIG.selectors.videoElement)?.src;
-
-              if (directLink) {
-                Utils.log("Redirecting to direct link:", directLink);
-                window.location.href = directLink;
-              }
-            },
-            true,
-          );
-        }
-      });
-    },
-  };
-
-  // ============================================================================
-  // DOWNLOAD HANDLER MODULE
-  // ============================================================================
-
-  const DownloadHandler = {
-    init() {
-      if (OfreokBypassHandler.isOfreokDomain()) {
-        OfreokBypassHandler.interceptDownloadClick();
-        return;
-      }
-
-      this.attachClickInterceptor();
-    },
-
-    findDownloadButton() {
-      let button =
-        Utils.safeQuerySelector("a.download-button") ||
-        Utils.safeQuerySelector("button.download-button") ||
-        Utils.safeQuerySelector('a[href*="movie="]');
-
-      if (!button) {
-        button = Utils.safeQuerySelectorAll("a, button").find((el) =>
-          /download/i.test(el.textContent),
-        );
-      }
-
-      return button;
-    },
-
-    findMp4Link() {
-      let mp4Link = Utils.safeQuerySelector(CONFIG.selectors.mp4Link);
-
-      if (!mp4Link) {
-        const allMp4Links = Utils.safeQuerySelectorAll(
-          CONFIG.selectors.mp4LinkAny,
-        );
-        mp4Link = allMp4Links[0];
-      }
-
-      return mp4Link;
-    },
-
-    attachClickInterceptor() {
-      const downloadButton = this.findDownloadButton();
-
-      if (downloadButton) {
-        Utils.log("Download button found. Attaching click interceptor.");
-
-        downloadButton.addEventListener(
+    $$("a, button").forEach((el) => {
+      if (/(download|تحميل)/i.test(el.textContent)) {
+        el.addEventListener(
           "click",
           (e) => {
             e.preventDefault();
-            e.stopPropagation();
-
-            const mp4Link = this.findMp4Link();
-
-            if (mp4Link) {
-              Utils.log("Redirecting to MP4:", mp4Link.href);
-              window.location.href = mp4Link.href;
-            } else {
-              Utils.log("No MP4 link found. Checking video element...");
-
-              const videoElement = Utils.safeQuerySelector(
-                CONFIG.selectors.videoElement,
-              );
-              if (videoElement?.src) {
-                window.location.href = videoElement.src;
-              }
-            }
+            const link = $('a[href*=".mp4"]')?.href || $("video")?.src;
+            if (link) window.location.href = link;
           },
           true,
         );
       }
-    },
-  };
-
-  // ============================================================================
-  // AD BLOCKER MODULE
-  // ============================================================================
-
-  const AdBlocker = {
-    init() {
-      if (!this.shouldBlockAds()) return;
-
-      this.observeDynamicContent();
-    },
-
-    shouldBlockAds() {
-      return CONFIG.domains.dynamicAds.includes(Utils.getCurrentHostname());
-    },
-
-    observeDynamicContent() {
-      const debouncedBlocker = Utils.debounce(() => {
-        this.blockAdLinks();
-      }, CONFIG.constants.DEBOUNCE_DELAY);
-
-      const observer = new MutationObserver((mutations) => {
-        mutations.forEach((mutation) => {
-          if (mutation.type === "childList" || mutation.type === "attributes") {
-            debouncedBlocker();
-          }
-        });
-      });
-
-      observer.observe(document.body, {
-        childList: true,
-        subtree: true,
-        attributes: true,
-        attributeFilter: ["href"],
-      });
-    },
-
-    blockAdLinks() {
-      Utils.safeQuerySelectorAll(CONFIG.selectors.allLinks).forEach((link) => {
-        const href = link.getAttribute("href");
-
-        if (href && Utils.isBlockedDomain(href)) {
-          link.removeAttribute("href");
-          Utils.log("Blocked redirect to:", href);
-        }
-      });
-    },
-  };
-
-  // ============================================================================
-  // MAIN CONTROLLER
-  // ============================================================================
-
-  const BypassController = {
-    init() {
-      Utils.log("Initializing script on:", Utils.getCurrentHostname());
-
-      try {
-        // Phase 1: Anti-inspection
-        AntiInspection.init();
-
-        // Phase 2: URL normalization (may redirect)
-        if (URLNormalizer.normalize()) {
-          Utils.log("URL normalization triggered redirect");
-          return;
-        }
-
-        // Phase 3: Meta redirect handling
-        MetaRedirectHandler.skip();
-
-        // Phase 4: UI manipulation
-        UIManipulator.hideCountdownAndShowButton();
-
-        // Phase 5: Ofreok-specific bypass
-        OfreokBypassHandler.init();
-
-        // Phase 6: Download button handling
-        DownloadHandler.init();
-
-        // Phase 7: Ad blocking
-        AdBlocker.init();
-
-        Utils.log("Script initialization complete");
-      } catch (error) {
-        Utils.error("Fatal error during initialization:", error);
-      }
-    },
-  };
-
-  // ============================================================================
-  // ENTRY POINT
-  // ============================================================================
-
-  function bootstrap() {
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", () =>
-        BypassController.init(),
-      );
-    } else {
-      BypassController.init();
-    }
+    });
   }
 
-  bootstrap();
-})();
+  function initDownloadHandler() {
+    if (C.OFREOK.includes(_h)) return;
+    const btn =
+      $("a.download-button") ||
+      $("button.download-button") ||
+      $('a[href*="movie="]') ||
+      $$("a, button").find((el) => /download/i.test(el.textContent));
+    if (!btn) return;
+    btn.addEventListener(
+      "click",
+      (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const src =
+          ($('a[href$=".mp4"]') || $$('a[href*=".mp4"]')[0])?.href ||
+          $("video")?.src;
+        if (src) window.location.href = src;
+      },
+      true,
+    );
+  }
 
+  function initAdBlocker() {
+    if (!C.DYN_ADS.includes(_h)) return;
+    const block = debounce(
+      () =>
+        $$("a").forEach((a) => {
+          const h = a.getAttribute("href");
+          if (h && isBlocked(h)) a.removeAttribute("href");
+        }),
+      C.DEBOUNCE,
+    );
+    new MutationObserver((muts) => {
+      if (muts.some((m) => m.type === "childList" || m.type === "attributes"))
+        block();
+    }).observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ["href"],
+    });
+  }
+
+  function initMainPageInterceptor() {
+    if (!_h.includes("asd.pics")) return;
+    const url = _u();
+
+    if (url.includes("/category/downloadz/") && url.includes("asd8a=1")) {
+      let done = false;
+      const poll = setInterval(() => {
+        const btn = document.querySelector("#btn[href]");
+        if (!btn) return;
+        const link = btn.getAttribute("href");
+        if (!link || link.includes("asd.pics")) return;
+        done = true;
+        clearInterval(poll);
+        renderDownloadUI(link);
+      }, 100);
+      setTimeout(() => {
+        clearInterval(poll);
+        if (!done) renderErrorUI();
+      }, 10000);
+      return;
+    }
+
+    if (url.includes("/category/")) return;
+
+    document.addEventListener(
+      "click",
+      (e) => {
+        const a = e.target.closest('a[href*="/l/"]');
+        if (!a) return;
+        e.preventDefault();
+        e.stopPropagation();
+        const b64 = a.getAttribute("href").split("/l/")[1];
+        let decoded;
+        try {
+          decoded = atob(b64);
+        } catch {
+          return;
+        }
+        window.location.href = decoded.includes("reviewrate.net")
+          ? a.getAttribute("href")
+          : decoded;
+      },
+      true,
+    );
+  }
+
+  function renderDownloadUI(link) {
+    document.getElementById("ezio-overlay")?.remove();
+    const el = document.createElement("div");
+    el.id = "ezio-overlay";
+    el.setAttribute(
+      "style",
+      "position:fixed!important;top:0!important;left:0!important;width:100%!important;height:100%!important;background:#0d1117!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;z-index:2147483647!important;font-family:Arial,sans-serif!important;margin:0!important;padding:0!important",
+    );
+    el.innerHTML = `<div style="text-align:center!important;padding:40px!important;background:#1c2333!important;border-radius:16px!important;border:2px solid #4FA083!important;max-width:500px!important;width:90%!important;box-shadow:0 0 40px rgba(79,160,131,0.3)!important;font-family:Arial,sans-serif!important"><img src="https://i.ibb.co/zWChc0Z9/q.png" style="width:400px!important;height:400px!important;object-fit:contain!important;display:block!important;margin:0 auto 20px auto!important"/><h2 style="color:#4FA083!important;margin:0 0 10px 0!important;font-size:22px!important;font-family:Arial,sans-serif!important;font-weight:bold!important">تم تحضير رابط التحميل</h2><p style="color:#aaa!important;font-size:14px!important;margin:0 0 25px 0!important;font-family:Arial,sans-serif!important">تم إعداد الرابط بواسطة <span style="font-weight:bold!important;background:linear-gradient(90deg,#4FA083,#7fffd4,#4FA083)!important;-webkit-background-clip:text!important;-webkit-text-fill-color:transparent!important;background-clip:text!important;font-size:15px!important">Ezio Auditore</span></p><p style="color:#aaa!important;font-size:15px!important;margin:0 0 15px 0!important;font-family:Arial,sans-serif!important">سيبدأ التحميل تلقائياً، إذا لم يبدأ اضغط الزر أدناه</p><a href="${link}" download target="_blank" style="display:block!important;background:#4FA083!important;color:white!important;padding:14px 28px!important;border-radius:8px!important;text-decoration:none!important;font-size:17px!important;font-family:Arial,sans-serif!important;font-weight:bold!important">⬇️ تحميل الملف</a></div>`;
+    document.body.appendChild(el);
+    setTimeout(() => {
+      const a = document.createElement("a");
+      a.href = link;
+      a.download = "";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => window.close(), 2000);
+    }, 800);
+  }
+
+  function renderErrorUI() {
+    document.getElementById("ezio-overlay")?.remove();
+    const el = document.createElement("div");
+    el.id = "ezio-overlay";
+    el.setAttribute(
+      "style",
+      "position:fixed!important;top:0!important;left:0!important;width:100%!important;height:100%!important;background:#0d1117!important;display:flex!important;align-items:center!important;justify-content:center!important;z-index:2147483647!important;font-family:Arial,sans-serif!important",
+    );
+    el.innerHTML = `<div style="text-align:center!important;padding:40px!important;background:#1c2333!important;border-radius:16px!important;border:2px solid #ff4444!important;max-width:500px!important;width:90%!important;font-family:Arial,sans-serif!important"><img src="https://i.ibb.co/zWChc0Z9/q.png" style="width:80px!important;height:80px!important;object-fit:contain!important;margin:0 auto 20px!important;display:block!important"/><h2 style="color:#ff4444!important;margin:0 0 10px 0!important;font-size:22px!important;font-family:Arial,sans-serif!important">فشل استخراج الرابط</h2><p style="color:#aaa!important;font-size:14px!important;margin:0 0 20px 0!important;font-family:Arial,sans-serif!important">يرجى المحاولة مرة أخرى</p><button onclick="window.close()" style="background:#ff4444!important;color:white!important;border:none!important;padding:12px 24px!important;border-radius:8px!important;font-size:16px!important;cursor:pointer!important;font-family:Arial,sans-serif!important">إغلاق</button></div>`;
+    document.body.appendChild(el);
+  }
+
+  function boot() {
+    initAntiInspection();
+    if (initURLNormalizer()) return;
+    const run = () => {
+      initMetaRedirect();
+      initUI();
+      initOfreok();
+      initMainPageInterceptor();
+      initDownloadHandler();
+      initAdBlocker();
+    };
+    document.readyState === "loading"
+      ? document.addEventListener("DOMContentLoaded", run)
+      : run();
+  }
+
+  boot();
+})();
 
