@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bypass CimaNow
 // @namespace    Ezio Scripts
-// @version      4.1
+// @version      4.2
 // @description  This script enhances your experience by blocking popups, preventing fake redirects, and blocking intrusive advertisements for a seamless streaming experience.
 // @author       Ezio Auditore
 // @icon         https://i.ibb.co/zVkV324z/Ezio.png
@@ -379,7 +379,6 @@
     {
       domain: "cimanow.cc",
       fn: () => {
-        _pih();
         _mb();
         _bjd();
       },
@@ -395,7 +394,9 @@
       fn: () => {
         if (!sessionStorage.getItem("_bypassed")) {
           sessionStorage.setItem("_bypassed", "1");
-          location.reload();
+          window.addEventListener("load", () => location.reload(), {
+            once: true,
+          });
           return;
         }
         sessionStorage.removeItem("_bypassed");
@@ -425,5 +426,4 @@
     }
   })();
 })();
-
 
