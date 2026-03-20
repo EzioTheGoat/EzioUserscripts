@@ -825,21 +825,20 @@ m15.asd.rest##video
 ! CimaNow
 cimanow.cc###xqeqjp
 cimanow.cc###xqeqjp1
-||cimanow.online^$script,domain=cimanow.cc
+!||cimanow.online^$script,domain=cimanow.cc
 ||cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js$script,domain=cimanow.cc
 cimanow.cc##[src*="https://i.ibb.co/dB9fgQQ/f2-1.gif"]
 cimanow.cc##[src*="https://i.ibb.co/MMgpK0B/Phone.jpg"]
-!cimanow.cc##.premium-btn
-!cimanow.cc##.premium
-!cimanow.cc##button
+cimanow.cc##.premium-btn
+cimanow.cc##.premium
+cimanow.cc##button
 cimanow.cc##.social.tab
 cimanow.cc##[src="https://i.ibb.co/KF3P4Xv/f1-1.gif"]
 cimanow.cc##div.fixed-header-item:nth-of-type(6)
 ||cdn.jsdelivr.net/npm/sweetalert2@11.14.4/dist/sweetalert2.all.min.js$domain=cimanow.cc
 ||new.cimanow.online/judo.js^$script
-! ||rm.freex2line.online^
 @@||cimanow.cc/wp-content/uploads/2017/05/Favicon.gif$image,domain=cimanow.cc
-!cimanow.cc##.PrimaryButton
+cimanow.cc##.PrimaryButton
 
 ! https://web184.faselhd.cafe
 web184.faselhd.cafe##.ml-auto.mr-4.headerItems > .promoLink
