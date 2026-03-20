@@ -32,6 +32,13 @@
     </a>
   </div>
 
+  
+> [!IMPORTANT]
+> 🔗 **The userscript and filter list must be used together** — one without the other will result in adblock detection on some sites.
+> Add the filter list in uBlock Origin → Dashboard → Filter lists → Custom → paste URL → Apply changes.
+> `https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/filters/custom-filters-brave.txt`
+
+  
   <br><br>
   </div>
 
