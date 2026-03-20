@@ -829,7 +829,7 @@ cimanow.cc###xqeqjp1
 ||cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js$script,domain=cimanow.cc
 cimanow.cc##[src*="https://i.ibb.co/dB9fgQQ/f2-1.gif"]
 cimanow.cc##[src*="https://i.ibb.co/MMgpK0B/Phone.jpg"]
-cimanow.cc##.premium-btn
+!cimanow.cc##.premium-btn
 cimanow.cc##button
 cimanow.cc##.social.tab
 cimanow.cc##[src="https://i.ibb.co/KF3P4Xv/f1-1.gif"]
