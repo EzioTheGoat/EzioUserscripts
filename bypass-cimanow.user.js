@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bypass CimaNow
 // @namespace    Ezio Scripts
-// @version      4.2
+// @version      4.3
 // @description  This script enhances your experience by blocking popups, preventing fake redirects, and blocking intrusive advertisements for a seamless streaming experience.
 // @author       Ezio Auditore
 // @icon         https://i.ibb.co/zVkV324z/Ezio.png
@@ -11,6 +11,7 @@
 // @match        *://*.upns.online/*
 // @match        *://*.freex2line.online/*
 // @match        *://*.pp.ua/*
+// @require      https://userscripts.adtidy.org/release/adguard-extra/1.0/adguard-extra.user.js
 // @grant        none
 // @run-at       document-start
 // @updateURL    https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/bypass-cimanow.user.js
@@ -22,29 +23,8 @@
 
   const host = location.hostname;
 
-  const matchDomain = (domain) =>
-    host === domain || host.endsWith("." + domain);
-
-  function _mn(fn, name) {
-    const body = `function ${name ?? fn.name ?? ""}() { [native code] }`;
-    const t = function toString() {
-      return body;
-    };
-    try {
-      Object.defineProperty(t, "toString", {
-        value: function toString() {
-          return "function toString() { [native code] }";
-        },
-        configurable: true,
-        writable: true,
-      });
-      Object.defineProperty(fn, "toString", {
-        value: t,
-        configurable: true,
-        writable: true,
-      });
-    } catch (_) {}
-    return fn;
+  function matchDomain(domain) {
+    return host === domain || host.endsWith("." + domain);
   }
 
   function _pih() {
@@ -69,7 +49,7 @@
         },
         configurable: true,
       });
-    } catch (_) {}
+    } catch (e) {}
   }
 
   function _bima() {
@@ -164,16 +144,25 @@
             },
           });
         }
-      } catch (_) {}
+      } catch (e) {}
       return el;
     };
   }
 
   function _mb() {
     try {
-      const isBrave = navigator.brave?.isBrave;
-      if (!isBrave) return;
-
+      Object.defineProperty(Navigator.prototype, "brave", {
+        get: undefined,
+        configurable: true,
+      });
+    } catch (_) {}
+    try {
+      delete Navigator.prototype.brave;
+    } catch (_) {}
+    try {
+      delete navigator.brave;
+    } catch (_) {}
+    try {
       Object.defineProperty(Navigator.prototype, "brave", {
         value: undefined,
         writable: true,
@@ -183,9 +172,31 @@
     } catch (_) {}
   }
 
+  function _mn(fn, name) {
+    const body = `function ${name ?? fn.name ?? ""}() { [native code] }`;
+    const t = function toString() {
+      return body;
+    };
+    try {
+      Object.defineProperty(t, "toString", {
+        value: function toString() {
+          return "function toString() { [native code] }";
+        },
+        configurable: true,
+        writable: true,
+      });
+      Object.defineProperty(fn, "toString", {
+        value: t,
+        configurable: true,
+        writable: true,
+      });
+    } catch (_) {}
+    return fn;
+  }
+
   function _bjd() {
-    let _od = null,
-      _p = HTMLElement.prototype;
+    let _od = null;
+    let _p = HTMLElement.prototype;
     while (_p) {
       _od = Object.getOwnPropertyDescriptor(_p, "offsetParent");
       if (_od) break;
@@ -330,78 +341,27 @@
     } catch (_) {}
   }
 
-  function _rfx() {
-    window.zJSYdQ = true;
-
-    const _mo = new MutationObserver((mutations) => {
-      for (const m of mutations)
-        for (const node of m.addedNodes)
-          if (
-            node.nodeType === 1 &&
-            node.tagName === "SCRIPT" &&
-            node.textContent.includes("throw new Error()")
-          )
-            node.textContent = node.textContent.replace(
-              /throw new Error\(\);/g,
-              "",
-            );
-    });
-
-    _mo.observe(document.documentElement, { childList: true, subtree: true });
-    document.addEventListener("DOMContentLoaded", () => _mo.disconnect(), {
-      once: true,
-    });
-
-    const _si = window.setInterval.bind(window);
-    Object.defineProperty(window, "setInterval", {
-      value: _mn(function setInterval(fn, delay, ...args) {
-        try {
-          const src = typeof fn === "function" ? fn.toString() : String(fn);
-          if (src.includes("=Date[") || src.includes("Date["))
-            return _si(() => {}, delay);
-        } catch (_) {}
-        return _si(fn, delay, ...args);
-      }, "setInterval"),
-      writable: true,
-      configurable: true,
-    });
-
-    const _ral = () =>
-      document
-        .querySelectorAll("main > section[aria-label]")
-        .forEach((el) => el.removeAttribute("aria-label"));
-    document.addEventListener("DOMContentLoaded", _ral, { once: true });
-    setTimeout(_ral, 500);
-    setTimeout(_ral, 1500);
+  function _raa() {
+    ["xqeqjp", "xqeqjp1"].forEach((id) =>
+      document.getElementById(id)?.remove(),
+    );
   }
 
   const routes = [
     {
-      domain: "cimanow.cc",
-      fn: () => {
-        _mb();
-        _bjd();
-      },
-    },
-    {
       domain: "upns.online",
-      fn: () => {
-        _bima();
-      },
+      fn: _bima,
     },
     {
       domain: "freex2line.online",
       fn: () => {
-        if (!sessionStorage.getItem("_bypassed")) {
-          sessionStorage.setItem("_bypassed", "1");
-          window.addEventListener("load", () => location.reload(), {
-            once: true,
+        window.addEventListener("DOMContentLoaded", () => {
+          _raa();
+          new MutationObserver(_raa).observe(document.body, {
+            childList: true,
+            subtree: true,
           });
-          return;
-        }
-        sessionStorage.removeItem("_bypassed");
-        _rfx();
-        _bjd();
+        });
       },
     },
     {
