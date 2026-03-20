@@ -11,7 +11,7 @@
 !        and promotional download buttons.
 !
 ! Version:      1.3
-! Last Updated: 2025-10-01
+! Expires:      1 day
 ! Author:       Ezio Auditore
 ! License:      MIT License
 ! Homepage:     https://github.com/EzioTheGoat/EzioUserscripts/filters
