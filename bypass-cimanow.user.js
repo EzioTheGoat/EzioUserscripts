@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bypass CimaNow
 // @namespace    Ezio Scripts
-// @version      4.3
+// @version      4.4
 // @description  This script enhances your experience by blocking popups, preventing fake redirects, and blocking intrusive advertisements for a seamless streaming experience.
 // @author       Ezio Auditore
 // @icon         https://i.ibb.co/zVkV324z/Ezio.png
@@ -21,35 +21,163 @@
 (function IIFE() {
   "use strict";
 
-  const host = location.hostname;
+  var _$ = [
+    "\x42\x72\x61\x76\x65",
+    "\x43\x68\x72\x6f\x6d\x65",
+    "\x75\x73\x65\x72\x41\x67\x65\x6e\x74",
+    "\x76\x65\x6e\x64\x6f\x72",
+    "\x47\x6f\x6f\x67\x6c\x65\x20\x49\x6e\x63\x2e",
+    "\x70\x6c\x61\x74\x66\x6f\x72\x6d",
+    "\x57\x69\x6e\x33\x32",
+    "\x75\x73\x65\x72\x41\x67\x65\x6e\x74\x44\x61\x74\x61",
+    "\x43\x68\x72\x6f\x6d\x69\x75\x6d",
+    "\x47\x6f\x6f\x67\x6c\x65\x20\x43\x68\x72\x6f\x6d\x65",
+    "\x57\x69\x6e\x64\x6f\x77\x73",
+    "\x78\x38\x36",
+    "\x36\x34",
+    "\x31\x32\x32\x2e\x30\x2e\x30\x2e\x30",
+    "\x31\x32\x32",
+    "\x62\x72\x61\x76\x65",
+    "\x69\x6e\x6e\x65\x72\x48\x54\x4d\x4c",
+    "\x6f\x66\x66\x73\x65\x74\x50\x61\x72\x65\x6e\x74",
+    "\x6f\x66\x66\x73\x65\x74\x48\x65\x69\x67\x68\x74",
+    "\x6f\x66\x66\x73\x65\x74\x57\x69\x64\x74\x68",
+    "\x67\x65\x74\x42\x6f\x75\x6e\x64\x69\x6e\x67\x43\x6c\x69\x65\x6e\x74\x52\x65\x63\x74",
+    "\x67\x65\x74\x43\x6f\x6d\x70\x75\x74\x65\x64\x53\x74\x79\x6c\x65",
+    "\x61\x64\x73\x62\x79\x67\x6f\x6f\x67\x6c\x65",
+    "\x67\x6f\x6f\x67\x6c\x65\x74\x61\x67",
+    "\x66\x65\x74\x63\x68",
+    "\x69\x6d\x61\x73\x64\x6b\x2e\x67\x6f\x6f\x67\x6c\x65\x61\x70\x69\x73\x2e\x63\x6f\x6d",
+    "\x78\x71\x65\x71\x6a\x70",
+    "\x78\x71\x65\x71\x6a\x70\x31",
+    "\x63\x69\x6d\x61\x6e\x6f\x77\x2e\x63\x63",
+    "\x63\x69\x6d\x61\x6e\x6f\x77\x69\x6e\x63\x2e\x63\x6f\x6d",
+    "\x75\x70\x6e\x73\x2e\x6f\x6e\x6c\x69\x6e\x65",
+    "\x66\x72\x65\x65\x78\x32\x6c\x69\x6e\x65\x2e\x6f\x6e\x6c\x69\x6e\x65",
+    "\x6a\x65\x74\x6c\x6f\x61\x64\x2e\x70\x70\x2e\x75\x61",
+    "\x64\x69\x73\x70\x6c\x61\x79",
+    "\x76\x69\x73\x69\x62\x69\x6c\x69\x74\x79",
+    "\x6e\x6f\x6e\x65",
+    "\x68\x69\x64\x64\x65\x6e",
+    "\x62\x6c\x6f\x63\x6b",
+    "\x76\x69\x73\x69\x62\x6c\x65",
+    "\x44\x4f\x4d\x43\x6f\x6e\x74\x65\x6e\x74\x4c\x6f\x61\x64\x65\x64",
+    "\x5b\x62\x79\x70\x61\x73\x73\x2d\x63\x69\x6d\x61\x6e\x6f\x77\x5d\x20\x65\x72\x72\x6f\x72\x3a",
+    "\x73\x72\x63",
+    "\x73\x63\x72\x69\x70\x74",
+    "\x6c\x6f\x61\x64",
+    "\x67\x6f\x6f\x67\x6c\x65",
+    "\x69\x6d\x61",
+    "\x64\x6f\x75\x62\x6c\x65\x63\x6c\x69\x63\x6b\x7c\x67\x6f\x6f\x67\x6c\x65\x73\x79\x6e\x64\x69\x63\x61\x74\x69\x6f\x6e\x7c\x61\x64\x73\x65\x72\x76\x69\x63\x65\x7c\x61\x6d\x61\x7a\x6f\x6e\x2d\x61\x64\x73\x79\x73\x74\x65\x6d\x7c\x70\x61\x67\x65\x61\x64\x7c\x61\x64\x73\x62\x79\x67\x6f\x6f\x67\x6c\x65\x7c\x67\x6f\x6f\x67\x6c\x65\x74\x61\x67\x6d\x61\x6e\x61\x67\x65\x72\x7c\x67\x6f\x6f\x67\x6c\x65\x74\x61\x67\x73\x65\x72\x76\x69\x63\x65\x73",
+    "\x74\x6f\x53\x74\x72\x69\x6e\x67",
+    "\x62\x69\x6e\x64",
+    "\x74\x6f\x4c\x6f\x77\x65\x72\x43\x61\x73\x65",
+    "\x69\x73\x43\x6f\x6e\x6e\x65\x63\x74\x65\x64",
+    "\x70\x61\x72\x65\x6e\x74\x45\x6c\x65\x6d\x65\x6e\x74",
+    "\x66\x75\x6e\x63\x74\x69\x6f\x6e",
+    "\x73\x74\x72\x69\x6e\x67",
+    "\x67\x65\x74\x20",
+  ];
 
-  function matchDomain(domain) {
-    return host === domain || host.endsWith("." + domain);
+  var _dp = Object.defineProperty.bind(Object);
+  var _gdp = Object.getOwnPropertyDescriptor.bind(Object);
+  var _H = location.hostname;
+
+  function _md(d) {
+    return _H === d || _H.endsWith("\x2e" + d);
   }
+
+  function _N(fn, nm) {
+    var body =
+      "\x66\x75\x6e\x63\x74\x69\x6f\x6e\x20" +
+      (nm != null ? nm : fn.name || "") +
+      "\x28\x29\x20\x7b\x20\x5b\x6e\x61\x74\x69\x76\x65\x20\x63\x6f\x64\x65\x5d\x20\x7d";
+    var _t = function toString() {
+      return body;
+    };
+    try {
+      _dp(_t, _$[47], {
+        value: function toString() {
+          return "\x66\x75\x6e\x63\x74\x69\x6f\x6e\x20\x74\x6f\x53\x74\x72\x69\x6e\x67\x28\x29\x20\x7b\x20\x5b\x6e\x61\x74\x69\x76\x65\x20\x63\x6f\x64\x65\x5d\x20\x7d";
+        },
+        configurable: !0,
+        writable: !0,
+      });
+      _dp(fn, _$[47], { value: _t, configurable: !0, writable: !0 });
+    } catch (_) {}
+    return fn;
+  }
+
+  var _ua = navigator[_$[2]].replace(_$[0], _$[1]);
+  _dp(navigator, _$[2], {
+    get: function () {
+      return _ua;
+    },
+    configurable: !0,
+  });
+  _dp(navigator, _$[3], {
+    get: function () {
+      return _$[4];
+    },
+    configurable: !0,
+  });
+  _dp(navigator, _$[5], {
+    get: function () {
+      return _$[6];
+    },
+    configurable: !0,
+  });
+  _dp(navigator, _$[7], {
+    get: function () {
+      return {
+        brands: [
+          { brand: _$[8], version: _$[14] },
+          { brand: _$[9], version: _$[14] },
+        ],
+        mobile: !1,
+        platform: _$[10],
+        getHighEntropyValues: async function () {
+          return {
+            brands: [
+              { brand: _$[8], version: _$[14] },
+              { brand: _$[9], version: _$[14] },
+            ],
+            mobile: !1,
+            platform: _$[10],
+            architecture: _$[11],
+            bitness: _$[12],
+            model: "",
+            uaFullVersion: _$[13],
+          };
+        },
+      };
+    },
+    configurable: !0,
+  });
 
   function _pih() {
     try {
-      const d = Object.getOwnPropertyDescriptor(Element.prototype, "innerHTML");
-      if (!d) return;
-      Object.defineProperty(Element.prototype, "innerHTML", {
-        set(v) {
+      var _d = _gdp(Element.prototype, _$[16]);
+      if (!_d) return;
+      _dp(Element.prototype, _$[16], {
+        set: function (v) {
           try {
             if (
               (this === document.body || this === document.documentElement) &&
-              (v === "" || v === null)
+              (v === "" || v == null)
             )
               return;
-            return d.set.call(this, v);
+            return _d.set.call(this, v);
           } catch (e) {
-            return d.set.call(this, v);
+            return _d.set.call(this, v);
           }
         },
-        get() {
-          return d.get.call(this);
+        get: function () {
+          return _d.get.call(this);
         },
-        configurable: true,
+        configurable: !0,
       });
-    } catch (e) {}
+    } catch (_) {}
   }
 
   function _bima() {
@@ -91,169 +219,182 @@
       setAdWillPlayMuted() {}
     }
 
-    window.google = window.google || {};
-    window.google.ima = {
+    window[_$[44]] = window[_$[44]] || {};
+    window[_$[44]][_$[45]] = {
       AdDisplayContainer,
       AdsLoader,
       AdsManager,
       AdsRequest,
       AdsManagerLoadedEvent: {
-        Type: { ADS_MANAGER_LOADED: "adsManagerLoaded" },
-      },
-      AdErrorEvent: { Type: { AD_ERROR: "adError" } },
-      AdEvent: {
         Type: {
-          COMPLETE: "complete",
-          ALL_ADS_COMPLETED: "allAdsCompleted",
-          STARTED: "started",
-          PAUSED: "paused",
-          RESUMED: "resumed",
-          SKIPPED: "skipped",
-          SKIPPABLE_STATE_CHANGED: "skippableStateChanged",
+          ADS_MANAGER_LOADED:
+            "\x61\x64\x73\x4d\x61\x6e\x61\x67\x65\x72\x4c\x6f\x61\x64\x65\x64",
         },
       },
-      ViewMode: { NORMAL: "normal", FULLSCREEN: "fullscreen" },
-      UiElements: { AD_ATTRIBUTION: "adAttribution", COUNTDOWN: "countdown" },
+      AdErrorEvent: { Type: { AD_ERROR: "\x61\x64\x45\x72\x72\x6f\x72" } },
+      AdEvent: {
+        Type: {
+          COMPLETE: "\x63\x6f\x6d\x70\x6c\x65\x74\x65",
+          ALL_ADS_COMPLETED:
+            "\x61\x6c\x6c\x41\x64\x73\x43\x6f\x6d\x70\x6c\x65\x74\x65\x64",
+          STARTED: "\x73\x74\x61\x72\x74\x65\x64",
+          PAUSED: "\x70\x61\x75\x73\x65\x64",
+          RESUMED: "\x72\x65\x73\x75\x6d\x65\x64",
+          SKIPPED: "\x73\x6b\x69\x70\x70\x65\x64",
+          SKIPPABLE_STATE_CHANGED:
+            "\x73\x6b\x69\x70\x70\x61\x62\x6c\x65\x53\x74\x61\x74\x65\x43\x68\x61\x6e\x67\x65\x64",
+        },
+      },
+      ViewMode: {
+        NORMAL: "\x6e\x6f\x72\x6d\x61\x6c",
+        FULLSCREEN: "\x66\x75\x6c\x6c\x73\x63\x72\x65\x65\x6e",
+      },
+      UiElements: {
+        AD_ATTRIBUTION: "\x61\x64\x41\x74\x74\x72\x69\x62\x75\x74\x69\x6f\x6e",
+        COUNTDOWN: "\x63\x6f\x75\x6e\x74\x64\x6f\x77\x6e",
+      },
     };
 
-    const _ce = document.createElement.bind(document);
-    const _src = Object.getOwnPropertyDescriptor(
-      HTMLScriptElement.prototype,
-      "src",
-    );
-    let _patched = true;
+    var _ce = document.createElement.bind(document);
+    var _src = _gdp(HTMLScriptElement.prototype, _$[41]);
+    var _pk = !0;
 
     document.createElement = function (tag) {
-      const el = _ce(tag);
+      var el = _ce(tag);
       try {
-        if (_patched && tag.toLowerCase() === "script" && _src) {
-          Object.defineProperty(el, "src", {
-            set(val) {
+        if (_pk && tag[_$[49]]() === _$[42] && _src) {
+          _dp(el, _$[41], {
+            set: function (val) {
               try {
-                if (/imasdk\.googleapis\.com/i.test(val)) {
-                  _patched = false;
+                if (new RegExp(_$[25], "\x69").test(val)) {
+                  _pk = !1;
                   document.createElement = _ce.bind(document);
-                  setTimeout(() => el.dispatchEvent(new Event("load")), 50);
+                  setTimeout(function () {
+                    el.dispatchEvent(new Event(_$[43]));
+                  }, 50);
                   return;
                 }
               } catch (_) {}
               _src.set.call(el, val);
             },
-            get() {
+            get: function () {
               return _src.get.call(el);
             },
           });
         }
-      } catch (e) {}
+      } catch (_) {}
       return el;
     };
   }
 
   function _mb() {
     try {
-      Object.defineProperty(Navigator.prototype, "brave", {
-        get: undefined,
-        configurable: true,
-      });
+      _dp(Navigator.prototype, _$[15], { get: void 0, configurable: !0 });
     } catch (_) {}
     try {
-      delete Navigator.prototype.brave;
+      delete Navigator.prototype[_$[15]];
     } catch (_) {}
     try {
-      delete navigator.brave;
+      delete navigator[_$[15]];
     } catch (_) {}
     try {
-      Object.defineProperty(Navigator.prototype, "brave", {
-        value: undefined,
-        writable: true,
-        configurable: true,
-        enumerable: false,
+      _dp(Navigator.prototype, _$[15], {
+        value: void 0,
+        writable: !0,
+        configurable: !0,
+        enumerable: !1,
       });
     } catch (_) {}
-  }
-
-  function _mn(fn, name) {
-    const body = `function ${name ?? fn.name ?? ""}() { [native code] }`;
-    const t = function toString() {
-      return body;
-    };
-    try {
-      Object.defineProperty(t, "toString", {
-        value: function toString() {
-          return "function toString() { [native code] }";
-        },
-        configurable: true,
-        writable: true,
-      });
-      Object.defineProperty(fn, "toString", {
-        value: t,
-        configurable: true,
-        writable: true,
-      });
-    } catch (_) {}
-    return fn;
   }
 
   function _bjd() {
-    let _od = null;
-    let _p = HTMLElement.prototype;
+    var _od = null,
+      _p = HTMLElement.prototype;
     while (_p) {
-      _od = Object.getOwnPropertyDescriptor(_p, "offsetParent");
+      _od = _gdp(_p, _$[17]);
       if (_od) break;
       _p = Object.getPrototypeOf(_p);
     }
-    if (_od?.get) {
-      const _og = _od.get;
-      Object.defineProperty(HTMLElement.prototype, "offsetParent", {
-        get: _mn(function () {
+
+    if (_od && _od.get) {
+      var _og = _od.get;
+      _dp(HTMLElement.prototype, _$[17], {
+        get: _N(function () {
           try {
-            const v = _og.call(this);
-            if (v === null && this.isConnected) {
+            var v = _og.call(this);
+            if (v === null && this[_$[50]]) {
               if (
-                this.style.display === "none" ||
-                this.style.visibility === "hidden"
+                this.style[_$[33]] === _$[35] ||
+                this.style[_$[34]] === _$[36]
               )
                 return null;
-              return (
-                this.parentElement ?? document.body ?? document.documentElement
-              );
+              return this[_$[51]] || document.body || document.documentElement;
             }
             return v;
           } catch (_) {
             return null;
           }
-        }, "get offsetParent"),
-        configurable: true,
+        }, _$[54] + _$[17]),
+        configurable: !0,
       });
     }
 
-    const _gcs = window.getComputedStyle.bind(window);
+    [_$[18], _$[19]].forEach(function (prop) {
+      var _pd = _gdp(HTMLElement.prototype, prop);
+      if (!_pd || !_pd.get) return;
+      var _pg = _pd.get;
+      _dp(HTMLElement.prototype, prop, {
+        get: _N(function () {
+          var v = _pg.call(this);
+          if (v === 0 && this[_$[50]] && _od && _od.get.call(this) === null)
+            return 1;
+          return v;
+        }, _$[54] + prop),
+        configurable: !0,
+      });
+    });
+
+    var _ogbcr = Element.prototype[_$[20]];
+    Element.prototype[_$[20]] = _N(function getBoundingClientRect() {
+      var r = _ogbcr.call(this);
+      if (
+        r.width === 0 &&
+        r.height === 0 &&
+        this[_$[50]] &&
+        _od &&
+        _od.get.call(this) === null
+      )
+        return new DOMRect(r.x, r.y, 1, 1);
+      return r;
+    }, _$[20]);
+
+    var _gcs = window[_$[21]].bind(window);
     try {
-      Object.defineProperty(window, "getComputedStyle", {
-        value: _mn(
+      _dp(window, _$[21], {
+        value: _N(
           new Proxy(_gcs, {
-            apply(target, thisArg, args) {
+            apply: function (target, thisArg, args) {
               try {
-                const st = Reflect.apply(target, thisArg, args);
-                const el = args[0];
+                var st = Reflect.apply(target, thisArg, args);
+                var el = args[0];
                 if (
                   el instanceof HTMLElement &&
-                  (el.style.display === "none" ||
-                    el.style.visibility === "hidden")
+                  (el.style[_$[33]] === _$[35] || el.style[_$[34]] === _$[36])
                 )
                   return st;
-                const bh =
+                var bh =
                   el instanceof HTMLElement &&
-                  el.isConnected &&
-                  _od?.get?.call(el) === null &&
-                  st.display === "none";
+                  el[_$[50]] &&
+                  _od &&
+                  _od.get.call(el) === null &&
+                  st[_$[33]] === _$[35];
                 if (!bh) return st;
                 return new Proxy(st, {
-                  get(s, prop) {
-                    if (prop === "display") return "block";
-                    if (prop === "visibility") return "visible";
-                    const v = s[prop];
-                    return typeof v === "function" ? v.bind(s) : v;
+                  get: function (s, p) {
+                    if (p === _$[33]) return _$[37];
+                    if (p === _$[34]) return _$[38];
+                    var v = s[p];
+                    return typeof v === _$[52] ? v.bind(s) : v;
                   },
                 });
               } catch (_) {
@@ -261,72 +402,74 @@
               }
             },
           }),
-          "getComputedStyle",
+          _$[21],
         ),
-        writable: true,
-        configurable: true,
+        writable: !0,
+        configurable: !0,
       });
     } catch (_) {}
 
     try {
-      Object.defineProperty(window, "adsbygoogle", {
-        value: { loaded: true, push: Array.prototype.push, length: 0 },
-        configurable: true,
-        writable: true,
+      _dp(window, _$[22], {
+        value: { loaded: !0, push: Array.prototype.push, length: 0 },
+        configurable: !0,
+        writable: !0,
       });
     } catch (_) {
-      window.adsbygoogle = {
-        loaded: true,
-        push: Array.prototype.push,
-        length: 0,
-      };
+      window[_$[22]] = { loaded: !0, push: Array.prototype.push, length: 0 };
     }
 
-    const _gt = {
+    var _gt = {
       cmd: {
-        push(fn) {
+        push: function (fn) {
           try {
             fn();
           } catch (_) {}
         },
       },
-      pubads: () => ({
-        enableSingleRequest: () => {},
-        collapseEmptyDivs: () => {},
-        setTargeting: () => _gt.pubads(),
-        addEventListener: () => {},
-        refresh: () => {},
-        disableInitialLoad: () => {},
-        enableAsyncRendering: () => {},
-      }),
-      enableServices: () => {},
-      defineSlot: () => ({
-        addService: () => _gt.defineSlot(),
-        setTargeting: () => _gt.defineSlot(),
-      }),
-      display: () => {},
-      destroySlots: () => {},
-      apiReady: true,
-      pubadsReady: true,
+      pubads: function () {
+        return {
+          enableSingleRequest: function () {},
+          collapseEmptyDivs: function () {},
+          setTargeting: function () {
+            return _gt.pubads();
+          },
+          addEventListener: function () {},
+          refresh: function () {},
+          disableInitialLoad: function () {},
+          enableAsyncRendering: function () {},
+        };
+      },
+      enableServices: function () {},
+      defineSlot: function () {
+        return {
+          addService: function () {
+            return _gt.defineSlot();
+          },
+          setTargeting: function () {
+            return _gt.defineSlot();
+          },
+        };
+      },
+      display: function () {},
+      destroySlots: function () {},
+      apiReady: !0,
+      pubadsReady: !0,
     };
     try {
-      Object.defineProperty(window, "googletag", {
-        value: _gt,
-        configurable: true,
-        writable: true,
-      });
+      _dp(window, _$[23], { value: _gt, configurable: !0, writable: !0 });
     } catch (_) {
-      window.googletag = _gt;
+      window[_$[23]] = _gt;
     }
 
-    const _AD =
-      /doubleclick|googlesyndication|adservice|amazon-adsystem|pagead|adsbygoogle|googletagmanager|googletagservices/;
-    const _f = window.fetch.bind(window);
+    var _re = new RegExp(_$[46]);
+    var _f = window[_$[24]].bind(window);
     try {
-      Object.defineProperty(window, "fetch", {
-        value: _mn(async function fetch(input, init) {
-          const url = typeof input === "string" ? input : (input?.url ?? "");
-          if (_AD.test(url)) {
+      _dp(window, _$[24], {
+        value: _N(async function fetch(input, init) {
+          var url =
+            typeof input === _$[53] ? input : (input && input.url) || "";
+          if (_re.test(url)) {
             try {
               return await _f(input, init);
             } catch (_) {
@@ -334,56 +477,58 @@
             }
           }
           return _f(input, init);
-        }, "fetch"),
-        writable: true,
-        configurable: true,
+        }, _$[24]),
+        writable: !0,
+        configurable: !0,
       });
     } catch (_) {}
   }
 
   function _raa() {
-    ["xqeqjp", "xqeqjp1"].forEach((id) =>
-      document.getElementById(id)?.remove(),
-    );
+    [_$[26], _$[27]].forEach(function (id) {
+      document.getElementById(id)?.remove();
+    });
   }
 
-  const routes = [
+  _mb();
+
+  [
     {
-      domain: "upns.online",
-      fn: _bima,
+      d: _$[28],
+      fn: function () {
+        _bjd();
+      },
     },
     {
-      domain: "freex2line.online",
-      fn: () => {
-        window.addEventListener("DOMContentLoaded", () => {
+      d: _$[29],
+      fn: function () {
+        _bjd();
+      },
+    },
+    { d: _$[30], fn: _bima },
+    {
+      d: _$[31],
+      fn: function () {
+        window.addEventListener(_$[39], function () {
           _raa();
           new MutationObserver(_raa).observe(document.body, {
-            childList: true,
-            subtree: true,
+            childList: !0,
+            subtree: !0,
           });
         });
       },
     },
     {
-      domain: "jetload.pp.ua",
-      fn: () => {
+      d: _$[32],
+      fn: function () {
         _pih();
-        _mb();
         _bjd();
       },
     },
-  ];
-
-  (function routeRunner() {
+  ].forEach(function (r) {
     try {
-      routes.forEach((r) => {
-        try {
-          if (matchDomain(r.domain)) r.fn();
-        } catch (_) {}
-      });
-    } catch (e) {
-      console.error("[bypass-cimanow] error:", e);
-    }
-  })();
+      if (_md(r.d)) r.fn();
+    } catch (_) {}
+  });
 })();
 
