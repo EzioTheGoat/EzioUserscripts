@@ -75,6 +75,12 @@ cimanow.cc##+js(brave-fix)
 vip.cimanowinc.com##+js(brave-fix)
 rs.cimanowinc.com##+js(brave-fix)
 bs.cimanow.cc##+js(brave-fix)
+||pagead2.googlesyndication.com^
+||llvpn.com^
+||bvtpk.com^
+||g.doubleclick.net^
+##ins.adsbygoogle[data-ad-slot]
+##ins.adsbygoogle[data-ad-client]
 
 ! =============================================================================
 ! SECTION II: DYNAMIC BLOCKING OF DOWNLOAD BUTTON ON BARE URLs
