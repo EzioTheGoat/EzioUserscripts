@@ -74,12 +74,6 @@ cimanow.cc##+js(brave-fix)
 vip.cimanowinc.com##+js(brave-fix)
 rs.cimanowinc.com##+js(brave-fix)
 bs.cimanow.cc##+js(brave-fix)
-||pagead2.googlesyndication.com^
-||llvpn.com^
-||bvtpk.com^
-||g.doubleclick.net^
-##ins.adsbygoogle[data-ad-slot]
-##ins.adsbygoogle[data-ad-client]
 
 ! =============================================================================
 ! SECTION II: DYNAMIC BLOCKING OF DOWNLOAD BUTTON ON BARE URLs
@@ -824,7 +818,7 @@ m15.asd.rest##video
 ! CimaNow
 cimanow.cc###xqeqjp
 cimanow.cc###xqeqjp1
-!||cimanow.online^$script,domain=cimanow.cc
+||cimanow.online^$script,domain=cimanow.cc
 ||cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js$script,domain=cimanow.cc
 cimanow.cc##[src*="https://i.ibb.co/dB9fgQQ/f2-1.gif"]
 cimanow.cc##[src*="https://i.ibb.co/MMgpK0B/Phone.jpg"]
