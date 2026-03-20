@@ -838,7 +838,7 @@ cimanow.cc##div.fixed-header-item:nth-of-type(6)
 ||new.cimanow.online/judo.js^$script
 ! ||rm.freex2line.online^
 @@||cimanow.cc/wp-content/uploads/2017/05/Favicon.gif$image,domain=cimanow.cc
-cimanow.cc##.PrimaryButton
+!cimanow.cc##.PrimaryButton
 
 ! https://web184.faselhd.cafe
 web184.faselhd.cafe##.ml-auto.mr-4.headerItems > .promoLink
