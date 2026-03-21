@@ -869,5 +869,10 @@ m.gamehub.cam##.downloads__tabs:style(display:block!important)
 ! ublock origin fix
 @@||asd.pics/l/$urlskip,1p
 
+!Cimanow experimental
+freex2line.online#@#body > a[target="_blank"]
+freex2line.online#@#+js(remove-node-text, script, /throw new Error\(\);/)
+freex2line.online#@#body >a[id][href][target^="_blank"]
+freex2line.online#@#a[href*="/jump/next.php?r="]
 
 
