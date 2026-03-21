@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bypass CimaNow
 // @namespace    Ezio Scripts
-// @version      4.9
+// @version      5.0
 // @description  This script enhances your experience by blocking popups, preventing fake redirects, and blocking intrusive advertisements for a seamless streaming experience.
 // @author       Ezio Auditore
 // @icon         https://i.ibb.co/zVkV324z/Ezio.png
@@ -12,6 +12,7 @@
 // @match        *://*.freex2line.online/*
 // @match        *://*.pp.ua/*
 // @grant        none
+// @require      https://userscripts.adtidy.org/release/adguard-extra/1.0/adguard-extra.user.js
 // @run-at       document-start
 // @updateURL    https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/bypass-cimanow.user.js
 // @downloadURL  https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/bypass-cimanow.user.js
