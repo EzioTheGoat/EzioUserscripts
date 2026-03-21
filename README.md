@@ -1,354 +1,251 @@
-# 🔥 Ezio's Userscript Collection 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<div align="center">
-  <img src="https://i.ibb.co/zWChc0Z9/q.png" width="900" alt="Ezio Banner" style="border-radius: 20px; margin-bottom: 30px;">
+<title>Ezio Userscripts</title>
 
-  <br>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
-  <div align="center">
-    <table style="border-collapse: collapse; border: none;">
-      <tr style="border: none;">
-        <td style="border: none; padding: 15px;">
-          <a href="https://github.com/EzioTheGoat/EzioUserscripts/raw/refs/heads/main/bypass-cimanow.user.js">
-            <img src="https://i.imgur.com/blh1X07.png" height="110" alt="Install Cima Now" style="transition: transform .2s;">
-            <br>
-            <img src="https://img.shields.io/badge/INSTALL-CIMA%20NOW-E41E26?style=for-the-badge&logo=googleplay&logoColor=white">
-          </a>
-        </td>
-        <td style="border: none; padding: 15px;">
-          <a href="https://github.com/EzioTheGoat/EzioUserscripts/raw/refs/heads/main/bypass-arabseed.user.js">
-            <img src="https://i.imgur.com/purcqbc.png" height="110" alt="Install Arabseed" style="transition: transform .2s;">
-            <br>
-            <img src="https://img.shields.io/badge/INSTALL-ARABSEED-28A745?style=for-the-badge&logo=target&logoColor=white">
-          </a>
-        </td>
-      </tr>
-    </table>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
 
-  <br>
+body {
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(180deg, #0a0d14, #05070c);
+  color: #e8ecf1;
+}
 
-   <a href="https://t.me/EzioTheGoatScripts">
-      <img src="https://img.shields.io/badge/JOIN%20THE%20OFFICIAL%20TELEGRAM-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white&height=80" height="75">
+.container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
+}
+
+/* Banner */
+.banner {
+  width: 100%;
+  border-radius: 22px;
+  margin-top: 20px;
+  box-shadow: 0 25px 70px rgba(0,0,0,0.6);
+}
+
+/* Hero */
+.hero {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.hero h1 {
+  font-size: 44px;
+}
+
+.hero p {
+  margin-top: 10px;
+  color: #9aa4b2;
+}
+
+/* Buttons */
+.buttons {
+  margin-top: 40px;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 15px auto;
+  padding: 18px;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 16px;
+  text-decoration: none;
+  color: white;
+  max-width: 420px;
+  transition: 0.25s;
+}
+
+.btn img {
+  width: 26px;
+  height: 26px;
+}
+
+.btn-red {
+  background: linear-gradient(135deg, #ff3b3b, #7a0000);
+}
+
+.btn-green {
+  background: linear-gradient(135deg, #2ecc71, #145a32);
+}
+
+.btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+}
+
+/* Cards */
+.section {
+  margin-top: 70px;
+}
+
+.card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  padding: 28px;
+  border-radius: 18px;
+  margin-bottom: 20px;
+}
+
+.card h2 {
+  margin-bottom: 12px;
+}
+
+ul {
+  padding-left: 18px;
+}
+
+li {
+  margin-bottom: 8px;
+}
+
+/* Copy box */
+.copy-box {
+  background: #0f1420;
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+  word-break: break-all;
+}
+
+.copy-box:hover {
+  background: #1a2230;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 60px;
+  color: #777;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #2ecc71;
+  color: black;
+  padding: 10px 20px;
+  border-radius: 10px;
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.toast.show {
+  opacity: 1;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<img src="https://i.ibb.co/zWChc0Z9/q.png" class="banner">
+
+<div class="hero">
+  <h1>Fix CimaNow & Arabseed</h1>
+  <p>Remove ads, bypass anti adblock, and stop redirects</p>
+
+  <div class="buttons">
+    <a class="btn btn-red" href="https://github.com/EzioTheGoat/EzioUserscripts/raw/refs/heads/main/bypass-cimanow.user.js">
+      <img src="https://i.imgur.com/blh1X07.png">
+      Install CimaNow Script
+    </a>
+
+    <a class="btn btn-green" href="https://github.com/EzioTheGoat/EzioUserscripts/raw/refs/heads/main/bypass-arabseed.user.js">
+      <img src="https://i.imgur.com/purcqbc.png">
+      Install Arabseed Script
     </a>
   </div>
+</div>
 
-  
-> [!IMPORTANT]
-> 🔗 **The userscript and filter list must be used together** — one without the other will result in adblock detection on some sites.
-> Add the filter list in uBlock Origin → Dashboard → Filter lists → Custom → paste URL → Apply changes.
-> `https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/filters/custom-filters-brave.txt`
+<div class="section">
 
-  
-  <br><br>
+  <div class="card">
+    <h2>Step 1. Install Firefox</h2>
+    <ul>
+      <li>Download Firefox on PC or Android</li>
+      <li>Open Firefox after install</li>
+    </ul>
   </div>
 
-<!-- ==================================== END FOOTER =================================== -->
-
-
-<br>
-
-<!-- ===================================== CONFIGURATION ====================================== -->
-
-**Before we start, please follow these configuration instructions to ensure optimal performance:**
-
-## 🦁🛡️ 1. Brave Browser Configuration
-
-Follow these steps to add our custom filter list in Brave:
-
-1. **Open Brave’s Ad Blocker Settings:**
-   - Type `brave://adblock` into your address bar and press Enter.
-2. **Add a Custom Filter List:**
-   - Scroll down to the **Custom filter lists** section.
-   - Click to add a new custom filter.
-3. **Paste the Filter URL:**
-   - Copy and paste the following URL:
-     ```
-     https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/filters/custom-filters-brave.txt
-     ```
-4. **Save Your Settings:**
-   - Confirm and save your changes.
-5. **Test Your Configuration:**
-   - Visit one of our supported sites (like Arabseed or Cimanow) to verify that the filters are working correctly.
-
-If you encounter any issues (e.g., browser detection warnings, script blocking, or unexpected redirects), please [report them here](https://github.com/EzioTheGoat/EzioUserscripts/issues/new?template=blocked-site.md).
-
----
-
-## 🛡️ 2. uBlock Origin Configuration for Other Browsers
-
-If you’re using browsers like Chrome, Firefox, or Edge with uBlock Origin installed, follow these steps:
-
-1. **Open the uBlock Origin Dashboard:**
-   - **Chrome/Edge:** Click the uBlock Origin icon and select **Dashboard**.
-   - **Firefox:** Click the uBlock Origin icon and choose **Preferences**.
-2. **Go to the “Filter lists” Tab:**
-   - Locate the filter lists section.
-3. **Add a Custom Filter:**
-   - Scroll to the **Custom** section.
-   - Click on **Import...** (or paste the URL directly if prompted).
-4. **Paste the Filter URL:**
-   - Copy and paste the following URL:
-     ```
-     https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/filters/custom-filters-brave.txt
-     ```
-5. **Save and Refresh:**
-   - Save your changes.
-   - Refresh your browser to activate the new filters.
-6. **Verify the Setup:**
-   - Visit one of our supported sites to ensure the filters are active and functioning properly.
-
-If you experience issues like detection warnings, blocked scripts, or unexpected redirects, please [report them here](https://github.com/EzioTheGoat/EzioUserscripts/issues/new?template=blocked-site.md).
-
----
-
-## 🛠 Featured Scripts
-
-<table>
-  <tr>
-    <td width="80" align="center">
-      <img src="https://i.imgur.com/purcqbc.png" width="64" style="border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-    </td>
-    <td>
-      <h3>🔗 Bypass Arabseed</h3>
-      <p style="margin: 8px 0; font-size: 0.9em; color: #666;">
-        🇪🇬 Arabic Streaming Site | عرب سيد | 
-        <a href="https://asd.rest/main/" target="_blank">https://asd.rest/main/</a>
-      </p>
-      <strong>Automatically bypasses:</strong><br>
-      <table>
-        <tr>
-          <td>✅ Countdown timers</td>
-          <td>✅ Popups & ads</td>
-        </tr>
-        <tr>
-          <td>✅ Fake redirects</td>
-          <td>✅ Download page unlock</td>
-        </tr>
-      </table>
-      
-  <!-- Professional GIF Demo Section -->
-  <div align="center" style="margin: 12px 0;">
-        <img src="https://i.imgur.com/fdcEMhn.gif" alt="Arabseed Demo" style="max-width: 100%; border: 1px solid #e1e4e8; border-radius: 8px;">
+  <div class="card">
+    <h2>Step 2. Install uBlock Origin</h2>
+    <ul>
+      <li>Open Firefox Add-ons</li>
+      <li>Search for uBlock Origin</li>
+      <li>Click Add to Firefox</li>
+    </ul>
   </div>
-      
-  <div align="center">
-        <a href="https://github.com/EzioTheGoat/EzioUserscripts/raw/refs/heads/main/bypass-arabseed.user.js">
-          <img src="https://img.shields.io/badge/INSTALL_SCRIPT-00B894?style=for-the-badge&logo=open-source-initiative&logoColor=white" alt="Install" style="margin-top: 12px;">
-        </a>
-      </div>
-    </td>
-  </tr>
-</table>
 
-
----
-
-<table>
-  <tr>
-    <td width="80" align="center">
-      <img src="https://i.imgur.com/blh1X07.png" width="64" style="border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1)">
-    </td>
-    <td>
-      <h3>🎥 Bypass Cimanow</h3>
-      <p style="margin: 8px 0; font-size: 0.9em; color: #666;">
-        🇪🇬 Arabic Streaming Site | سيما ناو | 
-        <a href="https://cimanow.cc" target="_blank">https://cimanow.cc</a>
-      </p>
-      <strong>Smart URL manipulation:</strong><br>
-      <table>
-        <tr>
-          <td>🔗 Auto-Click</td>
-          <td>🚀 Performance optimizations</td>
-        </tr>
-        <tr>
-          <td>📛 Exception management</td>
-          <td>⚡ Error handling</td>
-        </tr>
-      </table>
-
-  <!-- GIF Demo -->
-<div align="center">
-  <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExdGRvdnZkd2JpNDFubGg1dHExZDRjdTIzdHAyNWR6NHE3ZmJsamR2YyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/V6YBk0eHvLN4mBM4Ly/giphy.gif" alt="CimaNow Demo" width="800" style="border: 1px solid #e1e4e8; border-radius: 8px;">
-</div>
-
-  <div align="center">
-        <a href="https://github.com/EzioTheGoat/EzioUserscripts/raw/refs/heads/main/bypass-cimanow.user.js">
-          <img src="https://img.shields.io/badge/INSTALL_SCRIPT-00B894?style=for-the-badge&logo=open-source-initiative&logoColor=white" alt="Install" style="margin-top: 12px;">
-        </a>
-      </div>
-    </td>
-  </tr>
-</table>
-
----
-
-<table>
-  <tr>
-    <td width="80" align="center">
-      <img src="https://i.imgur.com/3RqMFdM.png" width="64" style="border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1)">
-    </td>
-    <td>
-      <h3>🤖 DeepSeek Regenerator</h3>
-      <strong>AI-powered enhancements:</strong><br>
-      <table>
-        <tr>
-          <td>🔄 Automatic regeneration</td>
-          <td>⏳ Server detection</td>
-        </tr>
-        <tr>
-          <td>📈 Error recovery</td>
-          <td>🤖 Smart retries</td>
-        </tr>
-      </table>
-      <div align="center">
-        <a href="https://greasyfork.org/en/scripts/527233-auto-regenerate-on-server-busy-deepseek">
-          <img src="https://img.shields.io/badge/INSTALL_SCRIPT-00B894?style=for-the-badge&logo=open-source-initiative&logoColor=white" alt="Install" style="margin-top: 12px">
-        </a>
-      </div>
-    </td>
-  </tr>
-</table>
-
----
-
-<table>
-  <tr>
-    <td width="80" align="center">
-      <img src="https://www.redditstatic.com/desktop2x/img/favicon/android-icon-192x192.png" width="64" style="border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1)">
-    </td>
-    <td>
-      <h3>🖥 Reddit Sidebar Toggle</h3>
-      <strong>UI improvements:</strong><br>
-      <table>
-        <tr>
-          <td>🎛 Persistent state</td>
-          <td>🔄 One-click toggle</td>
-        </tr>
-        <tr>
-          <td>📱 Responsive design</td>
-          <td>⚙️ Cross-page consistency</td>
-        </tr>
-      </table>
-      <div align="center">
-        <a href="https://greasyfork.org/en/scripts/527240-reddit-sidebar-toggle">
-          <img src="https://img.shields.io/badge/INSTALL_SCRIPT-00B894?style=for-the-badge&logo=open-source-initiative&logoColor=white" alt="Install" style="margin-top: 12px">
-        </a>
-      </div>
-    </td>
-  </tr>
-</table>
-
----
-
-<table>
-  <tr>
-    <td width="80" align="center">
-      <img src="https://img.icons8.com/ios-filled/64/000000/picture-in-picture.png" width="64" style="border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1)">
-    </td>
-    <td>
-      <h3>🎥 Auto-PiP Tab Switch</h3>
-      <p style="margin: 8px 0; font-size: 0.9em; color: #666;">
-        🔄 Automatically enters Picture-in-Picture (PiP) mode for videos when switching tabs, and exits PiP when returning. Works for all Chromium browsers.
-      </p>
-      <strong>Key Features:</strong><br>
-      <table>
-        <tr>
-          <td>✅ Auto-PiP on tab switch</td>
-          <td>✅ Exits PiP when returning</td>
-        </tr>
-        <tr>
-          <td>✅ Works on most video sites</td>
-          <td>✅ Skips if the video is paused</td>
-        </tr>
-      </table>
-      <div align="center">
-        <a href="https://greasyfork.org/en/scripts/527239-auto-picture-in-picture-on-tab-change">
-          <img src="https://img.shields.io/badge/INSTALL_SCRIPT-00B894?style=for-the-badge&logo=open-source-initiative&logoColor=white" alt="Install" style="margin-top: 12px">
-        </a>
-      </div>
-    </td>
-  </tr>
-</table>
-
----
-
-## 🔧 How to Install
-
-1. **Install Violentmonkey** on your browser:
-   - 🦊 **Firefox:** [Get Add-on](https://addons.mozilla.org/en-US/firefox/addon/violentmonkey/)
-   - 🌐 **Chromium (Chrome, Edge, etc.):** [Get Extension](https://violentmonkey.github.io/get-it/)
-2. Click the **Install Script** button for your desired tool
-3. Confirm installation in the extension popup
-4. Enjoy enhanced browsing! 🎉
-
----
-
-# 📱 Mobile Setup Guide
-
-<div style="border: 2px solid #FF9500; border-radius: 10px; padding: 20px; background-color: #fff4e6; margin: 20px 0;">
-
-## 🤖 Android Configuration
-
-<div style="display: flex; align-items: center; gap: 15px; margin: 15px 0;">
-  <img src="https://img.icons8.com/color/48/000000/firefox.png" width="40">
-  <div>
-    <h3 style="margin: 0;">Firefox + Extensions</h3>
-    <ol>
-      <li>Install <a href="https://play.google.com/store/apps/details?id=org.mozilla.firefox">Firefox for Android</a></li>
-      <li>Tap menu → Add-ons
-        <ul>
-          <li><a href="https://addons.mozilla.org/en-US/android/addon/ublock-origin/">uBlock Origin</a></li>
-          <li><a href="https://addons.mozilla.org/en-US/android/addon/violentmonkey/">Violentmonkey</a></li>
-        </ul>
-      </li>
-      <li>Install scripts using desktop-style install buttons</li>
-    </ol>
+  <div class="card">
+    <h2>Step 3. Install Userscript Manager</h2>
+    <ul>
+      <li>Install Tampermonkey or Violentmonkey</li>
+      <li>Enable the extension</li>
+    </ul>
   </div>
-</div>
 
-## 🍎 iOS Configuration
-
-<div style="display: flex; align-items: center; gap: 15px; margin: 15px 0;">
-  <img src="https://img.icons8.com/ios-filled/50/000000/safari--v1.png" width="40">
-  <div>
-    <h3 style="margin: 0;">Orion Browser Setup</h3>
-    <ol>
-      <li>Install <a href="https://apps.apple.com/us/app/orion-browser-by-kagi/id1484498200">Orion Browser</a></li>
-      <li>Enable extensions:
-        <ul>
-          <li>Settings → Extensions → Enable "Violentmonkey" or "Tampermonkey"</li>
-        </ul>
-      </li>
-      <li>Install scripts through Violentmonkey's or Tampermonkey's interface</li>
-    </ol>
-    <p style="font-size: 0.9em; color: #666;">
-      <strong>Note:</strong> Apple restrictions may limit some functionality compared to desktop
-    </p>
+  <div class="card">
+    <h2>Step 4. Install Script</h2>
+    <ul>
+      <li>Click one of the install buttons above</li>
+      <li>Press Install</li>
+    </ul>
   </div>
+
+  <div class="card">
+    <h2>Step 5. Add Filter List</h2>
+    <ul>
+      <li>Open uBlock Origin dashboard</li>
+      <li>Go to Filter Lists</li>
+      <li>Scroll to Custom</li>
+      <li>Click below to copy</li>
+    </ul>
+
+    <div class="copy-box" onclick="copyText()">
+https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/filters/custom-filters-brave.txt
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  Built for Arabic streaming users
 </div>
 
 </div>
 
-<div style="border-left: 4px solid #34a853; padding: 12px; margin: 20px 0; background-color: #e6f4ea;">
-  <h3>📱 Mobile Optimization Tips</h3>
-  <ul>
-    <li>Use <code>Request Desktop Site</code> for better script compatibility</li>
-    <li>Enable "Persistent" mode in Violentmonkey settings</li>
-    <li>Whitelist video sites in battery saver modes</li>
-  </ul>
-</div>
+<div class="toast" id="toast">Copied</div>
 
----
+<script>
+function copyText() {
+  const text = "https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/filters/custom-filters-brave.txt";
+  navigator.clipboard.writeText(text);
 
-## 🎨 Customization & Contribution
+  const toast = document.getElementById("toast");
+  toast.classList.add("show");
 
-🔧 **Want to improve these scripts?**
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 1500);
+}
+</script>
 
-1. Fork this repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-🐞 **Found an issue?**  
-[Open a GitHub Issue](https://github.com/EzioTheGoat/EzioUserscripts/issues)
+</body>
+</html>
