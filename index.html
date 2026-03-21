@@ -13,10 +13,31 @@
 
 body {
   font-family: 'Inter', sans-serif;
-  background: linear-gradient(180deg, #0a0d14, #05070c);
+  background: #05070c;
   color: #e8ecf1;
+  overflow-x: hidden;
 }
 
+/* Animated background glow */
+body::before {
+  content: "";
+  position: fixed;
+  width: 600px;
+  height: 600px;
+  background: #ff3b3b;
+  filter: blur(200px);
+  top: -150px;
+  left: -150px;
+  opacity: 0.15;
+  animation: float 10s infinite alternate ease-in-out;
+}
+
+@keyframes float {
+  from { transform: translate(0,0); }
+  to { transform: translate(100px, 100px); }
+}
+
+/* Layout */
 .container {
   max-width: 1000px;
   margin: auto;
@@ -29,12 +50,14 @@ body {
   border-radius: 22px;
   margin-top: 20px;
   box-shadow: 0 25px 70px rgba(0,0,0,0.6);
+  animation: fadeUp 1s ease;
 }
 
 /* Hero */
 .hero {
   text-align: center;
   margin-top: 50px;
+  animation: fadeUp 1s ease;
 }
 
 .hero h1 {
@@ -64,12 +87,33 @@ body {
   text-decoration: none;
   color: white;
   max-width: 420px;
-  transition: 0.25s;
+  position: relative;
+  overflow: hidden;
+  transition: 0.3s;
 }
 
 .btn img {
   width: 26px;
-  height: 26px;
+}
+
+.btn::after {
+  content: "";
+  position: absolute;
+  width: 200%;
+  height: 100%;
+  left: -200%;
+  top: 0;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: 0.6s;
+}
+
+.btn:hover::after {
+  left: 200%;
+}
+
+.btn:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 25px 50px rgba(0,0,0,0.6);
 }
 
 .btn-red {
@@ -80,22 +124,31 @@ body {
   background: linear-gradient(135deg, #2ecc71, #145a32);
 }
 
-.btn:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-}
-
 /* Cards */
 .section {
   margin-top: 70px;
 }
 
 .card {
+  opacity: 0;
+  transform: translateY(30px);
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.06);
   padding: 28px;
   border-radius: 18px;
   margin-bottom: 20px;
+  backdrop-filter: blur(14px);
+  transition: 0.4s;
+}
+
+.card.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255,255,255,0.15);
 }
 
 .card h2 {
@@ -123,30 +176,42 @@ li {
 
 .copy-box:hover {
   background: #1a2230;
+  transform: scale(1.02);
 }
 
+/* Telegram CTA */
+.telegram {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.telegram a {
+  display: inline-block;
+  padding: 14px 20px;
+  border-radius: 12px;
+  background: #2CA5E0;
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.telegram a:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+}
+
+/* Footer */
 .footer {
   text-align: center;
   margin-top: 60px;
   color: #777;
 }
 
-/* Toast */
-.toast {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #2ecc71;
-  color: black;
-  padding: 10px 20px;
-  border-radius: 10px;
-  opacity: 0;
-  transition: 0.3s;
-}
-
-.toast.show {
-  opacity: 1;
+/* Animation */
+@keyframes fadeUp {
+  from { opacity:0; transform: translateY(30px); }
+  to { opacity:1; transform: translateY(0); }
 }
 </style>
 </head>
@@ -176,53 +241,26 @@ li {
 
 <div class="section">
 
-  <div class="card">
-    <h2>Step 1. Install Firefox</h2>
-    <ul>
-      <li>Download Firefox on PC or Android</li>
-      <li>Open Firefox after install</li>
-    </ul>
-  </div>
+  <div class="card">Step 1. Install Firefox (PC or Android)</div>
+
+  <div class="card">Step 2. Install uBlock Origin</div>
+
+  <div class="card">Step 3. Install Userscript Manager</div>
+
+  <div class="card">Step 4. Install Script</div>
 
   <div class="card">
-    <h2>Step 2. Install uBlock Origin</h2>
-    <ul>
-      <li>Open Firefox Add-ons</li>
-      <li>Search for uBlock Origin</li>
-      <li>Click Add to Firefox</li>
-    </ul>
-  </div>
-
-  <div class="card">
-    <h2>Step 3. Install Userscript Manager</h2>
-    <ul>
-      <li>Install Tampermonkey or Violentmonkey</li>
-      <li>Enable the extension</li>
-    </ul>
-  </div>
-
-  <div class="card">
-    <h2>Step 4. Install Script</h2>
-    <ul>
-      <li>Click one of the install buttons above</li>
-      <li>Press Install</li>
-    </ul>
-  </div>
-
-  <div class="card">
-    <h2>Step 5. Add Filter List</h2>
-    <ul>
-      <li>Open uBlock Origin dashboard</li>
-      <li>Go to Filter Lists</li>
-      <li>Scroll to Custom</li>
-      <li>Click below to copy</li>
-    </ul>
-
+    Step 5. Add Filter List
     <div class="copy-box" onclick="copyText()">
 https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/filters/custom-filters-brave.txt
     </div>
   </div>
 
+</div>
+
+<div class="telegram">
+  <p>Have any question?</p>
+  <a href="https://t.me/EzioTheGoatScripts">Join Telegram Channel</a>
 </div>
 
 <div class="footer">
@@ -235,16 +273,21 @@ https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/filters/custo
 
 <script>
 function copyText() {
-  const text = "https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/filters/custom-filters-brave.txt";
-  navigator.clipboard.writeText(text);
-
-  const toast = document.getElementById("toast");
-  toast.classList.add("show");
-
-  setTimeout(() => {
-    toast.classList.remove("show");
-  }, 1500);
+  navigator.clipboard.writeText("https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/filters/custom-filters-brave.txt");
+  alert("Copied");
 }
+
+/* Scroll animation */
+const cards = document.querySelectorAll(".card");
+
+window.addEventListener("scroll", () => {
+  cards.forEach(card => {
+    const rect = card.getBoundingClientRect();
+    if (rect.top < window.innerHeight - 50) {
+      card.classList.add("show");
+    }
+  });
+});
 </script>
 
 </body>
