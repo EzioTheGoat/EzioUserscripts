@@ -3,49 +3,138 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Ezio Userscripts</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
 <style>
-body {
-  font-family: Arial;
-  background: #0f1117;
-  color: white;
-  text-align: center;
-  padding: 20px;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-h1 {
-  font-size: 32px;
+body {
+  font-family: 'Inter', sans-serif;
+  background: #0b0d12;
+  color: #e6e6e6;
+  line-height: 1.6;
 }
 
 .container {
-  max-width: 800px;
+  max-width: 900px;
   margin: auto;
+  padding: 20px;
+}
+
+header {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+h1 {
+  font-size: 40px;
+  font-weight: 700;
+}
+
+.subtitle {
+  margin-top: 10px;
+  color: #9aa4b2;
+  font-size: 18px;
+}
+
+.buttons {
+  margin-top: 40px;
 }
 
 .btn {
   display: block;
-  margin: 20px auto;
-  padding: 15px;
+  margin: 15px auto;
+  padding: 18px;
   font-size: 18px;
-  border-radius: 10px;
+  font-weight: 600;
+  border-radius: 14px;
   text-decoration: none;
   color: white;
+  width: 100%;
+  max-width: 400px;
+  transition: all 0.25s ease;
 }
 
-.red { background: #e41e26; }
-.green { background: #28a745; }
+.btn-red {
+  background: linear-gradient(135deg, #ff3b3b, #b30000);
+}
+
+.btn-green {
+  background: linear-gradient(135deg, #2ecc71, #1e8449);
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+}
 
 .section {
-  margin-top: 40px;
-  text-align: left;
+  margin-top: 60px;
+}
+
+.card {
+  background: #11151c;
+  padding: 25px;
+  border-radius: 16px;
+  margin-bottom: 20px;
+  transition: 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+}
+
+h2 {
+  margin-bottom: 15px;
+  font-size: 24px;
+}
+
+ul {
+  padding-left: 20px;
+}
+
+li {
+  margin-bottom: 8px;
 }
 
 code {
-  background: #1a1d24;
-  padding: 5px;
   display: block;
+  background: #1b2230;
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 10px;
   word-break: break-all;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 60px;
+  color: #777;
+  font-size: 14px;
+}
+
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeIn 0.8s forwards;
+}
+
+.fade-in.delay {
+  animation-delay: 0.3s;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 </style>
 </head>
@@ -54,39 +143,61 @@ code {
 
 <div class="container">
 
-<h1>Ezio Userscripts</h1>
-<p>Fix ads, redirects, and anti adblock on Arabic streaming sites</p>
+<header class="fade-in">
+  <h1>Ezio Userscripts</h1>
+  <p class="subtitle">
+    Remove ads, bypass anti adblock, and fix Arabic streaming sites
+  </p>
 
-<a class="btn red" href="https://github.com/EzioTheGoat/EzioUserscripts/raw/refs/heads/main/bypass-cimanow.user.js">
-Install CimaNow Script
-</a>
+  <div class="buttons">
+    <a class="btn btn-red" href="https://github.com/EzioTheGoat/EzioUserscripts/raw/refs/heads/main/bypass-cimanow.user.js">
+      Install CimaNow Script
+    </a>
 
-<a class="btn green" href="https://github.com/EzioTheGoat/EzioUserscripts/raw/refs/heads/main/bypass-arabseed.user.js">
-Install Arabseed Script
-</a>
+    <a class="btn btn-green" href="https://github.com/EzioTheGoat/EzioUserscripts/raw/refs/heads/main/bypass-arabseed.user.js">
+      Install Arabseed Script
+    </a>
+  </div>
+</header>
 
-<div class="section">
-<h2>Step 1. Install Userscript Manager</h2>
-<ul>
-<li>Install Tampermonkey or Violentmonkey</li>
-<li>Works on Chrome, Firefox, Brave</li>
-</ul>
-</div>
+<div class="section fade-in delay">
 
-<div class="section">
-<h2>Step 2. Install Script</h2>
-<ul>
-<li>Click one of the install buttons above</li>
-<li>Press install in the popup</li>
-</ul>
-</div>
+  <div class="card">
+    <h2>Step 1. Install Userscript Manager</h2>
+    <ul>
+      <li>Install Tampermonkey or Violentmonkey</li>
+      <li>Works on Chrome, Brave, Firefox</li>
+      <li>Open extension and keep it enabled</li>
+    </ul>
+  </div>
 
-<div class="section">
-<h2>Step 3. Add Filter List</h2>
-<p>Copy this into uBlock Origin custom filters:</p>
-<code>
+  <div class="card">
+    <h2>Step 2. Install Script</h2>
+    <ul>
+      <li>Click one of the install buttons above</li>
+      <li>A new tab will open</li>
+      <li>Press Install</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Step 3. Add Filter List</h2>
+    <ul>
+      <li>Open uBlock Origin dashboard</li>
+      <li>Go to Filter Lists</li>
+      <li>Scroll to Custom</li>
+      <li>Paste this URL</li>
+    </ul>
+
+    <code>
 https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/filters/custom-filters-brave.txt
-</code>
+    </code>
+  </div>
+
+</div>
+
+<div class="footer">
+  Built for Arabic streaming users
 </div>
 
 </div>
