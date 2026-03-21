@@ -23,6 +23,7 @@ body {
   padding: 20px;
 }
 
+/* Banner */
 .banner {
   width: 100%;
   border-radius: 22px;
@@ -67,9 +68,8 @@ body {
 }
 
 .btn img {
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
+  width: 26px;
+  height: 26px;
 }
 
 .btn-red {
@@ -87,7 +87,7 @@ body {
 
 /* Cards */
 .section {
-  margin-top: 60px;
+  margin-top: 70px;
 }
 
 .card {
@@ -116,30 +116,37 @@ li {
   padding: 12px;
   border-radius: 10px;
   margin-top: 10px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.copy-text {
-  font-size: 14px;
-  overflow-wrap: anywhere;
-}
-
-.copy-btn {
-  background: #2ecc71;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 8px;
-  color: white;
   cursor: pointer;
+  transition: 0.2s;
+  word-break: break-all;
 }
 
-/* Footer */
+.copy-box:hover {
+  background: #1a2230;
+}
+
 .footer {
   text-align: center;
   margin-top: 60px;
   color: #777;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #2ecc71;
+  color: black;
+  padding: 10px 20px;
+  border-radius: 10px;
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.toast.show {
+  opacity: 1;
 }
 </style>
 </head>
@@ -156,13 +163,13 @@ li {
 
   <div class="buttons">
     <a class="btn btn-red" href="https://github.com/EzioTheGoat/EzioUserscripts/raw/refs/heads/main/bypass-cimanow.user.js">
-      <img src="https://www.google.com/s2/favicons?domain=cimanow.cc">
-      Install CimaNow
+      <img src="https://i.imgur.com/blh1X07.png">
+      Install CimaNow Script
     </a>
 
     <a class="btn btn-green" href="https://github.com/EzioTheGoat/EzioUserscripts/raw/refs/heads/main/bypass-arabseed.user.js">
-      <img src="https://www.google.com/s2/favicons?domain=arabseed.com">
-      Install Arabseed
+      <img src="https://i.imgur.com/purcqbc.png">
+      Install Arabseed Script
     </a>
   </div>
 </div>
@@ -172,8 +179,8 @@ li {
   <div class="card">
     <h2>Step 1. Install Firefox</h2>
     <ul>
-      <li>Download Firefox for PC or Android</li>
-      <li>Open the browser after install</li>
+      <li>Download Firefox on PC or Android</li>
+      <li>Open Firefox after install</li>
     </ul>
   </div>
 
@@ -190,14 +197,14 @@ li {
     <h2>Step 3. Install Userscript Manager</h2>
     <ul>
       <li>Install Tampermonkey or Violentmonkey</li>
-      <li>Keep it enabled</li>
+      <li>Enable the extension</li>
     </ul>
   </div>
 
   <div class="card">
     <h2>Step 4. Install Script</h2>
     <ul>
-      <li>Click install button above</li>
+      <li>Click one of the install buttons above</li>
       <li>Press Install</li>
     </ul>
   </div>
@@ -208,14 +215,11 @@ li {
       <li>Open uBlock Origin dashboard</li>
       <li>Go to Filter Lists</li>
       <li>Scroll to Custom</li>
-      <li>Paste the link below</li>
+      <li>Click below to copy</li>
     </ul>
 
-    <div class="copy-box">
-      <div class="copy-text" id="filterLink">
+    <div class="copy-box" onclick="copyText()">
 https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/filters/custom-filters-brave.txt
-      </div>
-      <button class="copy-btn" onclick="copyText()">Copy</button>
     </div>
   </div>
 
@@ -227,11 +231,19 @@ https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/filters/custo
 
 </div>
 
+<div class="toast" id="toast">Copied</div>
+
 <script>
 function copyText() {
-  const text = document.getElementById("filterLink").innerText;
+  const text = "https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/filters/custom-filters-brave.txt";
   navigator.clipboard.writeText(text);
-  alert("Copied!");
+
+  const toast = document.getElementById("toast");
+  toast.classList.add("show");
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 1500);
 }
 </script>
 
