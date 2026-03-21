@@ -17,20 +17,17 @@ body {
   color: #e8ecf1;
 }
 
-/* Layout */
 .container {
   max-width: 1000px;
   margin: auto;
   padding: 20px;
 }
 
-/* Banner */
 .banner {
   width: 100%;
   border-radius: 22px;
   margin-top: 20px;
   box-shadow: 0 25px 70px rgba(0,0,0,0.6);
-  animation: fadeUp 1s ease;
 }
 
 /* Hero */
@@ -41,13 +38,11 @@ body {
 
 .hero h1 {
   font-size: 44px;
-  font-weight: 700;
 }
 
 .hero p {
-  margin-top: 12px;
+  margin-top: 10px;
   color: #9aa4b2;
-  font-size: 18px;
 }
 
 /* Buttons */
@@ -56,7 +51,10 @@ body {
 }
 
 .btn {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
   margin: 15px auto;
   padding: 18px;
   font-size: 18px;
@@ -65,25 +63,13 @@ body {
   text-decoration: none;
   color: white;
   max-width: 420px;
-  position: relative;
-  overflow: hidden;
   transition: 0.25s;
 }
 
-/* Shine effect */
-.btn::after {
-  content: "";
-  position: absolute;
-  width: 150%;
-  height: 100%;
-  top: 0;
-  left: -150%;
-  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
-  transition: 0.5s;
-}
-
-.btn:hover::after {
-  left: 150%;
+.btn img {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
 }
 
 .btn-red {
@@ -99,30 +85,21 @@ body {
   box-shadow: 0 20px 40px rgba(0,0,0,0.6);
 }
 
-/* Sections */
+/* Cards */
 .section {
-  margin-top: 70px;
+  margin-top: 60px;
 }
 
-/* Cards */
 .card {
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.06);
   padding: 28px;
   border-radius: 18px;
   margin-bottom: 20px;
-  backdrop-filter: blur(14px);
-  transition: 0.25s;
-}
-
-.card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(255,255,255,0.15);
 }
 
 .card h2 {
   margin-bottom: 12px;
-  font-size: 22px;
 }
 
 ul {
@@ -133,15 +110,29 @@ li {
   margin-bottom: 8px;
 }
 
-/* Code block */
-code {
-  display: block;
+/* Copy box */
+.copy-box {
   background: #0f1420;
   padding: 12px;
   border-radius: 10px;
   margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.copy-text {
   font-size: 14px;
-  word-break: break-all;
+  overflow-wrap: anywhere;
+}
+
+.copy-btn {
+  background: #2ecc71;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
 }
 
 /* Footer */
@@ -149,17 +140,6 @@ code {
   text-align: center;
   margin-top: 60px;
   color: #777;
-  font-size: 14px;
-}
-
-/* Animation */
-@keyframes fadeUp {
-  from { opacity:0; transform: translateY(25px); }
-  to { opacity:1; transform: translateY(0); }
-}
-
-.fade {
-  animation: fadeUp 0.8s ease forwards;
 }
 </style>
 </head>
@@ -168,58 +148,75 @@ code {
 
 <div class="container">
 
-<!-- Your Banner -->
 <img src="https://i.ibb.co/zWChc0Z9/q.png" class="banner">
 
-<!-- Hero -->
-<div class="hero fade">
+<div class="hero">
   <h1>Fix CimaNow & Arabseed</h1>
-  <p>Remove ads, bypass anti adblock, and stop redirects instantly</p>
+  <p>Remove ads, bypass anti adblock, and stop redirects</p>
 
   <div class="buttons">
     <a class="btn btn-red" href="https://github.com/EzioTheGoat/EzioUserscripts/raw/refs/heads/main/bypass-cimanow.user.js">
-      Install CimaNow Script
+      <img src="https://www.google.com/s2/favicons?domain=cimanow.cc">
+      Install CimaNow
     </a>
 
     <a class="btn btn-green" href="https://github.com/EzioTheGoat/EzioUserscripts/raw/refs/heads/main/bypass-arabseed.user.js">
-      Install Arabseed Script
+      <img src="https://www.google.com/s2/favicons?domain=arabseed.com">
+      Install Arabseed
     </a>
   </div>
 </div>
 
-<!-- Steps -->
-<div class="section fade">
+<div class="section">
 
   <div class="card">
-    <h2>Step 1. Install Userscript Manager</h2>
+    <h2>Step 1. Install Firefox</h2>
+    <ul>
+      <li>Download Firefox for PC or Android</li>
+      <li>Open the browser after install</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Step 2. Install uBlock Origin</h2>
+    <ul>
+      <li>Open Firefox Add-ons</li>
+      <li>Search for uBlock Origin</li>
+      <li>Click Add to Firefox</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Step 3. Install Userscript Manager</h2>
     <ul>
       <li>Install Tampermonkey or Violentmonkey</li>
-      <li>Works on Chrome, Brave, Firefox</li>
-      <li>Keep extension enabled</li>
+      <li>Keep it enabled</li>
     </ul>
   </div>
 
   <div class="card">
-    <h2>Step 2. Install Script</h2>
+    <h2>Step 4. Install Script</h2>
     <ul>
       <li>Click install button above</li>
-      <li>New tab will open</li>
-      <li>Click Install</li>
+      <li>Press Install</li>
     </ul>
   </div>
 
   <div class="card">
-    <h2>Step 3. Add Filter List</h2>
+    <h2>Step 5. Add Filter List</h2>
     <ul>
       <li>Open uBlock Origin dashboard</li>
       <li>Go to Filter Lists</li>
       <li>Scroll to Custom</li>
-      <li>Paste this link</li>
+      <li>Paste the link below</li>
     </ul>
 
-    <code>
+    <div class="copy-box">
+      <div class="copy-text" id="filterLink">
 https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/filters/custom-filters-brave.txt
-    </code>
+      </div>
+      <button class="copy-btn" onclick="copyText()">Copy</button>
+    </div>
   </div>
 
 </div>
@@ -229,6 +226,14 @@ https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/filters/custo
 </div>
 
 </div>
+
+<script>
+function copyText() {
+  const text = document.getElementById("filterLink").innerText;
+  navigator.clipboard.writeText(text);
+  alert("Copied!");
+}
+</script>
 
 </body>
 </html>
