@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ezio Userscripts</title>
+
+<style>
+body {
+  font-family: Arial;
+  background: #0f1117;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 32px;
+}
+
+.container {
+  max-width: 800px;
+  margin: auto;
+}
+
+.btn {
+  display: block;
+  margin: 20px auto;
+  padding: 15px;
+  font-size: 18px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: white;
+}
+
+.red { background: #e41e26; }
+.green { background: #28a745; }
+
+.section {
+  margin-top: 40px;
+  text-align: left;
+}
+
+code {
+  background: #1a1d24;
+  padding: 5px;
+  display: block;
+  word-break: break-all;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Ezio Userscripts</h1>
+<p>Fix ads, redirects, and anti adblock on Arabic streaming sites</p>
+
+<a class="btn red" href="https://github.com/EzioTheGoat/EzioUserscripts/raw/refs/heads/main/bypass-cimanow.user.js">
+Install CimaNow Script
+</a>
+
+<a class="btn green" href="https://github.com/EzioTheGoat/EzioUserscripts/raw/refs/heads/main/bypass-arabseed.user.js">
+Install Arabseed Script
+</a>
+
+<div class="section">
+<h2>Step 1. Install Userscript Manager</h2>
+<ul>
+<li>Install Tampermonkey or Violentmonkey</li>
+<li>Works on Chrome, Firefox, Brave</li>
+</ul>
+</div>
+
+<div class="section">
+<h2>Step 2. Install Script</h2>
+<ul>
+<li>Click one of the install buttons above</li>
+<li>Press install in the popup</li>
+</ul>
+</div>
+
+<div class="section">
+<h2>Step 3. Add Filter List</h2>
+<p>Copy this into uBlock Origin custom filters:</p>
+<code>
+https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/filters/custom-filters-brave.txt
+</code>
+</div>
+
+</div>
+
+</body>
+</html>
