@@ -816,10 +816,7 @@ asd.quest##video
 m15.asd.rest##video
 
 ! CimaNow
-cimanow.cc###xqeqjp
-cimanow.cc###xqeqjp1
 
-cimanow.cc###xqeqjp3
 
 ! https://web184.faselhd.cafe
 web184.faselhd.cafe##.ml-auto.mr-4.headerItems > .promoLink
