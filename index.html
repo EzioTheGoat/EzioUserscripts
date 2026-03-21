@@ -13,22 +13,8 @@
 
 body {
   font-family: 'Inter', sans-serif;
-  background: radial-gradient(circle at top, #121826, #06080f);
-  color: #eaeef5;
-  overflow-x: hidden;
-}
-
-/* Background glow */
-body::before {
-  content: "";
-  position: fixed;
-  width: 600px;
-  height: 600px;
-  background: #ff3b3b;
-  filter: blur(200px);
-  top: -100px;
-  left: -100px;
-  opacity: 0.15;
+  background: linear-gradient(180deg, #0a0d14, #05070c);
+  color: #e8ecf1;
 }
 
 /* Layout */
@@ -41,26 +27,26 @@ body::before {
 /* Banner */
 .banner {
   width: 100%;
-  border-radius: 20px;
+  border-radius: 22px;
   margin-top: 20px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  box-shadow: 0 25px 70px rgba(0,0,0,0.6);
   animation: fadeUp 1s ease;
 }
 
-/* Header */
-header {
+/* Hero */
+.hero {
   text-align: center;
-  margin-top: 40px;
+  margin-top: 50px;
 }
 
-h1 {
-  font-size: 42px;
+.hero h1 {
+  font-size: 44px;
   font-weight: 700;
 }
 
-.subtitle {
+.hero p {
+  margin-top: 12px;
   color: #9aa4b2;
-  margin-top: 10px;
   font-size: 18px;
 }
 
@@ -75,36 +61,33 @@ h1 {
   padding: 18px;
   font-size: 18px;
   font-weight: 600;
-  border-radius: 14px;
+  border-radius: 16px;
   text-decoration: none;
   color: white;
   max-width: 420px;
-  backdrop-filter: blur(10px);
-  transition: 0.25s;
   position: relative;
   overflow: hidden;
+  transition: 0.25s;
 }
 
-/* Glow effect */
-.btn::before {
+/* Shine effect */
+.btn::after {
   content: "";
   position: absolute;
-  width: 200%;
-  height: 200%;
+  width: 150%;
+  height: 100%;
+  top: 0;
+  left: -150%;
   background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
-  transform: rotate(25deg);
-  top: -100%;
-  left: -100%;
-  transition: 0.6s;
+  transition: 0.5s;
 }
 
-.btn:hover::before {
-  top: 100%;
-  left: 100%;
+.btn:hover::after {
+  left: 150%;
 }
 
 .btn-red {
-  background: linear-gradient(135deg, #ff3b3b, #8b0000);
+  background: linear-gradient(135deg, #ff3b3b, #7a0000);
 }
 
 .btn-green {
@@ -112,23 +95,24 @@ h1 {
 }
 
 .btn:hover {
-  transform: translateY(-4px) scale(1.02);
+  transform: translateY(-4px);
   box-shadow: 0 20px 40px rgba(0,0,0,0.6);
 }
 
-/* Cards */
+/* Sections */
 .section {
   margin-top: 70px;
 }
 
+/* Cards */
 .card {
-  background: rgba(255,255,255,0.03);
+  background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.06);
-  padding: 25px;
+  padding: 28px;
   border-radius: 18px;
   margin-bottom: 20px;
-  backdrop-filter: blur(12px);
-  transition: 0.3s;
+  backdrop-filter: blur(14px);
+  transition: 0.25s;
 }
 
 .card:hover {
@@ -136,8 +120,9 @@ h1 {
   border-color: rgba(255,255,255,0.15);
 }
 
-h2 {
+.card h2 {
   margin-bottom: 12px;
+  font-size: 22px;
 }
 
 ul {
@@ -148,30 +133,15 @@ li {
   margin-bottom: 8px;
 }
 
-/* Code */
+/* Code block */
 code {
   display: block;
   background: #0f1420;
   padding: 12px;
   border-radius: 10px;
   margin-top: 10px;
+  font-size: 14px;
   word-break: break-all;
-}
-
-/* Animations */
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.fade {
-  animation: fadeUp 0.8s ease forwards;
 }
 
 /* Footer */
@@ -179,6 +149,17 @@ code {
   text-align: center;
   margin-top: 60px;
   color: #777;
+  font-size: 14px;
+}
+
+/* Animation */
+@keyframes fadeUp {
+  from { opacity:0; transform: translateY(25px); }
+  to { opacity:1; transform: translateY(0); }
+}
+
+.fade {
+  animation: fadeUp 0.8s ease forwards;
 }
 </style>
 </head>
@@ -187,14 +168,13 @@ code {
 
 <div class="container">
 
-<!-- Banner -->
+<!-- Your Banner -->
 <img src="https://i.ibb.co/zWChc0Z9/q.png" class="banner">
 
-<header class="fade">
-  <h1>Ezio Userscripts</h1>
-  <p class="subtitle">
-    Fix ads, popups, and anti adblock on CimaNow and Arabseed
-  </p>
+<!-- Hero -->
+<div class="hero fade">
+  <h1>Fix CimaNow & Arabseed</h1>
+  <p>Remove ads, bypass anti adblock, and stop redirects instantly</p>
 
   <div class="buttons">
     <a class="btn btn-red" href="https://github.com/EzioTheGoat/EzioUserscripts/raw/refs/heads/main/bypass-cimanow.user.js">
@@ -205,24 +185,25 @@ code {
       Install Arabseed Script
     </a>
   </div>
-</header>
+</div>
 
+<!-- Steps -->
 <div class="section fade">
 
   <div class="card">
     <h2>Step 1. Install Userscript Manager</h2>
     <ul>
-      <li>Download Tampermonkey or Violentmonkey</li>
-      <li>Open the extension after installing</li>
-      <li>Make sure it is enabled</li>
+      <li>Install Tampermonkey or Violentmonkey</li>
+      <li>Works on Chrome, Brave, Firefox</li>
+      <li>Keep extension enabled</li>
     </ul>
   </div>
 
   <div class="card">
     <h2>Step 2. Install Script</h2>
     <ul>
-      <li>Click the install button above</li>
-      <li>A new page will open</li>
+      <li>Click install button above</li>
+      <li>New tab will open</li>
       <li>Click Install</li>
     </ul>
   </div>
@@ -233,7 +214,7 @@ code {
       <li>Open uBlock Origin dashboard</li>
       <li>Go to Filter Lists</li>
       <li>Scroll to Custom</li>
-      <li>Paste the link below</li>
+      <li>Paste this link</li>
     </ul>
 
     <code>
