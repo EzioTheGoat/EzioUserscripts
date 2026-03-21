@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bypass CimaNow
 // @namespace    Ezio Scripts
-// @version      4.4
+// @version      4.5
 // @description  This script enhances your experience by blocking popups, preventing fake redirects, and blocking intrusive advertisements for a seamless streaming experience.
 // @author       Ezio Auditore
 // @icon         https://i.ibb.co/zVkV324z/Ezio.png
@@ -485,12 +485,43 @@
   }
 
   function _raa() {
-    [_$[26], _$[27]].forEach(function (id) {
-      document.getElementById(id)?.remove();
+    document.addEventListener(_$[39], function () {
+      [_$[26], _$[27]].forEach(function (id) {
+        document.getElementById(id)?.remove();
+      });
     });
   }
 
+  function _prf() {
+    var _ld = Object.getOwnPropertyDescriptor(Location.prototype, "href");
+    if (_ld && _ld.set) {
+      var _ls = _ld.set;
+      _dp(Location.prototype, "href", {
+        set: _N(function (v) {
+          try {
+            var u = new URL(v, location.href);
+            if (u.pathname === "/" && u.hostname === location.hostname) return;
+          } catch (_) {}
+          _ls.call(this, v);
+        }, "href"),
+        get: _ld.get,
+        configurable: !0,
+      });
+    }
+    var _lr = Location.prototype.replace;
+    Location.prototype.replace = _N(function replace(v) {
+      try {
+        var u = new URL(v, location.href);
+        if (u.pathname === "/" && u.hostname === location.hostname) return;
+      } catch (_) {}
+      _lr.call(this, v);
+    }, "replace");
+  }
+
   _mb();
+  if (_md(_$[28]) || _md(_$[29])) {
+    _prf();
+  }
 
   [
     {
@@ -509,13 +540,7 @@
     {
       d: _$[31],
       fn: function () {
-        window.addEventListener(_$[39], function () {
-          _raa();
-          new MutationObserver(_raa).observe(document.body, {
-            childList: !0,
-            subtree: !0,
-          });
-        });
+        _raa();
       },
     },
     {
