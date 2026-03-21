@@ -9,41 +9,62 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+* { margin:0; padding:0; box-sizing:border-box; }
 
 body {
   font-family: 'Inter', sans-serif;
-  background: #0b0d12;
-  color: #e6e6e6;
-  line-height: 1.6;
+  background: radial-gradient(circle at top, #121826, #06080f);
+  color: #eaeef5;
+  overflow-x: hidden;
 }
 
+/* Background glow */
+body::before {
+  content: "";
+  position: fixed;
+  width: 600px;
+  height: 600px;
+  background: #ff3b3b;
+  filter: blur(200px);
+  top: -100px;
+  left: -100px;
+  opacity: 0.15;
+}
+
+/* Layout */
 .container {
-  max-width: 900px;
+  max-width: 1000px;
   margin: auto;
   padding: 20px;
 }
 
+/* Banner */
+.banner {
+  width: 100%;
+  border-radius: 20px;
+  margin-top: 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  animation: fadeUp 1s ease;
+}
+
+/* Header */
 header {
   text-align: center;
-  padding: 60px 20px;
+  margin-top: 40px;
 }
 
 h1 {
-  font-size: 40px;
+  font-size: 42px;
   font-weight: 700;
 }
 
 .subtitle {
-  margin-top: 10px;
   color: #9aa4b2;
+  margin-top: 10px;
   font-size: 18px;
 }
 
+/* Buttons */
 .buttons {
   margin-top: 40px;
 }
@@ -57,84 +78,107 @@ h1 {
   border-radius: 14px;
   text-decoration: none;
   color: white;
-  width: 100%;
-  max-width: 400px;
-  transition: all 0.25s ease;
+  max-width: 420px;
+  backdrop-filter: blur(10px);
+  transition: 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Glow effect */
+.btn::before {
+  content: "";
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
+  transform: rotate(25deg);
+  top: -100%;
+  left: -100%;
+  transition: 0.6s;
+}
+
+.btn:hover::before {
+  top: 100%;
+  left: 100%;
 }
 
 .btn-red {
-  background: linear-gradient(135deg, #ff3b3b, #b30000);
+  background: linear-gradient(135deg, #ff3b3b, #8b0000);
 }
 
 .btn-green {
-  background: linear-gradient(135deg, #2ecc71, #1e8449);
+  background: linear-gradient(135deg, #2ecc71, #145a32);
 }
 
 .btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
 }
 
+/* Cards */
 .section {
-  margin-top: 60px;
+  margin-top: 70px;
 }
 
 .card {
-  background: #11151c;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
   padding: 25px;
-  border-radius: 16px;
+  border-radius: 18px;
   margin-bottom: 20px;
-  transition: 0.2s ease;
+  backdrop-filter: blur(12px);
+  transition: 0.3s;
 }
 
 .card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  border-color: rgba(255,255,255,0.15);
 }
 
 h2 {
-  margin-bottom: 15px;
-  font-size: 24px;
+  margin-bottom: 12px;
 }
 
 ul {
-  padding-left: 20px;
+  padding-left: 18px;
 }
 
 li {
   margin-bottom: 8px;
 }
 
+/* Code */
 code {
   display: block;
-  background: #1b2230;
+  background: #0f1420;
   padding: 12px;
   border-radius: 10px;
   margin-top: 10px;
   word-break: break-all;
 }
 
-.footer {
-  text-align: center;
-  margin-top: 60px;
-  color: #777;
-  font-size: 14px;
-}
-
-.fade-in {
-  opacity: 0;
-  transform: translateY(20px);
-  animation: fadeIn 0.8s forwards;
-}
-
-.fade-in.delay {
-  animation-delay: 0.3s;
-}
-
-@keyframes fadeIn {
+/* Animations */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
   to {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.fade {
+  animation: fadeUp 0.8s ease forwards;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  margin-top: 60px;
+  color: #777;
 }
 </style>
 </head>
@@ -143,10 +187,13 @@ code {
 
 <div class="container">
 
-<header class="fade-in">
+<!-- Banner -->
+<img src="https://i.ibb.co/zWChc0Z9/q.png" class="banner">
+
+<header class="fade">
   <h1>Ezio Userscripts</h1>
   <p class="subtitle">
-    Remove ads, bypass anti adblock, and fix Arabic streaming sites
+    Fix ads, popups, and anti adblock on CimaNow and Arabseed
   </p>
 
   <div class="buttons">
@@ -160,23 +207,23 @@ code {
   </div>
 </header>
 
-<div class="section fade-in delay">
+<div class="section fade">
 
   <div class="card">
     <h2>Step 1. Install Userscript Manager</h2>
     <ul>
-      <li>Install Tampermonkey or Violentmonkey</li>
-      <li>Works on Chrome, Brave, Firefox</li>
-      <li>Open extension and keep it enabled</li>
+      <li>Download Tampermonkey or Violentmonkey</li>
+      <li>Open the extension after installing</li>
+      <li>Make sure it is enabled</li>
     </ul>
   </div>
 
   <div class="card">
     <h2>Step 2. Install Script</h2>
     <ul>
-      <li>Click one of the install buttons above</li>
-      <li>A new tab will open</li>
-      <li>Press Install</li>
+      <li>Click the install button above</li>
+      <li>A new page will open</li>
+      <li>Click Install</li>
     </ul>
   </div>
 
@@ -186,7 +233,7 @@ code {
       <li>Open uBlock Origin dashboard</li>
       <li>Go to Filter Lists</li>
       <li>Scroll to Custom</li>
-      <li>Paste this URL</li>
+      <li>Paste the link below</li>
     </ul>
 
     <code>
