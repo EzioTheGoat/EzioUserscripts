@@ -18,6 +18,20 @@
 Fix CimaNow & Arabseed in minutes
 </p>
 
+<h3 align="center">🎬 Video Guide</h3>
+
+<p align="center">
+<a href="https://youtu.be/wnTa65L0IjI">
+<img src="https://img.shields.io/badge/▶️%20Watch%20Tutorial%20on%20YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white" height="60">
+</a>
+</p>
+
+<p align="center">
+Step by step setup for beginners
+</p>
+
+<br>
+
 <br><br>
 
 <table>
