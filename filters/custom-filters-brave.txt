@@ -815,9 +815,6 @@ asd.rest##video
 asd.quest##video
 m15.asd.rest##video
 
-! CimaNow
-
-
 ! https://web184.faselhd.cafe
 web184.faselhd.cafe##.ml-auto.mr-4.headerItems > .promoLink
 ##body > div:has(> div > a[href^="https://www.faselplus.com/onboarding"])
