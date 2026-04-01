@@ -861,3 +861,4 @@ cimanow.cc#@#[href*="blockID"]
 cimanow.cc##[src="https://i.ibb.co/MMgpK0B/Phone.jpg"]
 cimanow.cc#@#+js(set, HTMLImageElement.prototype.onerror, undefined)
 cimanow.cc#@#[href*="blockID"]
+@@||flashtalking.com^$image,redirect=2x2.png,domain=cimanow.cc
