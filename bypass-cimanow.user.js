@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bypass CimaNow
 // @namespace    Ezio Scripts
-// @version      5.0
+// @version      5.1
 // @description  This script enhances your experience by blocking popups, preventing fake redirects, and blocking intrusive advertisements for a seamless streaming experience.
 // @author       Ezio Auditore
 // @icon         https://i.ibb.co/zVkV324z/Ezio.png
@@ -11,8 +11,8 @@
 // @match        *://*.upns.online/*
 // @match        *://*.freex2line.online/*
 // @match        *://*.pp.ua/*
+// @require      https://userscripts.adtidy.org/release/adguard-extra/1.0/adguard-extra.user.js
 // @grant        none
-// @require      https://userscripts.adtidy.org/release/adguard-extra/1.0/adguard-extra.user.js
 // @run-at       document-start
 // @updateURL    https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/bypass-cimanow.user.js
 // @downloadURL  https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/bypass-cimanow.user.js
@@ -20,7 +20,7 @@
 
 (function IIFE() {
   "use strict";
-
+  var _isFF = /Firefox/.test(navigator.userAgent);
   var _$ = [
     "\x42\x72\x61\x76\x65",
     "\x43\x68\x72\x6f\x6d\x65",
@@ -541,8 +541,8 @@
     } catch (_) {}
   }
 
- // _mb();
- // _fag();
+  if (!_isFF) _mb();
+  // _fag();
 
   if (_md(_$[28]) || _md(_$[29])) {
     _prf();
@@ -552,7 +552,7 @@
     {
       d: _$[28],
       fn: function () {
-      //  _bjd();
+        if (!_isFF) _bjd();
       },
     },
     {
