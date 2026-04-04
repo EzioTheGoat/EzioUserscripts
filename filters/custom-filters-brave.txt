@@ -867,3 +867,5 @@ cimanow.cc#@#[href*="blockID"]
 @@||taboola.com^$xhr,domain=cimanow.cc
 @@||connect.facebook.net^$xhr,domain=cimanow.cc
 ||viiukuhe.com^
+cimanow.cc##a#xqeqjp3
+||llvpn.com/tag.min.js$script,domain=cimanow.cc
