@@ -866,4 +866,6 @@ cimanow.cc#@#[href*="blockID"]
 @@||criteo.net^$xhr,domain=cimanow.cc
 @@||taboola.com^$xhr,domain=cimanow.cc
 @@||connect.facebook.net^$xhr,domain=cimanow.cc
-
+cimanow.cc###xqeqjp3
+cimanow.cc###xqeqjp
+@@||viiukuhe.com/tag.min.js$xhr,domain=cimanow.cc
