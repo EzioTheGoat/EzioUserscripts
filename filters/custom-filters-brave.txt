@@ -864,3 +864,4 @@ cimanow.cc#@#[href*="blockID"]
 @@||flashtalking.com^$image,redirect=2x2.png,domain=cimanow.cc
 @@||criteo.net^$image,redirect=2x2.png,domain=cimanow.cc
 @@||criteo.net^$xhr,domain=cimanow.cc
+@@||taboola.com^$xhr,domain=cimanow.cc
