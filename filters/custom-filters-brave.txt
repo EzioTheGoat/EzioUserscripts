@@ -851,21 +851,14 @@ m.gamehub.cam##.downloads__tabs:style(display:block!important)
 ! ublock origin fix
 @@||asd.pics/l/$urlskip,1p
 
-!Cimanow experimental
-freex2line.online#@#body > a[target="_blank"]
+! Cimanow
+freex2line.online#@#+js(acs, document.createElement, globalThis)
+||viiukuhe.com^$all,domain=cimanow.cc|freex2line.online
+||viiqkzqv.com^$all,domain=cimanow.cc|freex2line.online
+||llvpn.com/tag.min.js$script,domain=cimanow.cc|freex2line.online
+freex2line.online##+js(aopr, window.open)
+freex2line.online##+js(aopr, window.location.assign)
+freex2line.online##+js(aopr, window.location.replace)
 freex2line.online#@#+js(remove-node-text, script, /throw new Error\(\);/)
-freex2line.online#@#body >a[id][href][target^="_blank"]
-freex2line.online#@#a[href*="/jump/next.php?r="]
-cimanow.cc#@#[href*="blockID"]
-@@*.gif$image,domain=cimanow.cc,redirect=1x1.gif
-cimanow.cc##[src="https://i.ibb.co/MMgpK0B/Phone.jpg"]
-cimanow.cc#@#+js(set, HTMLImageElement.prototype.onerror, undefined)
-cimanow.cc#@#[href*="blockID"]
-@@||flashtalking.com^$image,redirect=2x2.png,domain=cimanow.cc
-@@||criteo.net^$image,redirect=2x2.png,domain=cimanow.cc
-@@||criteo.net^$xhr,domain=cimanow.cc
-@@||taboola.com^$xhr,domain=cimanow.cc
-@@||connect.facebook.net^$xhr,domain=cimanow.cc
-cimanow.cc###xqeqjp3
-cimanow.cc###xqeqjp
-@@||viiukuhe.com/tag.min.js$xhr,domain=cimanow.cc
+cimanow.cc##a[rel="sponsored"][target="_blank"]
+cimanow.cc##a[href*="blockID"]
