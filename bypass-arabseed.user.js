@@ -2,7 +2,7 @@
 // @name         Bypass ArabSeed
 // @name:ar      تخطي عرب سيد
 // @namespace    Violentmonkey Scripts
-// @version      2.6
+// @version      2.7
 // @description  Automatically bypass the countdown and show the download link
 // @description:ar هذا السكربت مخصص لتحسين تجربتك على موقع عرب سيد من خلال تجاوز العراقيل المختلفة مثل مؤقت العد التنازلي، النوافذ المنبثقة، التحويلات المزيفة، وفتح صفحة التحميل مباشرةً. استمتع بتجربة مشاهدة سلسة دون انقطاع!
 // @author       Ezio Auditore
@@ -161,12 +161,13 @@
           !u.includes("asd4a=1"),
       },
       "asd.pics": {
-        p: ["asd8a=1", "asd88b=1"],
+        p: ["asd8a=1", "asd88b=1", "asd87c=1"],
         t: (u) =>
           u.includes("/category/downloadz/") &&
           u.includes("r=") &&
           !u.includes("asd8a=1") &&
-          !u.includes("asd88b=1"),
+          !u.includes("asd88b=1") &&
+          !u.includes("asd87c=1"),
       },
     },
   };
