@@ -861,4 +861,5 @@ freex2line.online##+js(aopr, window.location.assign)
 freex2line.online##+js(aopr, window.location.replace)
 freex2line.online#@#+js(remove-node-text, script, /throw new Error\(\);/)
 cimanow.cc##a[rel="sponsored"][target="_blank"]
-cimanow.cc##a[href*="blockID"]
+@@||ad.doubleclick.net/ddm/activity/$xhr,domain=cimanow.cc
+cimanow.cc#@#a[href*="blockID"]
