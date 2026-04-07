@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bypass CimaNow — UI
 // @namespace    Ezio Scripts
-// @version      5.1
+// @version      1.0
 // @match        *://*.cimanow.cc/*
 // @run-at       document-start
 // @grant        none
