@@ -866,3 +866,5 @@ cimanow.cc#@#a[href*="blockID"]
 @@*.gif$image,domain=cimanow.cc,redirect=1x1.gif
 cimanow.cc#@#[href*="blockID"]
 @@||imasdk.googleapis.com/js/sdkloader/ima3.js$xhr,domain=freex2line.online
+! Android
+||i.ibb.co/MMgpK0B/Phone.jpg$image,domain=cimanow.cc
