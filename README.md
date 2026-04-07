@@ -37,12 +37,21 @@ Step by step setup for beginners
 <table>
 <tr>
 
+<tr>
 <td align="center">
 <a href="https://github.com/EzioTheGoat/EzioUserscripts/raw/refs/heads/main/bypass-cimanow.user.js">
 <img src="https://i.imgur.com/blh1X07.png" height="110"><br>
 <img src="https://img.shields.io/badge/INSTALL-CIMANOW-E41E26?style=for-the-badge">
 </a>
 </td>
+
+<td align="center">
+<a href="https://github.com/EzioTheGoat/EzioUserscripts/raw/refs/heads/main/bypass-cimanowUI.user.js">
+<img src="https://i.imgur.com/blh1X07.png" height="110"><br>
+<img src="https://img.shields.io/badge/INSTALL-CIMANOW%20UI-6C5CE7?style=for-the-badge">
+</a>
+</td>
+</tr>
 
 <td align="center">
 <a href="https://github.com/EzioTheGoat/EzioUserscripts/raw/refs/heads/main/bypass-arabseed.user.js">
