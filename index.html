@@ -18,7 +18,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Animated gradient glow */
+/* Glow */
 body::before {
   content:"";
   position:fixed;
@@ -34,160 +34,89 @@ body::before {
 
 @keyframes moveGlow {
   from { transform: translate(0,0); }
-  to { transform: translate(120px,120px); }
+  to { transform: translate(200px,100px); }
 }
 
-/* Layout */
 .container {
-  max-width:1000px;
+  max-width:1100px;
   margin:auto;
-  padding:20px;
+  padding:40px 20px;
+  text-align:center;
 }
 
-/* Banner */
 .banner {
   width:100%;
-  border-radius:22px;
-  margin-top:20px;
-  box-shadow:0 25px 70px rgba(0,0,0,0.6);
-  animation: fadeUp 1s ease;
-}
-
-/* Hero */
-.hero {
-  text-align:center;
-  margin-top:50px;
-  animation: fadeUp 1.2s ease;
+  border-radius:20px;
+  margin-bottom:40px;
 }
 
 .hero h1 {
-  font-size:46px;
+  font-size:38px;
+  margin-bottom:10px;
 }
 
 .hero p {
-  margin-top:10px;
-  color:#9aa4b2;
-  font-size:18px;
+  opacity:0.7;
+  margin-bottom:30px;
 }
 
-/* Buttons */
 .buttons {
-  margin-top:40px;
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  flex-wrap:wrap;
 }
 
 .btn {
   display:flex;
   align-items:center;
-  justify-content:center;
-  gap:12px;
-  margin:15px auto;
-  padding:18px;
-  font-size:18px;
-  font-weight:600;
-  border-radius:16px;
+  gap:10px;
+  padding:16px 22px;
+  border-radius:14px;
   text-decoration:none;
-  color:white;
-  max-width:420px;
-  position:relative;
-  overflow:hidden;
-  transition:0.3s;
+  font-weight:600;
+  transition:0.25s;
 }
 
-.btn img { width:26px; }
-
-/* shine */
-.btn::after {
-  content:"";
-  position:absolute;
-  width:200%;
-  height:100%;
-  left:-200%;
-  top:0;
-  background:linear-gradient(120deg,transparent,rgba(255,255,255,0.3),transparent);
-  transition:0.6s;
+.btn img {
+  height:26px;
 }
 
-.btn:hover::after { left:200%; }
+.btn-red { background:#e41e26; color:white; }
+.btn-green { background:#00b894; color:white; }
+.btn-purple { background:#6c5ce7; color:white; }
 
 .btn:hover {
-  transform: translateY(-6px) scale(1.03);
-  box-shadow:0 30px 60px rgba(0,0,0,0.7);
+  transform:translateY(-4px) scale(1.05);
+  box-shadow:0 20px 40px rgba(0,0,0,0.6);
 }
 
-.btn-red {
-  background:linear-gradient(135deg,#ff3b3b,#7a0000);
-}
-
-.btn-green {
-  background:linear-gradient(135deg,#2ecc71,#145a32);
-}
-
-/* Section */
 .section {
-  margin-top:80px;
+  margin-top:60px;
+  display:grid;
+  gap:20px;
 }
 
-/* Cards */
 .card {
-  opacity:0;
-  transform: translateY(40px);
-  background: rgba(255,255,255,0.05);
-  border:1px solid rgba(255,255,255,0.08);
-  padding:28px;
-  border-radius:18px;
-  margin-bottom:20px;
-  backdrop-filter: blur(14px);
-  transition:0.5s;
-}
-
-.card.show {
-  opacity:1;
-  transform: translateY(0);
-}
-
-.card:hover {
-  transform: translateY(-6px);
+  background:#0c1017;
+  padding:25px;
+  border-radius:16px;
+  text-align:left;
+  border:1px solid rgba(255,255,255,0.05);
 }
 
 .card h2 {
-  margin-bottom:12px;
-}
-
-ul {
-  padding-left:18px;
-}
-
-li { margin-bottom:8px; }
-
-/* Copy */
-.copy-box {
-  background:#0f1420;
-  padding:12px;
-  border-radius:10px;
-  margin-top:10px;
-  cursor:pointer;
-  transition:0.2s;
-}
-
-.copy-box:hover {
-  background:#1a2230;
-  transform:scale(1.02);
-}
-
-/* Telegram section */
-.telegram {
-  margin-top:80px;
-  text-align:center;
-  animation: fadeUp 1.5s ease;
-}
-
-.telegram h2 {
   margin-bottom:10px;
 }
 
-.telegram p {
-  color:#9aa4b2;
-  margin-bottom:20px;
+.card ul {
+  opacity:0.8;
+  line-height:1.8;
+}
+
+/* Telegram */
+.telegram {
+  margin-top:50px;
 }
 
 .telegram a {
@@ -212,12 +141,6 @@ li { margin-bottom:8px; }
   margin-top:60px;
   color:#777;
 }
-
-/* Animations */
-@keyframes fadeUp {
-  from { opacity:0; transform: translateY(30px); }
-  to { opacity:1; transform: translateY(0); }
-}
 </style>
 </head>
 
@@ -232,15 +155,25 @@ li { margin-bottom:8px; }
   <p>Remove ads, bypass anti adblock, stop redirects instantly</p>
 
   <div class="buttons">
-    <a class="btn btn-red" href="https://github.com/EzioTheGoat/EzioUserscripts/raw/refs/heads/main/bypass-cimanow.user.js">
+
+    <!-- MAIN -->
+    <a class="btn btn-red" href="https://github.com/EzioTheGoat/EzioUserscripts/raw/main/bypass-cimanow.user.js">
       <img src="https://i.imgur.com/blh1X07.png">
       Install CimaNow
     </a>
 
-    <a class="btn btn-green" href="https://github.com/EzioTheGoat/EzioUserscripts/raw/refs/heads/main/bypass-arabseed.user.js">
+    <!-- UI -->
+    <a class="btn btn-purple" href="https://github.com/EzioTheGoat/EzioUserscripts/raw/main/bypass-cimanowUI.user.js">
+      <img src="https://i.imgur.com/blh1X07.png">
+      Install UI (Recommended)
+    </a>
+
+    <!-- ARABSEED -->
+    <a class="btn btn-green" href="https://github.com/EzioTheGoat/EzioUserscripts/raw/main/bypass-arabseed.user.js">
       <img src="https://i.imgur.com/purcqbc.png">
       Install Arabseed
     </a>
+
   </div>
 </div>
 
@@ -271,52 +204,17 @@ li { margin-bottom:8px; }
     </ul>
   </div>
 
-  <div class="card">
-    <h2>Step 4. Install Script</h2>
-    <ul>
-      <li>Click button above</li>
-      <li>Press Install</li>
-    </ul>
-  </div>
-
-  <div class="card">
-    <h2>Step 5. Add Filter List</h2>
-    <div class="copy-box" onclick="copyText()">
-https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/filters/custom-filters-brave.txt
-    </div>
-  </div>
-
 </div>
 
 <div class="telegram">
-  <h2>Have a question?</h2>
-  <p>Join the Telegram channel for updates and support</p>
-  <a href="https://t.me/EzioTheGoatScripts">Join Telegram</a>
+  <a href="#">Join Telegram</a>
 </div>
 
 <div class="footer">
-  Built for Arabic streaming users
+  Ezio Scripts © 2026
 </div>
 
 </div>
-
-<script>
-function copyText() {
-  navigator.clipboard.writeText("https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/filters/custom-filters-brave.txt");
-  alert("Copied");
-}
-
-const cards = document.querySelectorAll(".card");
-
-window.addEventListener("scroll", () => {
-  cards.forEach(card => {
-    const rect = card.getBoundingClientRect();
-    if (rect.top < window.innerHeight - 80) {
-      card.classList.add("show");
-    }
-  });
-});
-</script>
 
 </body>
 </html>
