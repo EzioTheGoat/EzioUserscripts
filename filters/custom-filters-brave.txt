@@ -872,5 +872,7 @@ freex2line.online#@#a[href*="/jump/next.php?r="]
 freex2line.online#@#body > a[target="_blank"]
 @@||flashtalking.com^$image,redirect=2x2.png,domain=cimanow.cc|cimanow.online
 @@||imasdk.googleapis.com^$script,xhr,domain=cimanow.cc
+@@||pagead2.googlesyndication.com^$xhr
+||pagead2.googlesyndication.com^$xhr,redirect-rule=noop.js
 ! Android
 ||i.ibb.co/MMgpK0B/Phone.jpg$image,domain=cimanow.cc
