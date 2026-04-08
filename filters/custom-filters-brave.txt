@@ -867,5 +867,10 @@ cimanow.cc#@#a[href*="blockID"]
 @@||onclickads.net^$domain=rm.freex2line.online
 cimanow.cc#@#[href*="blockID"]
 @@||imasdk.googleapis.com/js/sdkloader/ima3.js$xhr,domain=freex2line.online
+freex2line.online#@#body >a[id][href][target^="_blank"]
+freex2line.online#@#a[href*="/jump/next.php?r="]
+freex2line.online#@#body > a[target="_blank"]
+@@||flashtalking.com^$image,redirect=2x2.png,domain=cimanow.cc|cimanow.online
+@@||imasdk.googleapis.com^$script,xhr,domain=cimanow.cc
 ! Android
 ||i.ibb.co/MMgpK0B/Phone.jpg$image,domain=cimanow.cc
