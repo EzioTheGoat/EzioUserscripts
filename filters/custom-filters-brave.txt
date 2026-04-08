@@ -875,5 +875,6 @@ freex2line.online#@#body > a[target="_blank"]
 @@||pagead2.googlesyndication.com^$xhr
 ||pagead2.googlesyndication.com^$xhr,redirect-rule=noop.js
 @@||mc.yandex.ru^$domain=freex2line.online
+@@||quantserve.com^$domain=rm.freex2line.online
 ! Android
 ||i.ibb.co/MMgpK0B/Phone.jpg$image,domain=cimanow.cc
