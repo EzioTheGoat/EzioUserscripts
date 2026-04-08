@@ -878,5 +878,6 @@ freex2line.online#@#body > a[target="_blank"]
 @@||quantserve.com^$domain=rm.freex2line.online
 ||quantserve.com^$xhr,redirect=noop.txt,domain=rm.freex2line.online
 ||mc.yandex.ru^$xhr,redirect=noop.txt,domain=freex2line.online
+@@||scorecardresearch.com^$domain=freex2line.online
 ! Android
 ||i.ibb.co/MMgpK0B/Phone.jpg$image,domain=cimanow.cc
