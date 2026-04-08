@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bypass CimaNow — UI
 // @namespace    Ezio Scripts
-// @version      1.4
+// @version      1.5
 // @match        *://*.cimanow.cc/*
 // @run-at       document-start
 // @grant        none
@@ -16,8 +16,12 @@
 
   if (!isWatchPage) return;
 
+  const _setTimeout = window.setTimeout.bind(window);
+  const _createObjectURL = URL.createObjectURL.bind(URL);
+  const _Blob = window.Blob;
+  const _log = console.log.bind(console);
+
   let extracted = null;
-  let opened = false;
 
   function extractMediaInfo() {
     const path = decodeURIComponent(location.pathname);
@@ -56,36 +60,51 @@
         .map(w => /^[a-zA-Z]/.test(w) ? w.charAt(0).toUpperCase() + w.slice(1).toLowerCase() : w)
         .join(" ");
     }
-    if (!info.title) {
-      try {
-        const pt = document.querySelector("h1")?.innerText || document.title || "";
-        info.title = pt.replace(/مشاهدة|تحميل|اونلاين|مترجم[ةه]?|مدبلج[ةه]?|cimanow|سيما\s*ناو/gi, "")
-          .replace(/[-|–—:]/g, " ").replace(/\s+/g, " ").trim();
-      } catch (e) {}
-    }
     return info;
   }
 
-  function extract() {
-    const links = [...document.querySelectorAll("ul#download a")];
-    if (!links.length) return null;
-    const grouped = {};
-    links.forEach(a => {
-      const href = a.href;
-      if (!href) return;
-      const li = a.closest("li");
-      const spanEl = li?.querySelector("span");
-      if (!spanEl) return;
-      const title = spanEl.innerText.trim();
-      if (!title) return;
-      if (!grouped[title]) grouped[title] = [];
-      const text = a.innerText.trim();
-      const qm = text.match(/(360|480|720|1080)/);
-      const quality = qm ? qm[0] + "p" : null;
-      const size = a.querySelector("p")?.innerText.trim() || "";
-      grouped[title].push({ quality, name: text, size, url: href });
-    });
-    return Object.keys(grouped).length ? grouped : null;
+  function extractFromHTML(html) {
+    try {
+      const doc = new DOMParser().parseFromString(html, "text/html");
+      const ul = doc.querySelector("ul#download");
+      if (!ul || !ul.querySelectorAll("a").length) return null;
+
+      const groups = {};
+      ul.querySelectorAll("li").forEach(li => {
+        const spanEl = li.querySelector("span");
+        if (!spanEl) return;
+        const groupName = spanEl.textContent.replace(/[:\s]+$/, "").trim();
+        if (!groupName) return;
+        if (!groups[groupName]) groups[groupName] = [];
+
+        li.querySelectorAll("a").forEach(a => {
+          const rawHref = a.getAttribute("href");
+          if (!rawHref || rawHref === "#") return;
+
+          let linkText = "";
+          a.childNodes.forEach(n => { if (n.nodeType === 3) linkText += n.textContent; });
+          linkText = linkText.trim();
+
+          const qm = linkText.match(/(360|480|720|1080)/);
+          const quality = qm ? qm[0] + "p" : null;
+          const pEl = a.querySelector("p");
+          const size = pEl ? pEl.textContent.trim() : "";
+          const url = rawHref.replace(/^https?:\/\/href\.li\/\?/, "").replace(/&amp;/g, "&");
+
+          groups[groupName].push({ quality, name: linkText || "Download", size, url });
+        });
+      });
+
+      // Try to grab page title
+      const h1 = doc.querySelector("h1");
+      if (h1) {
+        extractFromHTML._pageTitle = h1.textContent
+          .replace(/مشاهدة|تحميل|اونلاين|مترجم[ةه]?|مدبلج[ةه]?|cimanow|سيما\s*ناو/gi, "")
+          .replace(/[-|–—:]/g, " ").replace(/\s+/g, " ").trim();
+      }
+
+      return Object.keys(groups).length ? groups : null;
+    } catch (e) { return null; }
   }
 
   function getQM(q) {
@@ -98,53 +117,10 @@
     return map[q] || { label: q || "Link", tag: "", color: "#8b5cf6", border: "rgba(139,92,246,0.25)", bg: "rgba(139,92,246,0.08)", tier: 0 };
   }
 
-  function killSite() {
-    window.stop();
-
-    const maxId = setTimeout(() => {}, 0);
-    for (let i = 0; i <= maxId; i++) {
-      clearTimeout(i);
-      clearInterval(i);
-    }
-
-    const noop = () => {};
-    try {
-      const origCreateElement = document.createElement.bind(document);
-      document.createElement = function (tag) {
-        const el = origCreateElement(tag);
-        if (tag.toLowerCase() === "script") {
-          Object.defineProperty(el, "src", { set: noop, get: () => "" });
-          Object.defineProperty(el, "textContent", { set: noop, get: () => "" });
-          Object.defineProperty(el, "innerHTML", { set: noop, get: () => "" });
-        }
-        return el;
-      };
-    } catch (e) {}
-
-    document.querySelectorAll("script").forEach(s => s.remove());
-
-    const origAssign = location.assign;
-    const origReplace = location.replace;
-    try {
-      Object.defineProperty(window, "onbeforeunload", { set: noop, get: () => null });
-    } catch (e) {}
-
-    try {
-      window.XMLHttpRequest.prototype.open = noop;
-      window.XMLHttpRequest.prototype.send = noop;
-      window.fetch = () => Promise.reject();
-    } catch (e) {}
-
-    document.querySelectorAll('link[rel="stylesheet"], style').forEach(s => s.remove());
-  }
-
-  function openUI(data) {
-    if (opened || !data) return;
-    opened = true;
-
-    killSite();
-
+  function launchUI(data) {
     const media = extractMediaInfo();
+    if (extractFromHTML._pageTitle && !media.title) media.title = extractFromHTML._pageTitle;
+
     const totalLinks = Object.values(data).flat().length;
     const totalGroups = Object.keys(data).length;
     const bestQuality =
@@ -152,7 +128,7 @@
         .sort((a, b) => parseInt(b.quality) - parseInt(a.quality))[0]?.quality || "N/A";
     const hasSE = media.type !== "movie" && (media.season !== null || media.episode !== null);
 
-    const groupsHTML = Object.entries(data).map(([title, items], idx) => {
+    const groupsHTML = Object.entries(data).map(([title, items]) => {
       const qi = items.filter(i => i.quality).sort((a, b) => getQM(b.quality).tier - getQM(a.quality).tier);
       const oi = items.filter(i => !i.quality);
 
@@ -188,8 +164,7 @@
       </div>`;
     }).join("");
 
-    document.open();
-    document.write(`<!DOCTYPE html>
+    const fullHTML = `<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -206,7 +181,6 @@ body{
 }
 a{text-decoration:none;color:inherit;-webkit-tap-highlight-color:transparent}
 
-/* BG — lightweight, no blur for mobile perf */
 body::before{
   content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
   background:
@@ -226,7 +200,6 @@ body::after{
 
 .page{position:relative;z-index:2;max-width:860px;margin:0 auto;padding:clamp(28px,5vw,48px) clamp(14px,3vw,24px) 60px}
 
-/* HERO */
 .hero{display:flex;flex-direction:column;align-items:center;text-align:center;margin-bottom:clamp(28px,5vw,48px);animation:fadeUp .6s ease both}
 .hero-badge{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(99,102,241,.12),rgba(34,211,238,.08));border:1px solid rgba(99,102,241,.2);border-radius:100px;padding:8px 20px;margin-bottom:18px;font-size:11px;font-weight:600;color:#22d3ee;letter-spacing:.06em;text-transform:uppercase}
 .dot{width:7px;height:7px;border-radius:50%;background:#22d3ee;animation:pulse 2s ease infinite}
@@ -240,7 +213,6 @@ body::after{
 .chip-y{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.35);font-weight:600;font-size:10px}
 .hero p{font-size:clamp(13px,2vw,15px);color:rgba(255,255,255,.5);max-width:460px;line-height:1.7}
 
-/* STATS */
 .stats{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:clamp(28px,4vw,40px);animation:fadeUp .6s ease .12s both}
 .stat{display:flex;align-items:center;gap:10px;padding:clamp(8px,1.5vw,12px) clamp(14px,2.5vw,18px);border-radius:14px;background:#10102a;border:1px solid rgba(255,255,255,.08)}
 .stat-ico{width:34px;height:34px;border-radius:10px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
@@ -248,7 +220,6 @@ body::after{
 .stat-v{font-size:clamp(15px,2.5vw,17px);font-weight:700;line-height:1.2}
 .stat-l{font-size:10px;color:rgba(255,255,255,.3);margin-top:1px}
 
-/* GROUPS */
 .grp{background:#10102a;border:1px solid rgba(255,255,255,.08);border-radius:20px;overflow:hidden;margin-bottom:18px;animation:fadeUp .5s ease both;transition:border-color .3s,box-shadow .3s}
 .grp:hover{border-color:rgba(99,102,241,.2);box-shadow:0 8px 36px rgba(99,102,241,.06)}
 .grp-h{display:flex;align-items:center;gap:12px;padding:clamp(14px,2.5vw,20px) clamp(16px,3vw,24px);border-bottom:1px solid rgba(255,255,255,.04)}
@@ -256,7 +227,6 @@ body::after{
 .grp-title{font-size:clamp(13px,2vw,15px);font-weight:700;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .grp-cnt{font-size:11px;font-weight:600;color:rgba(255,255,255,.3);background:rgba(255,255,255,.04);padding:5px 12px;border-radius:100px;border:1px solid rgba(255,255,255,.04);flex-shrink:0}
 
-/* QUALITY CARDS */
 .qg{display:grid;grid-template-columns:repeat(auto-fill,minmax(clamp(100px,22vw,140px),1fr));gap:10px;padding:clamp(14px,2.5vw,20px) clamp(16px,3vw,24px)}
 .qc{position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;padding:clamp(14px,2.5vw,20px) clamp(10px,2vw,20px) clamp(12px,2vw,16px);border-radius:16px;background:#161638;border:1px solid var(--abr,rgba(255,255,255,.08));color:#fff;cursor:pointer;transition:transform .2s,box-shadow .25s,border-color .25s;animation:fadeUp .4s ease both;min-height:44px}
 .qc:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(0,0,0,.4),0 0 0 1px var(--ac);border-color:var(--ac)}
@@ -274,14 +244,12 @@ body::after{
 .qc-dl{margin-top:10px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.3);transition:background .2s,color .2s,transform .2s}
 .qc:hover .qc-dl{background:var(--ab);color:var(--ac);transform:scale(1.1)}
 
-/* OTHER LINKS */
 .og{display:flex;flex-wrap:wrap;gap:8px;padding:0 clamp(16px,3vw,24px) clamp(14px,2.5vw,20px)}
 .qg+.og{padding-top:0}
 .og:first-child{padding-top:clamp(14px,2.5vw,20px)}
 .ol{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;border-radius:11px;background:rgba(139,92,246,.06);border:1px solid rgba(139,92,246,.12);color:#a78bfa;font-size:12px;font-weight:500;transition:background .15s,border-color .15s,transform .15s;animation:fadeUp .4s ease both;min-height:44px}
 .ol:hover{background:rgba(139,92,246,.14);border-color:rgba(139,92,246,.3);transform:translateY(-1px)}
 
-/* FOOTER */
 .ft{display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;margin-top:clamp(32px,5vw,48px);padding-top:28px;border-top:1px solid rgba(255,255,255,.04);animation:fadeUp .5s ease .4s both}
 .ft-brand{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:rgba(255,255,255,.25)}
 .ft-brand svg{opacity:.4}
@@ -301,7 +269,6 @@ body::after{
 ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08);border-radius:10px}
 ::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.15)}
 
-/* MOBILE */
 @media(max-width:480px){
   .qg{grid-template-columns:repeat(2,1fr);gap:8px}
   .qc{padding:12px 8px 10px}
@@ -321,14 +288,9 @@ body::after{
 </style>
 </head>
 <body>
-
 <div class="page">
-
   <div class="hero">
-    <div class="hero-badge">
-      <span class="dot"></span>
-      CimaNow Bypass — Active
-    </div>
+    <div class="hero-badge"><span class="dot"></span>CimaNow Bypass — Active</div>
     <div class="hero-ico">
       ${media.type === "series" || media.type === "anime"
         ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg>'
@@ -378,37 +340,60 @@ body::after{
     </div>
     <small>مجاني ومفتوح المصدر — ${new Date().getFullYear()}</small>
   </div>
-
 </div>
-
 </body>
-</html>`);
-    document.close();
-  }
+</html>`;
 
-  const observer = new MutationObserver(() => {
-    if (extracted) return;
-    const result = extract();
-    if (result) {
-      extracted = result;
-      observer.disconnect();
-      openUI(result);
-    }
-  });
-
-  function start() {
-    observer.observe(document, { childList: true, subtree: true });
-    setTimeout(() => {
-      if (!extracted) {
-        const result = extract();
-        if (result) openUI(result);
+    try {
+      const blob = new _Blob([fullHTML], { type: "text/html;charset=utf-8" });
+      const blobURL = _createObjectURL(blob);
+      _log("[CimaNow Bypass] ✅ Navigating to blob URL — site has zero control now.");
+      location.replace(blobURL);
+    } catch (e) {
+      _log("[CimaNow Bypass] Blob redirect failed, trying window.open...");
+      try {
+        const blob = new _Blob([fullHTML], { type: "text/html;charset=utf-8" });
+        const blobURL = _createObjectURL(blob);
+        window.open(blobURL, "_self");
+      } catch (e2) {
+        _log("[CimaNow Bypass] All blob methods failed, using document.write fallback...");
+        window.stop();
+        document.open();
+        document.write(fullHTML);
+        document.close();
       }
-    }, 2000);
+    }
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", start);
-  } else {
-    start();
-  }
+  const _origWrite = document.write.bind(document);
+  const _origWriteln = document.writeln.bind(document);
+
+  document.write = function (html) {
+    if (!extracted && typeof html === "string" && html.length > 1000) {
+      const data = extractFromHTML(html);
+      if (data) {
+        extracted = true;
+        _log("[CimaNow Bypass] ✅ Extracted " + Object.values(data).flat().length + " links. Leaving site...");
+        _setTimeout(() => launchUI(data), 0);
+        return;
+      }
+    }
+    return _origWrite(html);
+  };
+
+  document.writeln = function (html) {
+    if (!extracted && typeof html === "string" && html.length > 1000) {
+      const data = extractFromHTML(html);
+      if (data) {
+        extracted = true;
+        _log("[CimaNow Bypass] ✅ Extracted via writeln. Leaving site...");
+        _setTimeout(() => launchUI(data), 0);
+        return;
+      }
+    }
+    return _origWriteln(html);
+  };
+
+  _log("[CimaNow Bypass] ⏳ Interceptor ready. Waiting for decoded HTML...");
+
 })();
