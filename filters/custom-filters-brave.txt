@@ -852,7 +852,7 @@ m.gamehub.cam##.downloads__tabs:style(display:block!important)
 @@||asd.pics/l/$urlskip,1p
 
 ! Cimanow
-@@*tag.min.js*$script,domain=freex2line.online
+!@@*tag.min.js*$script,domain=freex2line.online
 freex2line.online#@#+js(acs, document.createElement, globalThis)
 freex2line.online#@#+js(remove-node-text, script, /throw new Error\(\);/)
 freex2line.online#@#body >a[id][href][target^="_blank"]
