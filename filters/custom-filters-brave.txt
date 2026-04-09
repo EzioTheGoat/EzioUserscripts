@@ -852,33 +852,16 @@ m.gamehub.cam##.downloads__tabs:style(display:block!important)
 @@||asd.pics/l/$urlskip,1p
 
 ! Cimanow
-freex2line.online#@#+js(acs, document.createElement, globalThis)
-||viiukuhe.com^$all,domain=cimanow.cc|freex2line.online
-||viiqkzqv.com^$all,domain=cimanow.cc|freex2line.online
-||llvpn.com/tag.min.js$script,domain=cimanow.cc|freex2line.online
+@@*tag.min.js*$script,domain=freex2line.online
 freex2line.online##+js(aopr, window.open)
 freex2line.online##+js(aopr, window.location.assign)
 freex2line.online##+js(aopr, window.location.replace)
+freex2line.online#@#+js(acs, document.createElement, globalThis)
 freex2line.online#@#+js(remove-node-text, script, /throw new Error\(\);/)
-cimanow.cc##a[rel="sponsored"][target="_blank"]
-@@||ad.doubleclick.net/ddm/activity/$xhr,domain=cimanow.cc|freex2line.online
-cimanow.cc#@#a[href*="blockID"]
-@@*.gif$image,domain=cimanow.cc,redirect=1x1.gif
-@@||onclickads.net^$domain=rm.freex2line.online
-cimanow.cc#@#[href*="blockID"]
-@@||imasdk.googleapis.com/js/sdkloader/ima3.js$xhr,domain=freex2line.online
 freex2line.online#@#body >a[id][href][target^="_blank"]
 freex2line.online#@#a[href*="/jump/next.php?r="]
 freex2line.online#@#body > a[target="_blank"]
-@@||flashtalking.com^$image,redirect=2x2.png,domain=cimanow.cc|cimanow.online
-@@||imasdk.googleapis.com^$script,xhr,domain=cimanow.cc
-@@||pagead2.googlesyndication.com^$xhr
-||pagead2.googlesyndication.com^$xhr,redirect-rule=noop.js
-@@||mc.yandex.ru^$domain=freex2line.online
-@@||quantserve.com^$domain=rm.freex2line.online
-||quantserve.com^$xhr,redirect=noop.txt,domain=rm.freex2line.online
-||mc.yandex.ru^$xhr,redirect=noop.txt,domain=freex2line.online
-@@||scorecardresearch.com^$domain=freex2line.online
-@@||google.com/pagead/1p-conversion/$domain=rm.freex2line.online
-@@||bvtpk.com/tag.min.js$script,domain=freex2line.online
+cimanow.cc##a[rel="sponsored"][target="_blank"]
+||viiukuhe.com^$all,domain=cimanow.cc|freex2line.online
+||viiqkzqv.com^$all,domain=cimanow.cc|freex2line.online
 ||i.ibb.co/MMgpK0B/Phone.jpg$image,domain=cimanow.cc
