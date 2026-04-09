@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bypass CimaNow
 // @namespace    Ezio Scripts
-// @version      5.5
+// @version      5.6
 // @description  This script enhances your experience by blocking popups, preventing fake redirects, and blocking intrusive advertisements for a seamless streaming experience.
 // @author       Ezio Auditore
 // @icon         https://i.ibb.co/zVkV324z/Ezio.png
@@ -11,7 +11,7 @@
 // @match        *://*.upns.online/*
 // @match        *://*.freex2line.online/*
 // @match        *://*.pp.ua/*
-
+// @require      https://userscripts.adtidy.org/release/adguard-extra/1.0/adguard-extra.user.js
 // @grant        none
 // @run-at       document-start
 // @updateURL    https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/bypass-cimanow.user.js
@@ -492,150 +492,6 @@
     });
   }
 
-  function _eznt() {
-    var style = document.createElement("\x73\x74\x79\x6c\x65");
-    style.textContent =
-      "\x40\x69\x6d\x70\x6f\x72\x74\x20\x75\x72\x6c\x28\x27\x68\x74\x74\x70\x73\x3a\x2f\x2f\x66\x6f\x6e\x74\x73\x2e\x67\x6f\x6f\x67\x6c\x65\x61\x70\x69\x73\x2e\x63\x6f\x6d\x2f\x63\x73\x73\x32\x3f\x66\x61\x6d\x69\x6c\x79\x3d\x43\x61\x69\x72\x6f\x3a\x77\x67\x68\x74\x40\x34\x30\x30\x3b\x36\x30\x30\x3b\x37\x30\x30\x26\x64\x69\x73\x70\x6c\x61\x79\x3d\x73\x77\x61\x70\x27\x29\x3b" +
-      ".ezio-toast-container{position:fixed;top:20px;right:20px;z-index:2147483647;pointer-events:none;display:flex;flex-direction:column;gap:10px}" +
-      ".ezio-toast{pointer-events:auto;min-width:340px;max-width:420px;background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);border:1px solid rgba(233,69,96,0.3);border-radius:16px;padding:0;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.5),0 0 40px rgba(233,69,96,0.15),inset 0 1px 0 rgba(255,255,255,0.05);font-family:'Cairo','Segoe UI',Tahoma,sans-serif;direction:rtl;transform:translateX(120%);opacity:0;transition:all 0.5s cubic-bezier(0.68,-0.55,0.265,1.55)}" +
-      ".ezio-toast.ezio-show{transform:translateX(0);opacity:1}" +
-      ".ezio-toast.ezio-hide{transform:translateX(120%);opacity:0;transition:all 0.4s cubic-bezier(0.6,-0.28,0.735,0.045)}" +
-      ".ezio-toast-glow{position:absolute;top:-2px;left:-2px;right:-2px;bottom:-2px;border-radius:17px;background:linear-gradient(45deg,rgba(233,69,96,0.4),rgba(0,210,255,0.4),rgba(233,69,96,0.4));background-size:400% 400%;animation:ezio-glow 3s ease infinite;z-index:-1;filter:blur(8px)}" +
-      "@keyframes ezio-glow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}" +
-      ".ezio-toast-progress{height:3px;background:linear-gradient(90deg,#e94560,#00d2ff,#e94560);background-size:200% 100%;animation:ezio-progress-shine 2s linear infinite;transform-origin:right;transition:transform linear}" +
-      "@keyframes ezio-progress-shine{0%{background-position:200% 0}100%{background-position:-200% 0}}" +
-      ".ezio-toast-body{padding:16px 20px;display:flex;align-items:flex-start;gap:14px}" +
-      ".ezio-toast-icon{flex-shrink:0;width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;background:linear-gradient(135deg,rgba(233,69,96,0.2),rgba(233,69,96,0.05));border:1px solid rgba(233,69,96,0.3);animation:ezio-icon-pulse 2s ease-in-out infinite}" +
-      "@keyframes ezio-icon-pulse{0%,100%{box-shadow:0 0 0 0 rgba(233,69,96,0.3)}50%{box-shadow:0 0 20px 5px rgba(233,69,96,0.15)}}" +
-      ".ezio-toast-content{flex:1;min-width:0}" +
-      ".ezio-toast-title{font-size:14px;font-weight:700;color:#e94560;margin:0 0 4px 0;display:flex;align-items:center;gap:6px;letter-spacing:0.3px}" +
-      ".ezio-toast-badge{font-size:9px;font-weight:600;background:linear-gradient(135deg,#e94560,#c23152);color:white;padding:2px 7px;border-radius:20px;letter-spacing:0.5px;text-transform:uppercase}" +
-      ".ezio-toast-message{font-size:13px;font-weight:400;color:rgba(255,255,255,0.75);margin:0;line-height:1.6}" +
-      ".ezio-toast-close{position:absolute;top:10px;left:12px;width:24px;height:24px;border:none;background:rgba(255,255,255,0.05);border-radius:8px;color:rgba(255,255,255,0.4);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s ease;padding:0;line-height:1}" +
-      ".ezio-toast-close:hover{background:rgba(233,69,96,0.2);color:#e94560;transform:rotate(90deg)}" +
-      ".ezio-toast-footer{padding:0 20px 14px;display:flex;align-items:center;gap:6px}" +
-      ".ezio-toast-footer-text{font-size:10px;color:rgba(255,255,255,0.25);font-weight:600;letter-spacing:0.5px}" +
-      ".ezio-toast-footer-dot{width:3px;height:3px;border-radius:50%;background:rgba(233,69,96,0.5)}" +
-      ".ezio-toast-warn .ezio-toast-icon{background:linear-gradient(135deg,rgba(255,171,0,0.2),rgba(255,171,0,0.05));border-color:rgba(255,171,0,0.3);animation-name:ezio-icon-pulse-warn}" +
-      "@keyframes ezio-icon-pulse-warn{0%,100%{box-shadow:0 0 0 0 rgba(255,171,0,0.3)}50%{box-shadow:0 0 20px 5px rgba(255,171,0,0.15)}}" +
-      ".ezio-toast-warn .ezio-toast-title{color:#ffab00}" +
-      ".ezio-toast-warn .ezio-toast-badge{background:linear-gradient(135deg,#ffab00,#e69500)}" +
-      ".ezio-toast-warn .ezio-toast-progress{background:linear-gradient(90deg,#ffab00,#00d2ff,#ffab00);background-size:200% 100%;animation:ezio-progress-shine 2s linear infinite}" +
-      ".ezio-toast-warn{border-color:rgba(255,171,0,0.3)}" +
-      ".ezio-toast-warn .ezio-toast-glow{background:linear-gradient(45deg,rgba(255,171,0,0.4),rgba(0,210,255,0.4),rgba(255,171,0,0.4));background-size:400% 400%;animation:ezio-glow 3s ease infinite}";
-
-    document.addEventListener(_$[39], function () {
-      document.head.appendChild(style);
-
-      var container = document.createElement("\x64\x69\x76");
-      container.className =
-        "\x65\x7a\x69\x6f\x2d\x74\x6f\x61\x73\x74\x2d\x63\x6f\x6e\x74\x61\x69\x6e\x65\x72";
-      document.body.appendChild(container);
-
-      function _sht(options) {
-        var opts = Object.assign(
-          {
-            icon: "\ud83d\udee1\ufe0f",
-            title: "\x45\x7a\x69\x6f\x20\x53\x68\x69\x65\x6c\x64",
-            badge: "\x50\x52\x4f\x54\x45\x43\x54\x45\x44",
-            message: "",
-            type: "\x65\x72\x72\x6f\x72",
-            duration: 4000,
-          },
-          options,
-        );
-
-        var toast = document.createElement("\x64\x69\x76");
-        toast.className =
-          "\x65\x7a\x69\x6f\x2d\x74\x6f\x61\x73\x74" +
-          (opts.type === "\x77\x61\x72\x6e"
-            ? "\x20\x65\x7a\x69\x6f\x2d\x74\x6f\x61\x73\x74\x2d\x77\x61\x72\x6e"
-            : "");
-        toast[_$[16]] =
-          "\x3c\x64\x69\x76\x20\x63\x6c\x61\x73\x73\x3d\x22\x65\x7a\x69\x6f\x2d\x74\x6f\x61\x73\x74\x2d\x67\x6c\x6f\x77\x22\x3e\x3c\x2f\x64\x69\x76\x3e" +
-          "\x3c\x64\x69\x76\x20\x63\x6c\x61\x73\x73\x3d\x22\x65\x7a\x69\x6f\x2d\x74\x6f\x61\x73\x74\x2d\x70\x72\x6f\x67\x72\x65\x73\x73\x22\x20\x73\x74\x79\x6c\x65\x3d\x22\x74\x72\x61\x6e\x73\x66\x6f\x72\x6d\x3a\x73\x63\x61\x6c\x65\x58\x28\x31\x29\x22\x3e\x3c\x2f\x64\x69\x76\x3e" +
-          "\x3c\x64\x69\x76\x20\x63\x6c\x61\x73\x73\x3d\x22\x65\x7a\x69\x6f\x2d\x74\x6f\x61\x73\x74\x2d\x62\x6f\x64\x79\x22\x3e" +
-          "\x3c\x64\x69\x76\x20\x63\x6c\x61\x73\x73\x3d\x22\x65\x7a\x69\x6f\x2d\x74\x6f\x61\x73\x74\x2d\x69\x63\x6f\x6e\x22\x3e" +
-          opts.icon +
-          "\x3c\x2f\x64\x69\x76\x3e" +
-          "\x3c\x64\x69\x76\x20\x63\x6c\x61\x73\x73\x3d\x22\x65\x7a\x69\x6f\x2d\x74\x6f\x61\x73\x74\x2d\x63\x6f\x6e\x74\x65\x6e\x74\x22\x3e" +
-          "\x3c\x64\x69\x76\x20\x63\x6c\x61\x73\x73\x3d\x22\x65\x7a\x69\x6f\x2d\x74\x6f\x61\x73\x74\x2d\x74\x69\x74\x6c\x65\x22\x3e" +
-          opts.title +
-          "\x3c\x73\x70\x61\x6e\x20\x63\x6c\x61\x73\x73\x3d\x22\x65\x7a\x69\x6f\x2d\x74\x6f\x61\x73\x74\x2d\x62\x61\x64\x67\x65\x22\x3e" +
-          opts.badge +
-          "\x3c\x2f\x73\x70\x61\x6e\x3e" +
-          "\x3c\x2f\x64\x69\x76\x3e" +
-          "\x3c\x70\x20\x63\x6c\x61\x73\x73\x3d\x22\x65\x7a\x69\x6f\x2d\x74\x6f\x61\x73\x74\x2d\x6d\x65\x73\x73\x61\x67\x65\x22\x3e" +
-          opts.message +
-          "\x3c\x2f\x70\x3e" +
-          "\x3c\x2f\x64\x69\x76\x3e" +
-          "\x3c\x2f\x64\x69\x76\x3e" +
-          "\x3c\x64\x69\x76\x20\x63\x6c\x61\x73\x73\x3d\x22\x65\x7a\x69\x6f\x2d\x74\x6f\x61\x73\x74\x2d\x66\x6f\x6f\x74\x65\x72\x22\x3e" +
-          "\x3c\x73\x70\x61\x6e\x20\x63\x6c\x61\x73\x73\x3d\x22\x65\x7a\x69\x6f\x2d\x74\x6f\x61\x73\x74\x2d\x66\x6f\x6f\x74\x65\x72\x2d\x74\x65\x78\x74\x22\x3e\x42\x79\x70\x61\x73\x73\x20\x43\x69\x6d\x61\x4e\x6f\x77\x3c\x2f\x73\x70\x61\x6e\x3e" +
-          "\x3c\x64\x69\x76\x20\x63\x6c\x61\x73\x73\x3d\x22\x65\x7a\x69\x6f\x2d\x74\x6f\x61\x73\x74\x2d\x66\x6f\x6f\x74\x65\x72\x2d\x64\x6f\x74\x22\x3e\x3c\x2f\x64\x69\x76\x3e" +
-          "\x3c\x73\x70\x61\x6e\x20\x63\x6c\x61\x73\x73\x3d\x22\x65\x7a\x69\x6f\x2d\x74\x6f\x61\x73\x74\x2d\x66\x6f\x6f\x74\x65\x72\x2d\x74\x65\x78\x74\x22\x3e\x45\x7a\x69\x6f\x20\x41\x75\x64\x69\x74\x6f\x72\x65\x3c\x2f\x73\x70\x61\x6e\x3e" +
-          "\x3c\x2f\x64\x69\x76\x3e" +
-          "\x3c\x62\x75\x74\x74\x6f\x6e\x20\x63\x6c\x61\x73\x73\x3d\x22\x65\x7a\x69\x6f\x2d\x74\x6f\x61\x73\x74\x2d\x63\x6c\x6f\x73\x65\x22\x3e\u2715\x3c\x2f\x62\x75\x74\x74\x6f\x6e\x3e";
-
-        container.appendChild(toast);
-
-        var progress = toast.querySelector(
-          "\x2e\x65\x7a\x69\x6f\x2d\x74\x6f\x61\x73\x74\x2d\x70\x72\x6f\x67\x72\x65\x73\x73",
-        );
-        requestAnimationFrame(function () {
-          toast.classList.add("\x65\x7a\x69\x6f\x2d\x73\x68\x6f\x77");
-          progress.style.transition =
-            "\x74\x72\x61\x6e\x73\x66\x6f\x72\x6d\x20" +
-            opts.duration +
-            "\x6d\x73\x20\x6c\x69\x6e\x65\x61\x72";
-          progress.style.transform = "\x73\x63\x61\x6c\x65\x58\x28\x30\x29";
-        });
-
-        function _ct() {
-          toast.classList.remove("\x65\x7a\x69\x6f\x2d\x73\x68\x6f\x77");
-          toast.classList.add("\x65\x7a\x69\x6f\x2d\x68\x69\x64\x65");
-          setTimeout(function () {
-            toast.remove();
-          }, 400);
-        }
-
-        toast
-          .querySelector(
-            "\x2e\x65\x7a\x69\x6f\x2d\x74\x6f\x61\x73\x74\x2d\x63\x6c\x6f\x73\x65",
-          )
-          .addEventListener("\x63\x6c\x69\x63\x6b", _ct);
-        setTimeout(_ct, opts.duration);
-        return toast;
-      }
-
-      document.body.addEventListener(
-        "\x63\x6c\x69\x63\x6b",
-        function (e) {
-          var link = e.target.closest("\x61");
-          if (!link) return;
-          var href = link.getAttribute("\x68\x72\x65\x66") || "";
-          if (/\/pig\//i.test(href)) {
-            e.preventDefault();
-            e.stopPropagation();
-            _sht({
-              icon: "\ud83d\udee1\ufe0f",
-              title:
-                "\u062A\u0645\x20\u062D\u0638\u0631\x20\u0627\u0644\u0631\u0627\u0628\u0637\x20\u0627\u0644\u0645\u0632\u064A\u0641",
-              badge: "\u0645\u062D\u0645\u064A",
-              message:
-                "\u062A\u0645\x20\u0645\u0646\u0639\x20\u0627\u0644\u062A\u0648\u062C\u064A\u0647\x20\u0625\u0644\u0649\x20\u0635\u0641\u062D\u0629\x20\u0625\u0639\u0644\u0627\u0646\u064A\u0629\x2E\x20\u0627\u0646\u062A\u0638\u0631\x20\u0627\u0646\u062A\u0647\u0627\u0621\x20\u0627\u0644\u0639\u062F\x20\u0627\u0644\u062A\u0646\u0627\u0632\u0644\u064A\x20\u0644\u0644\u062D\u0635\u0648\u0644\x20\u0639\u0644\u0649\x20\u0627\u0644\u0631\u0627\u0628\u0637\x20\u0627\u0644\u062D\u0642\u064A\u0642\u064A\x2E",
-              type: "\x77\x61\x72\x6e",
-              duration: 5000,
-            });
-          }
-        },
-        !0,
-      );
-
-      window.__ezioToast = _sht;
-    });
-  }
-
   function _prf() {
     var _ld = Object.getOwnPropertyDescriptor(Location.prototype, "href");
     if (_ld && _ld.set) {
@@ -661,7 +517,62 @@
       _lr.call(this, v);
     }, "replace");
   }
+  function _pxhr() {
+    var _origOpen = XMLHttpRequest.prototype.open;
+    var _origSend = XMLHttpRequest.prototype.send;
 
+    XMLHttpRequest.prototype.open = _N(function open(method, url) {
+      this._ezUrl = typeof url === "string" ? url : url ? String(url) : "";
+      return _origOpen.apply(this, arguments);
+    }, "open");
+
+    XMLHttpRequest.prototype.send = _N(function send() {
+      var self = this;
+      var url = self._ezUrl || "";
+      if (/iclick|js_build=/.test(url)) {
+        _origSend.apply(this, arguments);
+        self.addEventListener("load", function () {
+          console.log("[EZ-XHR-RESP-STATUS]", self.status);
+          console.log(
+            "[EZ-XHR-RESP-BODY]",
+            self.responseText.substring(0, 500),
+          );
+        });
+        self.addEventListener("error", function () {
+          console.log("[EZ-XHR-RESP-ERROR] request failed");
+        });
+        return;
+      }
+      console.log("[EZ-XHR-PASS]", url);
+      return _origSend.apply(this, arguments);
+    }, "send");
+
+    var _origFetch = window.fetch.bind(window);
+    try {
+      _dp(window, "fetch", {
+        value: _N(async function fetch(input, init) {
+          var url =
+            typeof input === "string" ? input : (input && input.url) || "";
+          if (/iclick|js_build=/.test(url)) {
+            try {
+              var r = await _origFetch(input, init);
+              var text = await r.clone().text();
+              console.log("[EZ-FETCH-RESP-STATUS]", r.status);
+              console.log("[EZ-FETCH-RESP-BODY]", text.substring(0, 500));
+              return r;
+            } catch (e) {
+              console.log("[EZ-FETCH-RESP-ERROR]", e.message);
+              return new Response("{}", { status: 200 });
+            }
+          }
+          console.log("[EZ-FETCH-PASS]", url);
+          return _origFetch(input, init);
+        }, "fetch"),
+        writable: true,
+        configurable: true,
+      });
+    } catch (_) {}
+  }
   function _fag() {
     var _fa = [];
     var _ph = new Proxy(_fa, {
@@ -708,7 +619,7 @@
     {
       d: _$[31],
       fn: function () {
-        _eznt();
+        _pxhr();
       },
     },
     {
