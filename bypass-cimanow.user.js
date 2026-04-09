@@ -11,7 +11,7 @@
 // @match        *://*.upns.online/*
 // @match        *://*.freex2line.online/*
 // @match        *://*.pp.ua/*
-
+// @require      https://userscripts.adtidy.org/release/adguard-extra/1.0/adguard-extra.user.js
 // @grant        none
 // @run-at       document-start
 // @updateURL    https://raw.githubusercontent.com/EzioTheGoat/EzioUserscripts/main/bypass-cimanow.user.js
