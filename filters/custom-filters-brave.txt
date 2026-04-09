@@ -862,3 +862,4 @@ cimanow.cc##a[rel="sponsored"][target="_blank"]
 ||viiukuhe.com^$all,domain=cimanow.cc|freex2line.online
 ||viiqkzqv.com^$all,domain=cimanow.cc|freex2line.online
 ||i.ibb.co/MMgpK0B/Phone.jpg$image,domain=cimanow.cc
+@@||b7510.com^$xhr,domain=rm.freex2line.online
