@@ -880,5 +880,5 @@ freex2line.online#@#body > a[target="_blank"]
 ||mc.yandex.ru^$xhr,redirect=noop.txt,domain=freex2line.online
 @@||scorecardresearch.com^$domain=freex2line.online
 @@||google.com/pagead/1p-conversion/$domain=rm.freex2line.online
-! Android
+@@||bvtpk.com/tag.min.js$script,domain=freex2line.online
 ||i.ibb.co/MMgpK0B/Phone.jpg$image,domain=cimanow.cc
