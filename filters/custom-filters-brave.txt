@@ -868,4 +868,5 @@ cimanow.cc##a[rel="sponsored"][target="_blank"]
 @@||c1.popads.net/serve.js$domain=cimanow.cc
 cimanow.cc##+js(abort-on-property-read, window.open)
 cimanow.cc##+js(abort-current-inline-script, window.open)
-
+@@||viiukuhe.com^$domain=freex2line.online
+@@||viiqkzqv.com^$domain=freex2line.online
