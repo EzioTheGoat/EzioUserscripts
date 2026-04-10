@@ -853,11 +853,6 @@ m.gamehub.cam##.downloads__tabs:style(display:block!important)
 
 ! Cimanow
 @@*tag.min.js*$script,domain=freex2line.online
-freex2line.online#@#+js(acs, document.createElement, globalThis)
-freex2line.online#@#+js(remove-node-text, script, /throw new Error\(\);/)
-freex2line.online#@#body >a[id][href][target^="_blank"]
-freex2line.online#@#a[href*="/jump/next.php?r="]
-freex2line.online#@#body > a[target="_blank"]
 cimanow.cc##a[rel="sponsored"][target="_blank"]
 ||viiukuhe.com^$all,domain=cimanow.cc|freex2line.online
 ||viiqkzqv.com^$all,domain=cimanow.cc|freex2line.online
@@ -866,7 +861,5 @@ cimanow.cc##a[rel="sponsored"][target="_blank"]
 @@||doubleclick.net^$domain=rm.freex2line.online
 @@||b7510.com^$beacon,domain=rm.freex2line.online
 @@||c1.popads.net/serve.js$domain=cimanow.cc
-cimanow.cc##+js(abort-on-property-read, window.open)
-cimanow.cc##+js(abort-current-inline-script, window.open)
 @@||viiukuhe.com^$domain=freex2line.online
 @@||viiqkzqv.com^$domain=freex2line.online
