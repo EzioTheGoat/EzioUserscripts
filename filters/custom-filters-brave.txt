@@ -865,3 +865,7 @@ cimanow.cc##a[rel="sponsored"][target="_blank"]
 @@||b7510.com^$xhr,domain=rm.freex2line.online
 @@||doubleclick.net^$domain=rm.freex2line.online
 @@||b7510.com^$beacon,domain=rm.freex2line.online
+@@||c1.popads.net/serve.js$domain=cimanow.cc
+cimanow.cc##+js(abort-on-property-read, window.open)
+cimanow.cc##+js(abort-current-inline-script, window.open)
+
